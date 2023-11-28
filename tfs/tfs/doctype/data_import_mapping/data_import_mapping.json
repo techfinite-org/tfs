@@ -1,0 +1,67 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:mapping_doctype",
+ "creation": "2023-11-28 14:51:50.989316",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "mapping_doctype",
+  "template",
+  "mapping_columns_section",
+  "mapping_columns"
+ ],
+ "fields": [
+  {
+   "fieldname": "mapping_doctype",
+   "fieldtype": "Link",
+   "label": "Doctype",
+   "options": "DocType",
+   "unique": 1
+  },
+  {
+   "fieldname": "mapping_columns_section",
+   "fieldtype": "Section Break",
+   "label": "Mapping Columns"
+  },
+  {
+   "fieldname": "mapping_columns",
+   "fieldtype": "Table",
+   "label": "Mapping Columns",
+   "options": "Mapping Columns"
+  },
+  {
+   "fieldname": "template",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "label": "Template",
+   "options": "JSON",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-11-28 19:32:13.684476",
+ "modified_by": "Administrator",
+ "module": "Tfs",
+ "name": "Data Import Mapping",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
