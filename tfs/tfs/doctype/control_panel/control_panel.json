@@ -1,0 +1,121 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-12-06 19:59:53.140134",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "utility_functions_section",
+  "debtors_report_section",
+  "debtors_transform",
+  "debtors_loading",
+  "claimbook_section",
+  "claimbook_transform",
+  "claimbook_loading",
+  "settlement_advice_section",
+  "settlement_transform",
+  "settlement_loading",
+  "bank_statement_section",
+  "bank_statement_transform",
+  "bank_stament_loading",
+  "payment_entry_job"
+ ],
+ "fields": [
+  {
+   "fieldname": "debtors_report_section",
+   "fieldtype": "Column Break",
+   "label": "Debtors Report"
+  },
+  {
+   "fieldname": "debtors_loading",
+   "fieldtype": "Button",
+   "label": "Debtors Loading"
+  },
+  {
+   "fieldname": "claimbook_section",
+   "fieldtype": "Column Break",
+   "label": "ClaimBook"
+  },
+  {
+   "fieldname": "claimbook_loading",
+   "fieldtype": "Button",
+   "label": "ClaimBook Loading"
+  },
+  {
+   "fieldname": "bank_statement_section",
+   "fieldtype": "Column Break",
+   "label": "Bank Statement"
+  },
+  {
+   "fieldname": "bank_stament_loading",
+   "fieldtype": "Button",
+   "label": "Bank Stament Loading"
+  },
+  {
+   "fieldname": "payment_entry_job",
+   "fieldtype": "Button",
+   "label": "Payment Entry Job"
+  },
+  {
+   "fieldname": "settlement_advice_section",
+   "fieldtype": "Column Break",
+   "label": "Settlement Advice"
+  },
+  {
+   "fieldname": "settlement_loading",
+   "fieldtype": "Button",
+   "label": "Settlement Loading"
+  },
+  {
+   "fieldname": "utility_functions_section",
+   "fieldtype": "Section Break",
+   "label": "Utility Functions"
+  },
+  {
+   "fieldname": "debtors_transform",
+   "fieldtype": "Button",
+   "label": "Debtors Transform"
+  },
+  {
+   "fieldname": "claimbook_transform",
+   "fieldtype": "Button",
+   "label": "ClaimBook Transform"
+  },
+  {
+   "fieldname": "settlement_transform",
+   "fieldtype": "Button",
+   "label": "Settlement Transform"
+  },
+  {
+   "fieldname": "bank_statement_transform",
+   "fieldtype": "Button",
+   "label": "Bank Statement Transform"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-12-06 21:59:57.202025",
+ "modified_by": "Administrator",
+ "module": "Tfs",
+ "name": "Control Panel",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
