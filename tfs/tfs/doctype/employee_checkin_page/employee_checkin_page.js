@@ -2,8 +2,12 @@ var longitude;
 var latitude;
 
 frappe.ui.form.on('Employee Checkin Page', {
+    
     onload_post_render: function (frm) {
         // Customize the style of the "in" button
+        frm.page.clear_primary_action();
+        
+        
         frm.fields_dict.in.$input.css({
             'font-size': '16px',
             'text-align': 'center',
@@ -36,7 +40,7 @@ var currentState = 'IN';
 
 // Add a function to be executed when the button is pressed
 frm.fields_dict.in.$input.on('click', function () {
-
+   
     function onPositionRecieved(position){
         longitude= position.coords.longitude;
         latitude= position.coords.latitude;
@@ -101,7 +105,7 @@ frm.fields_dict.in.$input.on('click', function () {
 
         function frappe_call(buttonName) {
             frappe.call({
-                method: 'logistics.logistics.doctype.punch_attendance.punch_attendance.employee_check_in',
+                method: 'tfs.tfs.doctype.employee_checkin_page.employee_checkin_page.employee_check_in',
                 args: {
                     log_type: buttonName,
                     emp_longitude: longitude,

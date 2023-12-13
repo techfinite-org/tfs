@@ -49,7 +49,7 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
 
     # Define branch_query
     branch_query = """
-        SELECT branch, branch_longitude, branch_latitude
+        SELECT branch, custom_branch_longitude, custom_branch_latitude
         FROM tabBranch
         WHERE branch = %s 
     """
@@ -71,8 +71,8 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
 
     # Check if branch_info is available before using it
             if branch_info:
-                branch_latitude = branch_info.branch_latitude
-                branch_longitude = branch_info.branch_longitude
+                branch_latitude = branch_info.custom_branch_latitude
+                branch_longitude = branch_info.custom_branch_longitude
                 # frappe.msgprint(f"Branch: {branch_info.branch}, Latitude: {branch_latitude}, Longitude: {branch_longitude},")
                 # rest of your code
             else:
