@@ -1,0 +1,96 @@
+{
+    "actions": [],
+    "allow_rename": 1,
+    "creation": "2023-12-08 10:41:14.928626",
+    "default_view": "Map",
+    "doctype": "DocType",
+    "editable_grid": 1,
+    "engine": "InnoDB",
+    "field_order": [
+     "in",
+     "out",
+     "geo_location_section",
+     "longitude",
+     "latitude",
+     "area",
+     "city",
+     "state",
+     "section_break_xrdlg",
+     "distance_in_km"
+    ],
+    "fields": [
+     {
+      "fieldname": "in",
+      "fieldtype": "Button",
+      "label": "IN"
+     },
+     {
+      "fieldname": "out",
+      "fieldtype": "Button",
+      "label": "OUT"
+     },
+     {
+      "fieldname": "geo_location_section",
+      "fieldtype": "Section Break",
+      "label": "Geo Location"
+     },
+     {
+      "fieldname": "longitude",
+      "fieldtype": "Data",
+      "label": "longitude"
+     },
+     {
+      "fieldname": "latitude",
+      "fieldtype": "Data",
+      "label": "latitude"
+     },
+     {
+      "fieldname": "area",
+      "fieldtype": "Data",
+      "label": "area"
+     },
+     {
+      "fieldname": "city",
+      "fieldtype": "Data",
+      "label": "city"
+     },
+     {
+      "fieldname": "state",
+      "fieldtype": "Data",
+      "label": "state"
+     },
+     {
+      "fieldname": "distance_in_km",
+      "fieldtype": "Data",
+      "label": "Distance in KM"
+     },
+     {
+      "fieldname": "section_break_xrdlg",
+      "fieldtype": "Section Break"
+     }
+    ],
+    "index_web_pages_for_search": 1,
+    "links": [],
+    "modified": "2023-12-09 09:55:01.362308",
+    "modified_by": "Administrator",
+    "module": "Tfs",
+    "name": "Employee Checkin Page",
+    "owner": "Administrator",
+    "permissions": [
+     {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+     }
+    ],
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "states": []
+   }
