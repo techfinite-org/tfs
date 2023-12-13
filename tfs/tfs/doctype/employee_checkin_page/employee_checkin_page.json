@@ -27,11 +27,13 @@
      {
       "fieldname": "out",
       "fieldtype": "Button",
+      "hidden": 1,
       "label": "OUT"
      },
      {
       "fieldname": "geo_location_section",
       "fieldtype": "Section Break",
+      "hidden": 1,
       "label": "Geo Location"
      },
      {
@@ -71,7 +73,7 @@
     ],
     "index_web_pages_for_search": 1,
     "links": [],
-    "modified": "2023-12-09 09:55:01.362308",
+    "modified": "2023-12-13 12:07:20.103853",
     "modified_by": "Administrator",
     "module": "Tfs",
     "name": "Employee Checkin Page",
