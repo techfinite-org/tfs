@@ -1,7 +1,7 @@
 # Copyright (c) 2023, Techfinite Systems and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
 from frappe.model.document import Document
 
 class EmployeeCheckinPage(Document):
@@ -24,7 +24,7 @@ def get_userdetails():
     # frappe.msgprint(user_id)
     # Fetch company abbreviation
     designation_query = """
-        SELECT employee, employee_name, branch, custom_range
+        SELECT employee, employee_name, branch
         FROM tabEmployee
         WHERE user_id = %s AND `status` = 'Active'
     """
@@ -35,8 +35,7 @@ def get_userdetails():
         for employee_detail in employee_details_result:
             user_details['employee'] = employee_detail.employee
             user_details['branch'] = employee_detail.branch
-            user_details['custom_range'] = employee_detail.custom_range
-          
+            
     else:
         frappe.msgprint("No employee details found for the given user_id and status.")
     
@@ -49,11 +48,11 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
 
     # Define branch_query
     branch_query = """
-        SELECT branch, custom_branch_longitude, custom_branch_latitude
+        SELECT branch, custom_branch_longitude, custom_branch_latitude, custom_range
         FROM tabBranch
         WHERE branch = %s 
     """
-    print("--------------------------line no 48--------------------------",user_details['employee'],user_details['custom_range'])
+    print("--------------------------line no 48--------------------------",user_details['employee'])
 
     # Assuming user_details['branch'] is the branch value you want to query
     branch_result = frappe.db.sql(branch_query, user_details['branch'], as_dict=True)
@@ -65,42 +64,19 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
 
     if branch_result:
         for branch_info in branch_result:
-    #         frappe.msgprint(f"Branch: {branch_info.branch}, Latitude: {branch_info.branch_latitude}, Longitude: {branch_info.branch_longitude}")
-    # else:
-    #     frappe.msgprint("No branch details found for the given branch.")
-
-    # Check if branch_info is available before using it
+  
             if branch_info:
                 branch_latitude = branch_info.custom_branch_latitude
                 branch_longitude = branch_info.custom_branch_longitude
+                branch_range = branch_info.custom_range
                 # frappe.msgprint(f"Branch: {branch_info.branch}, Latitude: {branch_latitude}, Longitude: {branch_longitude},")
                 # rest of your code
             else:
                 # Handle the case where branch_info is not available
                 frappe.msgprint("Branch information not available.")
     
-    # # Avoid using 'range' as a variable name
-    # query = """
-    # SELECT range
-    # FROM tabAttendance Punch Settings   
-    # """
-
-    # # Execute the SQL query
-    # range_result = frappe.db.sql(query, as_dict=True)
-
-    # # Check if there are any results before accessing 'range' attribute
-    # if range_result:
-    #     print("-------------------------line no 79--------------------", range_result[0]['range'])
-    # else:
-    #     print("No results found.")
-
-    # Radius of the Earth in kilometers
+ 
     R = 6371
-
-    # Validate input
-    # if not all(map(lambda x: isinstance(x, (int, float)), [emp_latitude, emp_longitude, branch_latitude, branch_longitude])):
-    #     frappe.msgprint(_('Please enter valid coordinates.'))
-    #     return None
     print("emp_latitude:", emp_latitude, type(emp_latitude))
     emp_latitude = float(emp_latitude)
     emp_longitude = float(emp_longitude)
@@ -127,12 +103,12 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
     
     if distance is not None:
         if user_details:
-            custom_range_str = user_details.get('custom_range', '')
+            
             
             # Check if custom_range_str is not an empty string
-            if custom_range_str:
+            if branch_range:
                 try:
-                    custom_range = float(custom_range_str)
+                    custom_range = float(branch_range)
                 except ValueError:
                     frappe.msgprint("Invalid Range value. Please provide a valid Range.")
                     return distance
@@ -169,8 +145,28 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                 frappe.msgprint("Employee details not available. Cannot perform check-in.")
         else:
             frappe.msgprint("Please contact the administrator.")
+    
+    
+    
+    
+    inout_query = """
+    SELECT log_type
+    FROM `tabEmployee Checkin`
+    WHERE employee = %s
+    ORDER BY creation DESC
+    LIMIT 1
+    """
 
-    return distance
+    inout_query_result = frappe.db.sql(inout_query, user_details['employee'], as_dict=True)
+    if inout_query_result:
+    # Get the log_type value from the first (and only) row
+     log_type_value = inout_query_result[0].get('log_type')
+     print(log_type_value)
+
+    # Return the opposite value
+    
+   
+    return distance,'OUT' if log_type_value == 'IN' else 'IN'
 
 
 
