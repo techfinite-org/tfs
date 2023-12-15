@@ -69,8 +69,9 @@ frappe.ui.form.on('Employee Checkin Page', {
 
         function playClickSound() {
             // Play the click sound
-            clickSound.play();
+            frappe.utils.play_sound('submit'); // Replace 'path_to_your_click_sound.mp3' with the actual path to your sound file
         }
+        
 
         frm.fields_dict.in.$input.on('click', function () {
             handleButtonClick('IN');
