@@ -94,7 +94,8 @@ frappe.ui.form.on('Employee Checkin Page', {
                     if (response.message) {
                         console.log(response.message);
                         result = response.message;
-                        frm.set_value('distance_in_km', parseFloat(result[0]).toFixed(2));
+                        frm.set_value('distance_in_km', parseFloat(result).toFixed(2));
+                        
                         
                         // Update the button label when the response is received
                        
