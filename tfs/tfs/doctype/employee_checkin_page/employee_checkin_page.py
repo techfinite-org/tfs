@@ -6,9 +6,6 @@ from frappe.model.document import Document
 
 class EmployeeCheckinPage(Document):
 	pass
-# Copyright (c) 2023, techfinite and contributors
-# For license information, please see license.txt
-
 import frappe
 import math
 from frappe.model.document import Document
@@ -117,7 +114,9 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                 return distance
 
             if distance > custom_range:
-                frappe.msgprint(_('You are {0} kilometers away. You cannot punch.'.format(round(distance, 2))))
+                # frappe.msgprint(_('You are {0} kilometers away. You cannot punch.'.format(round(distance, 2))))
+                frappe.msgprint('<div style="color: red; font-size: 15px;">&#10060; Not in Range.</div>'.format(round(distance, 2)));
+
                 
             else:
                 
@@ -134,9 +133,12 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
 
                     # Display success message based on log_type
                     if log_type == 'IN':
-                        frappe.msgprint(_('You are in {0} kilometers. Successfully Punch IN.'.format(round(distance, 2))))
+                        print("yes printed In------line no 134")
+                        # frappe.msgprint('<div style="color: green; font-size: 15px;">&#10004;&nbsp;&nbsp; You are in {0} kilometers. Successfully Punch IN.</div>'.format(round(distance, 2)));
+                        frappe.msgprint('<div style="color: green; font-size: 15px;">&#10004;&nbsp;&nbsp;Punch IN Success.</div>'.format(round(distance, 2))) 
                     elif log_type == 'OUT':
-                        frappe.msgprint(_('You are in {0} kilometers. Successfully Punch OUT.'.format(round(distance, 2))))
+                        # frappe.msgprint(_('You are in {0} kilometers. Successfully Punch OUT.'.format(round(distance, 2))))
+                        frappe.msgprint('<div style="color: green; font-size: 15px;">&#10004;&nbsp;&nbsp;Punch OUT Success.</div>'.format(round(distance, 2))) 
                     else:
                         frappe.msgprint("Unknown log type. Please provide a valid log type.")
                 except frappe.exceptions.ValidationError:
@@ -145,10 +147,7 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                 frappe.msgprint("Employee details not available. Cannot perform check-in.")
         else:
             frappe.msgprint("Please contact the administrator.")
-    
-    
-    
-    
+        
     inout_query = """
     SELECT log_type
     FROM `tabEmployee Checkin`
