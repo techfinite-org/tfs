@@ -165,7 +165,7 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
     # Return the opposite value
     
    
-    return distance,'OUT' if log_type_value == 'IN' else 'IN'
+    return distance
 
 
 
