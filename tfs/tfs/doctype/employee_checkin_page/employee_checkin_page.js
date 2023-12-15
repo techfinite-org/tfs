@@ -39,6 +39,11 @@ frappe.ui.form.on('Employee Checkin Page', {
 
                 // Set the log_type dynamically based on the button clicked
                 frappe_call(logType);
+                 // Disable the buttons for 5 seconds
+                 disableButtons();
+                 // Play the click sound
+                 playClickSound();
+
             }
 
             function locationNotReceived(positionError) {
@@ -50,6 +55,21 @@ frappe.ui.form.on('Employee Checkin Page', {
             }
 
             console.log("Current state:", logType);
+        }
+
+        function disableButtons() {
+            frm.fields_dict.in.$input.prop('disabled', true);
+            frm.fields_dict.out.$input.prop('disabled', true);
+
+            setTimeout(function () {
+                frm.fields_dict.in.$input.prop('disabled', false);
+                frm.fields_dict.out.$input.prop('disabled', false);
+            }, 5000); // Enable buttons after 5 seconds
+        } 
+
+        function playClickSound() {
+            // Play the click sound
+            clickSound.play();
         }
 
         frm.fields_dict.in.$input.on('click', function () {
