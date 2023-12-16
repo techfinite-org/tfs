@@ -33,7 +33,6 @@
   {
    "fieldname": "template",
    "fieldtype": "Code",
-   "hidden": 1,
    "label": "Template",
    "options": "JSON",
    "read_only": 1
@@ -41,7 +40,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-11-28 19:32:13.684476",
+ "modified": "2023-12-07 00:40:01.662750",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Data Import Mapping",
