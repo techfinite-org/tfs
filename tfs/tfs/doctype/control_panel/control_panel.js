@@ -139,5 +139,20 @@ frappe.ui.form.on('Control Panel', {
 		})
 
 	},
+	payment_entry_job: function(frm){
+		console.log("Hi")
+		frappe.call({
+			method:"agarwals.utils.payment_entry_job.create_payment_entries",
+			callback:function(r){
+				// if(r.message != "Success"){
+				// 	frappe.throw("Error While importing data")
+				// }
+				// else{
+				// 	frappe.msgprint("Debtors Reports are loaded")
+				// }
+			}
+		})
+
+	},
 
 });
