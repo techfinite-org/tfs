@@ -8,7 +8,7 @@ app_license = "mit"
 
 # Includes in <head>
 # ------------------
-
+app_include_css = [ "/assets/tfs/css/tfs.css" ]
 # include js, css files in header of desk.html
 # app_include_css = "/assets/tfs/css/tfs.css"
 # app_include_js = "/assets/tfs/js/tfs.js"
