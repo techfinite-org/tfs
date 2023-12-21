@@ -15,7 +15,7 @@ def pdfwithtext():
 	transaction_number = 0
 	customer_name = []
 	folder = frappe.get_all("File", filters={"folder":"Home/Attachments"},fields=["file_url", "file_name"])
-	customer_list  = frappe.get_all("PDF Parser",{},["tpa_name","mapping"])
+	customer_list  = frappe.get_all("Pdf Parser",{},["tpa_name","customer","mapping"])
 	for every_customer in customer_list:
 		customer_name.append(every_customer.tpa_name)
 	for every_file in folder:
@@ -45,7 +45,7 @@ def pdfwithtext():
 				else:
 					customer = tpa_name
 
-		tpa_doc = frappe.get_doc("PDF Parser",{"tpa_name":customer},["mapping"])
+		tpa_doc = frappe.get_doc("Pdf Parser",{"tpa_name":customer},["mapping"])
 		tpa_json = tpa_doc.mapping
 		data = json.loads(tpa_json)
 		json_data = {}
@@ -54,39 +54,61 @@ def pdfwithtext():
 				json_data["name"] = [customer]
 			elif key == "claim_number":
 				claim_number = transaction(cleaned_words,data, values["search"] ,values["index"])
+				# add_none(values, claim_number, customer)
 				json_data["claim_number"] = [claim_number]
 			elif key == "settled_amount":
 				settled_amount = transaction(cleaned_words,data, values["search"] ,values["index"])
+				# add_none(values, settled_amount, customer)
 				json_data["settled_amount"] = [settled_amount]
 			elif key == "utr":
 				transaction_number = transaction(cleaned_words,data, values["search"] ,values["index"])
+				# add_none(values, transaction_number, customer)
 				json_data["utr_number"] = [transaction_number]
 			elif key == "tds":
-				tds = transaction(cleaned_words,data, values["search"] ,values["index"])
+				tds = transaction(cleaned_words,data, values["search"] ,values["index"],)
+				# add_none(values, tds, customer)
 				json_data["tds_amount"] = [tds]
 			elif key == "deductions":
 				deductions = transaction(cleaned_words,data, values["search"] ,values["index"])
+				# add_none(values, deductions, customer)
 				json_data["deduction"] = [deductions]
 		
 		print(claim_number, settled_amount, transaction_number, tds, deductions)
 		data_frame = pd.DataFrame(json_data)
 		today = datetime.now()
 		formatted_date = today.strftime("%d-%m-%Y")
-		data_frame.to_csv(f"{full_path}/public/fil{customer}-{formatted_date}.csv", index=False)
+		data_frame.to_csv(f"{full_path}/public/files/{customer}-{settled_amount}-{formatted_date}.csv", index=False)
 
 	
-def transaction(cleaned_words,data,word,number):
+def transaction(cleaned_words,data,word,number,trigger_word_2 = None):
 		result = 0
 
 		trigger_word = word
 		trigger_position = number
 		if trigger_word in cleaned_words:
-			result = cleaned_words[cleaned_words.index(trigger_word) + trigger_position]
+			if trigger_word_2:
+				result = cleaned_words[cleaned_words.index(trigger_word) and cleaned_words.index(trigger_word_2) + trigger_position]
+			else:
+				result = cleaned_words[cleaned_words.index(trigger_word) + trigger_position]
 		if result:
 			return result
 		else:
 			return "Null"
 
+
+def add_none(values, variable, customer):
+	if customer == "Aditya Birla Health Insurance Co. Limited" and values["search"]== "TDS":
+		amount = []
+		un_processed_variable = variable
+		new_variable = un_processed_variable.split(".")
+		variable = new_variable[1]
+ 
+	if values["search"] == "None":
+		variable = None
+		return variable
+	else:
+		variable = values["search"]
+		return variable
 @frappe.whitelist()
 def new_line(text):
 	new_line = None
