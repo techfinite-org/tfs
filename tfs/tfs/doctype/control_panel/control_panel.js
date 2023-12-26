@@ -75,7 +75,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method:"agarwals.utils.importation_and_doc_creation.import_job",
 			args:{
-				doctype:"Debtors Report",
+				doctype:"Bill",
 				type:"debtor_report"
 			},
 			callback:function(r){
