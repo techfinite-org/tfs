@@ -75,7 +75,7 @@ frappe.ui.form.on('Control Panel', {
 			method:"agarwals.utils.importation_and_doc_creation.import_job",
 			args:{
 				doctype:"Bill",
-				document_type:"Debtors Report"
+				import_type:"Insert New Records"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
@@ -94,7 +94,7 @@ frappe.ui.form.on('Control Panel', {
 			method:"agarwals.utils.importation_and_doc_creation.import_job",
 			args:{
 				doctype:"ClaimBook",
-				document_type:"Claim Book"
+				import_type:"Insert New Records"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
@@ -112,7 +112,7 @@ frappe.ui.form.on('Control Panel', {
 			method:"agarwals.utils.importation_and_doc_creation.import_job",
 			args:{
 				doctype:"Settlement Advice",
-				document_type:"Settlement Advice"
+				import_type:"Insert New Records"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
