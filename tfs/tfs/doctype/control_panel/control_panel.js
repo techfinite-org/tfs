@@ -22,7 +22,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	claimbook_transform: function(frm){
 		frappe.call({
-			method:"agarwals.utils.transform.transform",
+			method:"agarwals.utils.claimbook_splitter.data_feeder",
 			args:{
 				document_type:"Claim Book"
 			},
