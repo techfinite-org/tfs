@@ -23,7 +23,7 @@ def pdfwithtext():
 		base_path = os.getcwd()
 		site_path =frappe.get_site_path()[1:]
 		full_path = base_path+site_path
-		pdf_file = full_path+"/public"+str(every_file.file_url)
+		pdf_file = full_path+"/private"+str(every_file.file_url)
 		pdffileobj = open(pdf_file, 'rb')
 		pdfreader = pdfplumber.open(pdffileobj)
 		x = len(pdfreader.pages)
