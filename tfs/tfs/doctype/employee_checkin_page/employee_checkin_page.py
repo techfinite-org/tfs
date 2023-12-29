@@ -1,16 +1,15 @@
 # Copyright (c) 2023, Techfinite Systems and contributors
 # For license information, please see license.txt
 
-
-
-class EmployeeCheckinPage(Document):
-	pass
 import frappe
 import math
 from frappe.model.document import Document
 from frappe.utils.user import get_user_fullname
 from frappe.utils import now_datetime
 from frappe import _
+
+
+
 class EmployeeCheckinPage(Document):
     pass
 @frappe.whitelist()
