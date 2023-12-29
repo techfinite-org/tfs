@@ -1,8 +1,7 @@
 # Copyright (c) 2023, Techfinite Systems and contributors
 # For license information, please see license.txt
 
-import frappe
-from frappe.model.document import Document
+
 
 class EmployeeCheckinPage(Document):
 	pass
@@ -114,7 +113,10 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                 return distance
 
             if distance > custom_range:
-                # frappe.msgprint(_('You are {0} kilometers away. You cannot punch.'.format(round(distance, 2))))
+                frappe.msgprint(_('You are {0} kilometers away. You cannot punch.'.format(round(distance, 2))))
+                  
+                       
+                
                 frappe.msgprint('<div style="color: red; font-size: 15px;">&#10060; Not in Range.</div>'.format(round(distance, 2)));
 
                 
@@ -127,16 +129,20 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                 employee_checkin.set("time", now_datetime())
                 employee_checkin.set("log_type", log_type)
                 employee_checkin.set("employee", user_details['employee'])
-
+                employee_checkin.set("device_id", "Remote")
+                employee_checkin.set("custom_distance_in_km",distance)
+                employee_checkin.set("custom_employee_latitude",emp_latitude)
+                employee_checkin.set("custom_employee_longitude",emp_longitude)
+                
                 try:
                     employee_checkin.insert()
 
                     # Display success message based on log_type
                     if log_type == 'IN':
-                        print("yes printed In------line no 134")
                         # frappe.msgprint('<div style="color: green; font-size: 15px;">&#10004;&nbsp;&nbsp; You are in {0} kilometers. Successfully Punch IN.</div>'.format(round(distance, 2)));
                         frappe.msgprint('<div style="color: green; font-size: 15px;">&#10004;&nbsp;&nbsp;Punch IN Success.</div>'.format(round(distance, 2))) 
                     elif log_type == 'OUT':
+                        
                         # frappe.msgprint(_('You are in {0} kilometers. Successfully Punch OUT.'.format(round(distance, 2))))
                         frappe.msgprint('<div style="color: green; font-size: 15px;">&#10004;&nbsp;&nbsp;Punch OUT Success.</div>'.format(round(distance, 2))) 
                     else:

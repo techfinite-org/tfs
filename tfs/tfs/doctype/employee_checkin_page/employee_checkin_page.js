@@ -36,14 +36,14 @@ frappe.ui.form.on('Employee Checkin Page', {
                 frm.set_value('latitude', latitude);
                 console.log("-----------------------------------", longitude);
                 console.log(latitude);
-
+                playClickSound();
+                disableButtons();
                 // Set the log_type dynamically based on the button clicked
                 frappe_call(logType);
                  // Disable the buttons for 5 seconds
-                 disableButtons();
+                
                  // Play the click sound
-                 playClickSound();
-
+               
             }
 
             function locationNotReceived(positionError) {
