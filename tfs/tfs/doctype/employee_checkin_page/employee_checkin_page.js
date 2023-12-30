@@ -13,9 +13,10 @@ frappe.ui.form.on('Employee Checkin Page', {
             'color': 'white',
             'height': '40px',
             'width': '150px',
-            'margin': '0 auto',
-            'display': 'block'
+            'margin': '40px auto 100px',  // Added margin at the bottom
+            'display': 'block',
         });
+        
         frm.fields_dict.out.$input.css({
             'font-size': '16px',
             'text-align': 'center',
@@ -23,9 +24,10 @@ frappe.ui.form.on('Employee Checkin Page', {
             'color': 'white',
             'height': '40px',
             'width': '150px',
-            'margin': '0 auto',
-            'display': 'block'
+            'margin': '10px auto 0',  // Added margin at the top
+            'display': 'block',
         });
+        
 
         // Function to handle button clicks
         function handleButtonClick(logType) {
@@ -36,9 +38,13 @@ frappe.ui.form.on('Employee Checkin Page', {
                 frm.set_value('latitude', latitude);
                 console.log("-----------------------------------", longitude);
                 console.log(latitude);
-
+                 // Disable the buttons for 10 seconds
+                 disableButtons();
+                 playClickSound();
                 // Set the log_type dynamically based on the button clicked
                 frappe_call(logType);
+
+                
             }
 
             function locationNotReceived(positionError) {
@@ -51,6 +57,24 @@ frappe.ui.form.on('Employee Checkin Page', {
 
             console.log("Current state:", logType);
         }
+
+        function disableButtons() {
+            frm.fields_dict.in.$input.prop('disabled', true);
+            frm.fields_dict.out.$input.prop('disabled', true);
+            // Play the click sound
+            playClickSound();
+
+            setTimeout(function () {
+                frm.fields_dict.in.$input.prop('disabled', false);
+                frm.fields_dict.out.$input.prop('disabled', false);
+            }, 3000); // Enable buttons after 10 seconds
+        } 
+
+        function playClickSound() {
+            // Play the click sound
+            frappe.utils.play_sound('submit'); // Replace 'path_to_your_click_sound.mp3' with the actual path to your sound file
+        }
+        
 
         frm.fields_dict.in.$input.on('click', function () {
             handleButtonClick('IN');
@@ -73,7 +97,7 @@ frappe.ui.form.on('Employee Checkin Page', {
                     if (response.message) {
                         console.log(response.message);
                         result = response.message;
-                        frm.set_value('distance_in_km', parseFloat(result[0]).toFixed(2));
+                        frm.set_value('distance_in_km', parseFloat(result).toFixed(2));
                         
                         // Update the button label when the response is received
                        
