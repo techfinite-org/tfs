@@ -42,9 +42,7 @@ frappe.ui.form.on('Employee Checkin Page', {
                  disableButtons();
                  playClickSound();
                 // Set the log_type dynamically based on the button clicked
-                frappe_call(logType);
-
-                
+                frappe_call(logType)
             }
 
             function locationNotReceived(positionError) {
@@ -61,13 +59,16 @@ frappe.ui.form.on('Employee Checkin Page', {
         function disableButtons() {
             frm.fields_dict.in.$input.prop('disabled', true);
             frm.fields_dict.out.$input.prop('disabled', true);
+
             // Play the click sound
             playClickSound();
+
+
 
             setTimeout(function () {
                 frm.fields_dict.in.$input.prop('disabled', false);
                 frm.fields_dict.out.$input.prop('disabled', false);
-            }, 3000); // Enable buttons after 10 seconds
+            }, 5000); // Enable buttons after 5 seconds
         } 
 
         function playClickSound() {
@@ -97,8 +98,7 @@ frappe.ui.form.on('Employee Checkin Page', {
                     if (response.message) {
                         console.log(response.message);
                         result = response.message;
-                        frm.set_value('distance_in_km', parseFloat(result).toFixed(2));
-                        
+                        frm.set_value('distance_in_km', parseFloat(result).toFixed(2))                   
                         // Update the button label when the response is received
                        
                     }

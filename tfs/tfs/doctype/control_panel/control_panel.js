@@ -2,14 +2,13 @@
 // For license information, please see license.txt
 
 
-// Transform done
 frappe.ui.form.on('Control Panel', {
 
 	debtors_transform: function(frm){
 		frappe.call({
 			method:"agarwals.utils.transform.transform",
 			args:{
-				type:"debtor_report"
+				document_type:"Debtors Report"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
@@ -23,9 +22,9 @@ frappe.ui.form.on('Control Panel', {
 	},
 	claimbook_transform: function(frm){
 		frappe.call({
-			method:"agarwals.utils.transform.transform",
+			method:"agarwals.utils.claimbook_splitter.data_feeder",
 			args:{
-				type:"claimbook"
+				document_type:"Claim Book"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
@@ -41,7 +40,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method:"agarwals.utils.transform.transform",
 			args:{
-				type:"settlement_advice"
+				document_type:"Settlement Advice"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
@@ -57,7 +56,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method:"agarwals.utils.transform.transform",
 			args:{
-				type:"bank_statement"
+				document_type:"Bank Statement"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
@@ -75,8 +74,8 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method:"agarwals.utils.importation_and_doc_creation.import_job",
 			args:{
-				doctype:"Debtors Report",
-				type:"debtor_report"
+				doctype:"Bill",
+				import_type:"Insert New Records"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
@@ -95,7 +94,7 @@ frappe.ui.form.on('Control Panel', {
 			method:"agarwals.utils.importation_and_doc_creation.import_job",
 			args:{
 				doctype:"ClaimBook",
-				type:"claimbook"
+				import_type:"Insert New Records"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
@@ -113,7 +112,7 @@ frappe.ui.form.on('Control Panel', {
 			method:"agarwals.utils.importation_and_doc_creation.import_job",
 			args:{
 				doctype:"Settlement Advice",
-				type:"settlement_advice"
+				import_type:"Insert New Records"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
@@ -135,6 +134,21 @@ frappe.ui.form.on('Control Panel', {
 				else{
 					frappe.msgprint("Debtors Reports are loaded")
 				}
+			}
+		})
+
+	},
+	payment_entry_job: function(frm){
+		console.log("Hi")
+		frappe.call({
+			method:"agarwals.utils.payment_entry_job.create_payment_entries",
+			callback:function(r){
+				// if(r.message != "Success"){
+				// 	frappe.throw("Error While importing data")
+				// }
+				// else{
+				// 	frappe.msgprint("Debtors Reports are loaded")
+				// }
 			}
 		})
 

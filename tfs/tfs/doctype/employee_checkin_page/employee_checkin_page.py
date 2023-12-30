@@ -112,9 +112,7 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                 return distance
 
             if distance > custom_range:
-                frappe.msgprint(_('You are {0} kilometers away. You cannot punch.'.format(round(distance, 2))))
-                       
-                
+#                 frappe.msgprint(_('You are {0} kilometers away. You cannot punch.'.format(round(distance, 2))))            
                 frappe.msgprint('<div style="color: red; font-size: 15px;">&#10060; Not in Range.</div>'.format(round(distance, 2)));
 
                 

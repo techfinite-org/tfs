@@ -1,0 +1,9 @@
+.list-row, .list-row-head {
+    padding: 4px 0px 4px 0px;
+    height: 30px;
+    cursor: pointer;
+    transition: color .2s;
+    -webkit-transition: color .2s;
+    font-size: var(--text-md);
+    /* background-color: rgb(9, 201, 147); */
+}
