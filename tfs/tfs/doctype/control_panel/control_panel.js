@@ -3,80 +3,11 @@
 
 
 frappe.ui.form.on('Control Panel', {
-
-	debtors_transform: function(frm){
+	
+	debtors_process: function(frm){
 		frappe.call({
-			method:"agarwals.utils.transform.transform",
-			args:{
-				document_type:"Debtors Report"
-			},
-			callback:function(r){
-				if(r.message != "Success"){
-					frappe.throw("Error While Loading the File")
-				}
-				else{
-					frappe.msgprint("debtors report are successfully transformed.")
-				}
-			}
-		})
-	},
-	claimbook_transform: function(frm){
-		frappe.call({
-			method:"agarwals.utils.claimbook_splitter.data_feeder",
-			args:{
-				document_type:"Claim Book"
-			},
-			callback:function(r){
-				if(r.message != "Success"){
-					frappe.throw("Error While Loading the File")
-				}
-				else{
-					frappe.msgprint("claimbooks are successfully transformed.")
-				}
-			}
-		})
-	},
-	settlement_transform: function(frm){
-		frappe.call({
-			method:"agarwals.utils.transform.transform",
-			args:{
-				document_type:"Settlement Advice"
-			},
-			callback:function(r){
-				if(r.message != "Success"){
-					frappe.throw("Error While Loading the File")
-				}
-				else{
-					frappe.msgprint("settlement advices are successfully transformed.")
-				}
-			}
-		})
-	},
-	bank_statement_transform: function(frm){
-		frappe.call({
-			method:"agarwals.utils.transform.transform",
-			args:{
-				document_type:"Bank Statement"
-			},
-			callback:function(r){
-				if(r.message != "Success"){
-					frappe.throw("Error While Loading the File")
-				}
-				else{
-					frappe.msgprint("bank statements are successfully transformed.")
-				}
-			}
-		})
-	},
-
-	// Loading Processes done
-	debtors_loading: function(frm){
-		frappe.call({
-			method:"agarwals.utils.importation_and_doc_creation.import_job",
-			args:{
-				doctype:"Bill",
-				import_type:"Insert New Records"
-			},
+			method:"",
+			args:{},
 			callback:function(r){
 				if(r.message != "Success"){
 					frappe.throw("Error While importing data")
@@ -88,14 +19,10 @@ frappe.ui.form.on('Control Panel', {
 		})
 	},
 
-	// Done
-	claimbook_loading: function(frm){
+	claimbook_process: function(frm){
 		frappe.call({
-			method:"agarwals.utils.importation_and_doc_creation.import_job",
-			args:{
-				doctype:"ClaimBook",
-				import_type:"Insert New Records"
-			},
+			method:"",
+			args:{},
 			callback:function(r){
 				if(r.message != "Success"){
 					frappe.throw("Error While importing data")
@@ -107,13 +34,10 @@ frappe.ui.form.on('Control Panel', {
 		})
 	},
 	
-	settlement_loading: function(frm){
+	settlement_advice_process: function(frm){
 		frappe.call({
-			method:"agarwals.utils.importation_and_doc_creation.import_job",
-			args:{
-				doctype:"Settlement Advice",
-				import_type:"Insert New Records"
-			},
+			method:"",
+			args:{},
 			callback:function(r){
 				if(r.message != "Success"){
 					frappe.throw("Error While importing data")
@@ -124,34 +48,60 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
-	bank_statment_loading: function(frm){
-		frappe.call({
-			method:"agarwals.utils.importation_and_doc_creation.create_bank_statements",
-			callback:function(r){
-				if(r.message != "Success"){
-					frappe.throw("Error While importing data")
-				}
-				else{
-					frappe.msgprint("Debtors Reports are loaded")
-				}
-			}
-		})
 
+	bank_statement_process: function(frm){
+		frappe.call({
+			method:"",
+			callback:function(r){
+				if(r.message != "Success"){
+					frappe.throw("Error While importing data")
+				}
+				else{
+					frappe.msgprint("Debtors Reports are loaded")
+				}
+			}
+		})
 	},
-	payment_entry_job: function(frm){
+
+	payment_entry_process: function(frm){
 		console.log("Hi")
 		frappe.call({
 			method:"agarwals.utils.payment_entry_job.create_payment_entries",
-			callback:function(r){
-				// if(r.message != "Success"){
-				// 	frappe.throw("Error While importing data")
-				// }
-				// else{
-				// 	frappe.msgprint("Debtors Reports are loaded")
-				// }
-			}
 		})
-
 	},
 
+	insurance_mapping: function(frm) {
+		frappe.call({
+			method:"agarwals.utils.insurance_mapping.tag_insurance_pattern",
+			args:{
+				doctype:"Bank Transaction Stagging",
+			},
+			callback:function(r){
+				if(r.message == "Success"){
+					frappe.msgprint({
+						title: __('Notification'),
+						indicator: 'green',
+						message: __('Payment Insurance Tagging process is done 😀')
+					});
+				}
+			}
+		})
+	},
+	bank_transaction_process: function(frm) {
+		frappe.call({
+			method:"agarwals.utils.bank_transaction_process.process",
+			args:{
+				tag: "Insurance",
+			},
+			callback:function(r){
+				if(r.message == "Success"){
+					frappe.msgprint({
+						title: __('Notification'),
+						indicator: 'green',
+						message: __('Bank Transaction Processing is done 😀')
+					});
+				}
+			}
+		})
+	}
 });
