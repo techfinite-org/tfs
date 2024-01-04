@@ -3,14 +3,15 @@
 
 
 frappe.ui.form.on('Control Panel', {
-	
-	debtors_process: function(frm){
+	process_debtors: function(frm){
 		frappe.call({
-			method:"",
-			args:{},
+			method:"agarwals.utils.run_transform.run_transform_process",
+			args:{
+				type:"debtors"
+			},
 			callback:function(r){
 				if(r.message != "Success"){
-					frappe.throw("Error While importing data")
+					frappe.throw(r.message)
 				}
 				else{
 					frappe.msgprint("Debtors Reports are loaded")
@@ -19,13 +20,15 @@ frappe.ui.form.on('Control Panel', {
 		})
 	},
 
-	claimbook_process: function(frm){
+	process_claimbook: function(frm){
 		frappe.call({
-			method:"",
-			args:{},
+			method:"agarwals.utils.run_transform.run_transform_process",
+			args:{
+				type:"claimbook"
+			},
 			callback:function(r){
 				if(r.message != "Success"){
-					frappe.throw("Error While importing data")
+					frappe.throw(r.message)
 				}
 				else{
 					frappe.msgprint("ClaimBook are loaded")
@@ -34,30 +37,35 @@ frappe.ui.form.on('Control Panel', {
 		})
 	},
 	
-	settlement_advice_process: function(frm){
+	process_settlement_stagging: function(frm){
 		frappe.call({
-			method:"",
-			args:{},
+			method:"agarwals.utils.run_transform.run_transform_process",
+			args:{
+				type:"Settlement"
+			},
 			callback:function(r){
 				if(r.message != "Success"){
-					frappe.throw("Error While importing data")
+					frappe.throw(r.message)
 				}
 				else{
-					frappe.msgprint("Debtors Reports are loaded")
+					frappe.msgprint("Settlement Advice are loaded")
 				}
 			}
 		})
 	},
 
-	bank_statement_process: function(frm){
+	process_transaction_stagging: function(frm){
 		frappe.call({
-			method:"",
+			method:"agarwals.utils.run_transform.run_transform_process",
+			args:{
+				type:"transaction"
+			},
 			callback:function(r){
 				if(r.message != "Success"){
-					frappe.throw("Error While importing data")
+					frappe.throw(r.message)
 				}
 				else{
-					frappe.msgprint("Debtors Reports are loaded")
+					frappe.msgprint("Bank transaction are loaded")
 				}
 			}
 		})
