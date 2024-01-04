@@ -9,55 +9,34 @@
  "engine": "InnoDB",
  "field_order": [
   "utility_functions_section",
-  "debtors_process",
+  "process_debtors",
   "claimbook_section",
-  "claimbook_process",
+  "process_claimbook",
   "settlement_advice_section",
-  "settlement_advice_process",
+  "process_settlement_stagging",
   "bank_statement_section",
-  "bank_statement_process",
+  "process_transaction_stagging",
   "other_utility_section",
-  "insurance_mapping",
-  "bank_transaction_process",
-  "payment_entry_process"
+  "mapping_insurance",
+  "process_bank_transaction",
+  "process_payment_entry"
  ],
  "fields": [
   {
    "fieldname": "utility_functions_section",
-   "fieldtype": "Section Break",
-   "label": "General Utility"
-  },
-  {
-   "fieldname": "debtors_process",
-   "fieldtype": "Button",
-   "label": "Debtors Process"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "claimbook_section",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "claimbook_process",
-   "fieldtype": "Button",
-   "label": "ClaimBook Process"
-  },
-  {
    "fieldname": "settlement_advice_section",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "settlement_advice_process",
-   "fieldtype": "Button",
-   "label": "Settlement Advice Process"
-  },
-  {
    "fieldname": "bank_statement_section",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "bank_statement_process",
-   "fieldtype": "Button",
-   "label": "Bank Statement Process"
   },
   {
    "fieldname": "other_utility_section",
@@ -65,26 +44,46 @@
    "label": "Other Utility"
   },
   {
-   "fieldname": "insurance_mapping",
+   "fieldname": "process_debtors",
    "fieldtype": "Button",
-   "label": "Insurance Mapping"
+   "label": "Process Debtors"
   },
   {
-   "fieldname": "bank_transaction_process",
+   "fieldname": "process_claimbook",
    "fieldtype": "Button",
-   "label": "Bank Transaction Process"
+   "label": "Process ClaimBook"
   },
   {
-   "fieldname": "payment_entry_process",
+   "fieldname": "process_settlement_stagging",
    "fieldtype": "Button",
-   "label": "Payment Entry Process"
+   "label": "Process Settlement Advice Stagging"
+  },
+  {
+   "fieldname": "process_transaction_stagging",
+   "fieldtype": "Button",
+   "label": "Process Bank Transaction Stagging"
+  },
+  {
+   "fieldname": "mapping_insurance",
+   "fieldtype": "Button",
+   "label": "Mapping Insurance"
+  },
+  {
+   "fieldname": "process_bank_transaction",
+   "fieldtype": "Button",
+   "label": "Process Bank Transaction"
+  },
+  {
+   "fieldname": "process_payment_entry",
+   "fieldtype": "Button",
+   "label": "Process Payment Entry"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-01-03 11:12:32.729222",
+ "modified": "2024-01-04 10:25:45.487911",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
