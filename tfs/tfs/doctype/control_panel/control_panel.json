@@ -19,7 +19,8 @@
   "other_utility_section",
   "mapping_insurance",
   "process_bank_transaction",
-  "process_payment_entry"
+  "process_payment_entry",
+  "process_settlement_advice"
  ],
  "fields": [
   {
@@ -77,13 +78,18 @@
    "fieldname": "process_payment_entry",
    "fieldtype": "Button",
    "label": "Process Payment Entry"
+  },
+  {
+   "fieldname": "process_settlement_advice",
+   "fieldtype": "Button",
+   "label": "Process Settlement Advice"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-01-04 10:25:45.487911",
+ "modified": "2024-01-08 19:18:07.137270",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

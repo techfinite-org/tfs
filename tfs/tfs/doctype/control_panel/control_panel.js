@@ -39,9 +39,8 @@ frappe.ui.form.on('Control Panel', {
 	
 	process_settlement_stagging: function(frm){
 		frappe.call({
-			method:"agarwals.utils.run_transform.run_transform_process",
+			method:"agarwals.utils.settlement_advice.advice_transform",
 			args:{
-				type:"Settlement"
 			},
 			callback:function(r){
 				if(r.message != "Success"){
@@ -111,5 +110,26 @@ frappe.ui.form.on('Control Panel', {
 				}
 			}
 		})
+	},
+	process_settlement_advice: function(frm) {
+		frappe.call({
+			method:"agarwals.utils.settlement_advice_staging_process.process",
+			args:{
+			},
+			callback:function(r){
+				if(r.message == "Success"){
+					frappe.msgprint({
+						title: __('Notification'),
+						indicator: 'green',
+						message: __('Settlement Advice Staging transfer done')
+					});
+				}
+				else{
+					frappe.throw(r.message)
+				}
+			}
+		})
 	}
 });
+
+
