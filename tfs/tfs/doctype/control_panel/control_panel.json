@@ -23,7 +23,7 @@
   "section_break_cgwd2",
   "map_tpa_in_bill",
   "map_region_in_bill",
-  "create_sales_invoice"
+  "create_sales_invoice",
   "process_settlement_advice"
  ],
  "fields": [
