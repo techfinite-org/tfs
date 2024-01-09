@@ -20,6 +20,38 @@ frappe.ui.form.on('Control Panel', {
 		})
 	},
 
+	map_tpa_in_bill: function(frm) {
+            frappe.call({
+					method: "agarwals.utils.tpa_and_region_matcher.match_tpa",
+					callback: function(r){
+						var return_msg = r.message
+						frappe.msgprint(return_msg)
+					}
+			})
+        },
+	map_region_in_bill:function(frm){
+            frappe.call({
+					method: "agarwals.utils.tpa_and_region_matcher.map_region",
+					callback: function(r){
+						var return_msg = r.message
+						console.log(return_msg)
+					}
+			})
+        },
+
+	create_sales_invoice:function(frm){
+            frappe.call({
+					method: "agarwals.utils.sales_invoice_creation.create_sales_background_job",
+					args: {
+						n:1000
+					},
+					callback: function(r){
+						var return_msg = r.message
+						console.log(return_msg)
+					}
+			});
+        },
+
 	process_claimbook: function(frm){
 		frappe.call({
 			method:"agarwals.utils.run_transform.run_transform_process",

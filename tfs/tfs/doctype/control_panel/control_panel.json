@@ -19,7 +19,11 @@
   "other_utility_section",
   "mapping_insurance",
   "process_bank_transaction",
-  "process_payment_entry"
+  "process_payment_entry",
+  "section_break_cgwd2",
+  "map_tpa_in_bill",
+  "map_region_in_bill",
+  "create_sales_invoice"
  ],
  "fields": [
   {
@@ -77,13 +81,33 @@
    "fieldname": "process_payment_entry",
    "fieldtype": "Button",
    "label": "Process Payment Entry"
+  },
+  {
+   "fieldname": "section_break_cgwd2",
+   "fieldtype": "Section Break",
+   "label": "Bill Utilities"
+  },
+  {
+   "fieldname": "map_tpa_in_bill",
+   "fieldtype": "Button",
+   "label": "Map TPA in Bill"
+  },
+  {
+   "fieldname": "map_region_in_bill",
+   "fieldtype": "Button",
+   "label": "Map Region in Bill"
+  },
+  {
+   "fieldname": "create_sales_invoice",
+   "fieldtype": "Button",
+   "label": "Create Sales Invoice"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-01-04 10:25:45.487911",
+ "modified": "2024-01-09 12:46:08.067556",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
