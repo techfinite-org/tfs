@@ -1,4 +1,4 @@
-// Copyright (c) 2023, Techfinite Systems and contributors
+n// Copyright (c) 2023, Techfinite Systems and contributors
 // For license information, please see license.txt
 
 
@@ -102,21 +102,21 @@ frappe.ui.form.on('Control Panel', {
 		})
 	},
 
-	payment_entry_process: function(frm){
+	process_payment_entry: function(frm){
 		console.log("Hi")
 		frappe.call({
 			method:"agarwals.utils.payment_entry_job.create_payment_entries",
 		})
 	},
 
-	insurance_mapping: function(frm) {
+	mapping_insurance: function(frm) {
 		frappe.call({
 			method:"agarwals.utils.insurance_mapping.tag_insurance_pattern",
 			args:{
-				doctype:"Bank Transaction Stagging",
+				doctype:"Bank Transaction Staging",
 			},
 			callback:function(r){
-				if(r.message == "Success"){
+				if(r.message == "Done"){
 					frappe.msgprint({
 						title: __('Notification'),
 						indicator: 'green',
@@ -126,7 +126,7 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
-	bank_transaction_process: function(frm) {
+	process_bank_transaction: function(frm) {
 		frappe.call({
 			method:"agarwals.utils.bank_transaction_process.process",
 			args:{
