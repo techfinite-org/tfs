@@ -24,6 +24,7 @@
   "map_tpa_in_bill",
   "map_region_in_bill",
   "create_sales_invoice"
+  "process_settlement_advice"
  ],
  "fields": [
   {
@@ -101,6 +102,11 @@
    "fieldname": "create_sales_invoice",
    "fieldtype": "Button",
    "label": "Create Sales Invoice"
+  },
+  {
+   "fieldname": "process_settlement_advice",
+   "fieldtype": "Button",
+   "label": "Process Settlement Advice"
   }
  ],
  "hide_toolbar": 1,
