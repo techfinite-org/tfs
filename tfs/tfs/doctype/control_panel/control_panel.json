@@ -16,15 +16,17 @@
   "process_settlement_stagging",
   "bank_statement_section",
   "process_transaction_stagging",
-  "other_utility_section",
-  "mapping_insurance",
-  "process_bank_transaction",
-  "process_payment_entry",
   "section_break_cgwd2",
   "map_tpa_in_bill",
   "map_region_in_bill",
   "create_sales_invoice",
-  "process_settlement_advice"
+  "process_settlement_advice",
+  "other_utility_section",
+  "mapping_insurance",
+  "process_bank_transaction",
+  "process_payment_entry",
+  "configurations_section",
+  "allowed_file_extensions"
  ],
  "fields": [
   {
@@ -46,7 +48,7 @@
   {
    "fieldname": "other_utility_section",
    "fieldtype": "Section Break",
-   "label": "Other Utility"
+   "label": "Transaction Utilities"
   },
   {
    "fieldname": "process_debtors",
@@ -107,13 +109,25 @@
    "fieldname": "process_settlement_advice",
    "fieldtype": "Button",
    "label": "Process Settlement Advice"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "configurations_section",
+   "fieldtype": "Section Break",
+   "label": "Configurations"
+  },
+  {
+   "default": "XLSX,PDF,XLS",
+   "fieldname": "allowed_file_extensions",
+   "fieldtype": "Data",
+   "label": "Allowed File Extensions"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-01-09 12:46:08.067556",
+ "modified": "2024-01-10 10:23:02.073947",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
