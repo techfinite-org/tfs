@@ -38,6 +38,15 @@ frappe.ui.form.on('Control Panel', {
 					}
 			})
         },
+	map_branch_type_in_bill:function(frm){
+            frappe.call({
+					method: "agarwals.utils.tpa_and_region_matcher.map_branch_type",
+					callback: function(r){
+						var return_msg = r.message
+						console.log(return_msg)
+					}
+			})
+        },
 
 	create_sales_invoice:function(frm){
             frappe.call({
