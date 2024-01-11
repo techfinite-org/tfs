@@ -50,7 +50,7 @@ frappe.ui.form.on('Control Panel', {
 
 	create_sales_invoice:function(frm){
             frappe.call({
-					method: "agarwals.utils.sales_invoice_creation.create_sales_background_job",
+					method: "agarwals.utils.sales_invoice_creation_and_cancellation.create_sales_background_job",
 					args: {
 						n:1000
 					},
