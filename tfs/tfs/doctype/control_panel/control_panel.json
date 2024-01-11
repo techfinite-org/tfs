@@ -27,7 +27,8 @@
   "process_bank_transaction",
   "process_payment_entry",
   "configurations_section",
-  "allowed_file_extensions"
+  "allowed_file_extensions",
+  "site_path"
  ],
  "fields": [
   {
@@ -127,13 +128,18 @@
    "fieldname": "map_branch_type_in_bill",
    "fieldtype": "Button",
    "label": "Map Branch Type in Bill"
+  },
+  {
+   "fieldname": "site_path",
+   "fieldtype": "Data",
+   "label": "Site Path"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-01-10 20:39:58.081675",
+ "modified": "2024-01-11 23:42:16.811485",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
