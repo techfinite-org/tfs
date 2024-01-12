@@ -52,7 +52,7 @@ frappe.ui.form.on('Control Panel', {
             frappe.call({
 					method: "agarwals.utils.sales_invoice_creation_and_cancellation.create_sales_background_job",
 					args: {
-						n:1000
+						n:100
 					},
 					callback: function(r){
 						var return_msg = r.message
