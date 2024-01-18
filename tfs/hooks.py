@@ -117,7 +117,7 @@ app_include_css = [ "/assets/tfs/css/tfs.css" ]
 override_doctype_class = {
 	# "ToDo": "custom_app.overrides.CustomToDo"
 	"Compensatory Leave Request": "tfs.compensatory_leave_request_overrides.CustomCompensatoryLeaveRequest",
-    # "Employee Checkin": "tfs.employee_checkin_overrides.CustomEmployeeCheckin" 
+    
 }
 
 # Document Events
