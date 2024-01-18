@@ -114,9 +114,11 @@ app_include_css = [ "/assets/tfs/css/tfs.css" ]
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	
+	"Compensatory Leave Request": "tfs.compensatory_leave_request_overrides.CustomCompensatoryLeaveRequest",
+    # "ToDo": "custom_app.overrides.CustomToDo"
+}
 
 # Document Events
 # ---------------
@@ -160,7 +162,8 @@ app_include_css = [ "/assets/tfs/css/tfs.css" ]
 # ------------------------------
 #
 # override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "tfs.event.get_events"
+# 	# "frappe.desk.doctype.event.event.get_events": "tfs.event.get_events",
+   
 # }
 #
 # each overriding function accepts a `data` argument;
