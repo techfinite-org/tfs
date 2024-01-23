@@ -3,6 +3,8 @@ var latitude;
 var result;
 
 frappe.ui.form.on('Employee Checkin Page', {
+
+   
     onload_post_render: function (frm) {
         frm.disable_save();
 
@@ -27,7 +29,7 @@ frappe.ui.form.on('Employee Checkin Page', {
             'margin': '10px auto 0',  // Added margin at the top
             'display': 'block',
         });
-        
+           
 
         // Function to handle button clicks
         function handleButtonClick(logType) {
@@ -38,6 +40,7 @@ frappe.ui.form.on('Employee Checkin Page', {
                 frm.set_value('latitude', latitude);
                 console.log("-----------------------------------", longitude);
                 console.log(latitude);
+                showLocationOnMap(frm,longitude,latitude);
                  // Disable the buttons for 10 seconds
                  disableButtons();
                  playClickSound();
@@ -76,9 +79,30 @@ frappe.ui.form.on('Employee Checkin Page', {
             frappe.utils.play_sound('submit'); // Replace 'path_to_your_click_sound.mp3' with the actual path to your sound file
         }
         
-
+        // let itemShow = ["Work from Home", "Client Location", "On-Duty"];
         frm.fields_dict.in.$input.on('click', function () {
             handleButtonClick('IN');
+            // let d = new frappe.ui.Dialog({
+            //     title: 'Enter details',
+            //     fields: [
+            //         {
+            //             label: 'Please select your Sign In Location ',
+            //             fieldname: 'Location',
+            //             fieldtype: 'Select',
+            //             options: [""].concat(itemShow)
+            //         },
+                    
+            //     ],
+            //     size: 'small', // small, large, extra-large 
+            //     primary_action_label: 'Submit',
+            //     primary_action(values) {
+            //         console.log(values);
+            //         d.hide();
+            //     }
+            // });
+            
+            // d.show();
+            
         });
 
         frm.fields_dict.out.$input.on('click', function () {
@@ -96,9 +120,49 @@ frappe.ui.form.on('Employee Checkin Page', {
                 },
                 callback: function (response) {
                     if (response.message) {
-                        console.log(response.message);
+                        console.log("------------------------- response message -----------------------------",response.message);
+                        console.log("------------------------- this array value -----------------------------",response.message[1]);
                         result = response.message;
-                        frm.set_value('distance_in_km', parseFloat(result).toFixed(2))                   
+                        frm.set_value('distance_in_km', parseFloat(result).toFixed(2))  
+                        if (response.message[1] == 'Not In Range'){
+
+                            let itemShow = ["Client Location", "On-Duty"];
+                            let d = new frappe.ui.Dialog({
+                                title: 'Enter details',
+                                fields: [
+                                    {
+                                        label: 'Please select your Sign In Location ',
+                                        fieldname: 'Location',
+                                        fieldtype: 'Select',
+                                        options: ["Work from Home"].concat(itemShow)
+                                    },
+                                    
+                                ],
+                                size: 'small', // small, large, extra-large 
+                                primary_action_label: 'Submit',
+                                primary_action(values) {
+                                    console.log(values);
+                                    frappe.call({
+                                        method:'tfs.tfs.doctype.employee_checkin_page.employee_checkin_page.employee_check_in_remote_location',
+                                        args: {
+                                            log_type: logType,
+                                            emp_longitude: longitude,
+                                            emp_latitude: latitude,
+                                            device_id:values
+                                        },
+                                        callback:function(r){
+                                            console.log(r.message)
+                                            playClickSound();
+                                        }
+                                    })
+
+                                    d.hide();
+                                    
+                                }
+                            });
+                            
+                            d.show();
+                        }                 
                         // Update the button label when the response is received
                        
                     }
@@ -107,3 +171,19 @@ frappe.ui.form.on('Employee Checkin Page', {
         }
     },
 });
+function showLocationOnMap(frm,longitude,latitude) {
+    var map = frm.get_field("custom_my_location").map;
+
+
+    if (!isNaN(latitude) && !isNaN(longitude)) {
+        var latlng = L.latLng(latitude, longitude);
+        var marker = L.marker(latlng);
+
+        map.flyTo(latlng, map.getZoom());
+        marker.addTo(map);
+        marker.bindPopup('Your current location').openPopup();
+    } else {
+        frappe.msgprint(__('Invalid coordinates. Please set a valid location.'));
+    }
+}
+
