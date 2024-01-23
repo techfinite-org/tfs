@@ -117,6 +117,8 @@ app_include_css = [ "/assets/tfs/css/tfs.css" ]
 override_doctype_class = {
 	
 	"Compensatory Leave Request": "tfs.compensatory_leave_request_overrides.CustomCompensatoryLeaveRequest",
+    "Shift Type": "tfs.shift_type_override.OverrideShiftType",
+    # "Employee Checkin" : "tfs.employee_checkin_overrides.OverrideEmployeeCheckin"
     # "ToDo": "custom_app.overrides.CustomToDo"
 }
 
@@ -163,10 +165,10 @@ override_doctype_class = {
 #
 # override_whitelisted_methods = {
 # 	# "frappe.desk.doctype.event.event.get_events": "tfs.event.get_events",
-   
+     
 # }
-#
-# each overriding function accepts a `data` argument;
+# #
+# each overriding function accepts a `data` argument;``
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
