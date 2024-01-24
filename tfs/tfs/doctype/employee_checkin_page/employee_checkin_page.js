@@ -40,7 +40,7 @@ frappe.ui.form.on('Employee Checkin Page', {
                 frm.set_value('latitude', latitude);
                 console.log("-----------------------------------", longitude);
                 console.log(latitude);
-                showLocationOnMap(frm,longitude,latitude);
+                // showLocationOnMap(frm,longitude,latitude);
                  // Disable the buttons for 10 seconds
                  disableButtons();
                  playClickSound();
@@ -171,19 +171,19 @@ frappe.ui.form.on('Employee Checkin Page', {
         }
     },
 });
-function showLocationOnMap(frm,longitude,latitude) {
-    var map = frm.get_field("custom_my_location").map;
+// function showLocationOnMap(frm,longitude,latitude) {
+//     var map = frm.get_field("custom_my_location").map;
 
 
-    if (!isNaN(latitude) && !isNaN(longitude)) {
-        var latlng = L.latLng(latitude, longitude);
-        var marker = L.marker(latlng);
+//     if (!isNaN(latitude) && !isNaN(longitude)) {
+//         var latlng = L.latLng(latitude, longitude);
+//         var marker = L.marker(latlng);
 
-        map.flyTo(latlng, map.getZoom());
-        marker.addTo(map);
-        marker.bindPopup('Your current location').openPopup();
-    } else {
-        frappe.msgprint(__('Invalid coordinates. Please set a valid location.'));
-    }
-}
+//         map.flyTo(latlng, map.getZoom());
+//         marker.addTo(map);
+//         marker.bindPopup('Your current location').openPopup();
+//     } else {
+//         frappe.msgprint(__('Invalid coordinates. Please set a valid location.'));
+//     }
+// }
 
