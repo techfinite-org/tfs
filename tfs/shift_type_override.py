@@ -28,6 +28,7 @@ EMPLOYEE_CHUNK_SIZE = 50
 class OverrideShiftType(Document):
 	print("\n\n\n\n\n\n\n ********************** From Override class OverrideShiftType***********************\n\n\n\n\n\n\n\n")
 	@frappe.whitelist()
+ 
 	def process_auto_attendance(self):
 		if (
 			not cint(self.enable_auto_attendance)
@@ -130,14 +131,14 @@ class OverrideShiftType(Document):
 		)
 		total_working_hours = total_working_hours + permission_hours
 		if (
-			cint(self.enable_late_entry_marking)
+			cint(self.enable_entry_grace_period)
 			and in_time
 			and in_time > logs[0].shift_start + timedelta(minutes=cint(self.late_entry_grace_period))
 		):
 			late_entry = True
 
 		if (
-			cint(self.enable_early_exit_marking)
+			cint(self.enable_exit_grace_period)
 			and out_time
 			and out_time < logs[0].shift_end - timedelta(minutes=cint(self.early_exit_grace_period))
 		):
