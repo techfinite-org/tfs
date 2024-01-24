@@ -20,7 +20,7 @@ def get_userdetails():
     # frappe.msgprint(user_id)
     # Fetch company abbreviation
     designation_query = """
-        SELECT employee, employee_name, branch, custom_remote_login
+        SELECT employee, employee_name, branch
         FROM tabEmployee
         WHERE user_id = %s AND `status` = 'Active'
     """
@@ -31,7 +31,7 @@ def get_userdetails():
         for employee_detail in employee_details_result:
             user_details['employee'] = employee_detail.employee
             user_details['branch'] = employee_detail.branch
-            user_details['custom_remote_login'] = employee_detail.custom_remote_login
+            # user_details['custom_remote_login'] = employee_detail.custom_remote_login
             
     else:
         frappe.msgprint("No employee details found for the given user_id and status.")
