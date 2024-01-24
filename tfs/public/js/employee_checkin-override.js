@@ -36,7 +36,7 @@ function showLocationOnMap(frm) {
 
     if (!isNaN(latitude) && !isNaN(longitude)) {
         var latlng = new leaflet.latLng(latitude, longitude);
-        var marker = leadlet.marker(latlng);
+        var marker = leaflet.marker(latlng);
          
         map.flyTo(latlng, map.getZoom());
         marker.addTo(map);
