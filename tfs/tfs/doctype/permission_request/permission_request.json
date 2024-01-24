@@ -100,15 +100,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Permission Request",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
    "fieldname": "from_date_time",
    "fieldtype": "Datetime",
    "in_list_view": 1,
