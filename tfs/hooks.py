@@ -28,7 +28,7 @@ app_include_css = [ "/assets/tfs/css/tfs.css" ]
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"Employee Checkin" : "public/js/employee_checkin-override.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -114,9 +114,13 @@ app_include_css = [ "/assets/tfs/css/tfs.css" ]
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	
+	"Compensatory Leave Request": "tfs.compensatory_leave_request_overrides.CustomCompensatoryLeaveRequest",
+    "Shift Type": "tfs.shift_type_override.OverrideShiftType",
+    # "Employee Checkin" : "tfs.employee_checkin_overrides.OverrideEmployeeCheckin"
+    # "ToDo": "custom_app.overrides.CustomToDo"
+}
 
 # Document Events
 # ---------------
@@ -160,10 +164,11 @@ app_include_css = [ "/assets/tfs/css/tfs.css" ]
 # ------------------------------
 #
 # override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "tfs.event.get_events"
+# 	# "frappe.desk.doctype.event.event.get_events": "tfs.event.get_events",
+     
 # }
-#
-# each overriding function accepts a `data` argument;
+# #
+# each overriding function accepts a `data` argument;``
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
