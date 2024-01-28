@@ -28,7 +28,10 @@
   "process_payment_entry",
   "configurations_section",
   "allowed_file_extensions",
-  "site_path"
+  "site_path",
+  "administrator",
+  "mapping_section",
+  "map_claim_book_details_in_bill"
  ],
  "fields": [
   {
@@ -133,13 +136,29 @@
    "fieldname": "site_path",
    "fieldtype": "Data",
    "label": "Site Path"
+  },
+  {
+   "fieldname": "mapping_section",
+   "fieldtype": "Section Break",
+   "label": "Mapping"
+  },
+  {
+   "fieldname": "map_claim_book_details_in_bill",
+   "fieldtype": "Button",
+   "label": "Map Claim Book Details in Bill"
+  },
+  {
+   "fieldname": "administrator",
+   "fieldtype": "Link",
+   "label": "Administrator",
+   "options": "User"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-01-11 23:42:16.811485",
+ "modified": "2024-01-28 11:34:34.591682",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

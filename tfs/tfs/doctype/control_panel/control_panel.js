@@ -112,9 +112,15 @@ frappe.ui.form.on('Control Panel', {
 	},
 
 	process_payment_entry: function(frm){
-		console.log("Hi")
 		frappe.call({
 			method:"agarwals.utils.payment_entry_job.create_payment_entries",
+		})
+	},
+
+	map_claim_book_details_in_bill: function(frm){
+	    console.log("Hiiiiii")
+		frappe.call({
+			method:"agarwals.utils.run_transform.map_claim_book_records",
 		})
 	},
 
