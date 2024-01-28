@@ -14,16 +14,18 @@ from frappe.model.document import Document
 def pdfwithtext():
 	transaction_number = 0
 	customer_name = []
-	folder = frappe.get_all("File", filters={"folder":"Home/Attachments"},fields=["file_url", "file_name"])
+	folder = frappe.get_all("File", filters={"folder":"Home/Attachments"},fields=["file_url", "file_name" , "file_type"])
 	customer_list  = frappe.get_all("Pdf Parser",{},["tpa_name","customer","mapping"])
 	for every_customer in customer_list:
 		customer_name.append(every_customer.tpa_name)
 	for every_file in folder:
+		if every_file.file_type ==None or every_file.file_type.lower() != "pdf":
+			continue
 		text = None
 		base_path = os.getcwd()
 		site_path =frappe.get_site_path()[1:]
 		full_path = base_path+site_path
-		pdf_file = full_path+"/private"+str(every_file.file_url)
+		pdf_file = full_path+str(every_file.file_url)
 		pdffileobj = open(pdf_file, 'rb')
 		pdfreader = pdfplumber.open(pdffileobj)
 		x = len(pdfreader.pages)
