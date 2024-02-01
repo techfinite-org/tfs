@@ -67,7 +67,7 @@ doctype_js = {"Employee Checkin" : "public/js/employee_checkin-override.js"}
 # Installation
 # ------------
 
-# before_install = "tfs.install.before_install"
+before_install = "tfs.before_install.before_install"
 # after_install = "tfs.install.after_install"
 
 # Uninstallation
@@ -126,13 +126,17 @@ override_doctype_class = {
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	# "*": {
+	# 	"on_update": "method",
+	# 	"on_cancel": "method",
+	# 	"on_trash": "method"
+	# } 
+	"Employee Checkin": {
+		"before_insert": "tfs.emploee_checkin_override.assign_shift"
+	}
+	
+}
 
 # Scheduled Tasks
 # ---------------
