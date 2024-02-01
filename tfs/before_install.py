@@ -13,26 +13,28 @@ def add_custom_fields():
 
 def add_custom_field_to_employee():
     if not frappe.db.exists('Custom Field', 'Employee-custom_shift_group'):
-        frappe.get_doc({
+        custom_field = frappe.new_doc({
             'doctype': 'Custom Field',
             'dt': 'Employee',
             'fieldname': 'custom_shift_group',
             'label': 'Shift Group',
             'fieldtype': 'Link',
             'insert_after': 'Attendance Device ID (Biometric/RF tag ID)',
-            'Options' : 'Shift Group',
+            'options': 'Shift Group',
             'reqd': 0  # Set to 1 if the field is required
-        }).insert()
+        })
+        custom_field.insert()
 
 def add_custom_field_to_shift_type():
     if not frappe.db.exists('Custom Field', 'Shift Type-my_custom_field'):
-        frappe.get_doc({
+        custom_field = frappe.new_doc({
             'doctype': 'Custom Field',
             'dt': 'Shift Type',
-            'fieldname': 'custom_shift_group',
+            'fieldname': 'my_custom_field',  # Corrected fieldname here
             'label': 'Shift Group',
             'fieldtype': 'Link',
             'insert_after': 'Enable Auto Attendance',
-            'Options' : 'Shift Group',
+            'options': 'Shift Group',
             'reqd': 0  # Set to 1 if the field is required
-        }).insert()
+        })
+        custom_field.insert()
