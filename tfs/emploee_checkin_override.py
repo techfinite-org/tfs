@@ -6,21 +6,22 @@ def get_checkin_shifts(self, method, now):
     if not employee_shift_assignment:
         employee = frappe.get_doc('Employee', self.employee)
         shift_group = employee.custom_shift_group
-        shifts = frappe.get_all('Shift Type', filters={'custom_shift_group': shift_group}, fields=['name', 'start_time'])
-        shifts.sort(key=lambda x: datetime.strptime(str(x.start_time), '%H:%M:%S').time())
-        next_shift = {}
-        curr_shift = {}
-        if shifts:
-            curr_shift = shifts[0]
-            for shift in shifts:
-            #shift_start_time = datetime.strptime(str(shift.start_time), '%H:%M:%S').time()
-                if shift.start_time < timedelta(hours=now.hour, minutes=now.minute, seconds=now.second):
-                    curr_shift = shift
-                else:
-                    next_shift = shift
-                    return curr_shift, next_shift
-            if not next_shift:
-                return curr_shift, None
+        if shift_group:
+            shifts = frappe.get_all('Shift Type', filters={'custom_shift_group': shift_group}, fields=['name', 'start_time'])
+            shifts.sort(key=lambda x: datetime.strptime(str(x.start_time), '%H:%M:%S').time())
+            next_shift = {}
+            curr_shift = {}
+            if shifts:
+                curr_shift = shifts[0]
+                for shift in shifts:
+                #shift_start_time = datetime.strptime(str(shift.start_time), '%H:%M:%S').time()
+                    if shift.start_time < timedelta(hours=now.hour, minutes=now.minute, seconds=now.second):
+                        curr_shift = shift
+                    else:
+                        next_shift = shift
+                        return curr_shift, next_shift
+                if not next_shift:
+                    return curr_shift, None
     return None, None
     
 def assign_shift(self, method):
