@@ -2,10 +2,10 @@ from __future__ import unicode_literals
 import frappe
 
 def before_install():
-    add_custom_fields()
+    pass
 
 def after_install():
-    pass
+    add_custom_fields()
 
 def add_custom_fields():
     add_custom_field_to_employee()
