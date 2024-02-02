@@ -19,5 +19,16 @@
     "label": "Shift Group",
     "options" : "Shift Group",
     "insert_after": "attendance_device_id"
-    }
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Shift Type",
+        "module": "tfs",
+        "name": "Shift Type-custom_shift_group",
+        "fieldname": "custom_shift_group",
+        "fieldtype": "Link",
+        "label": "Shift Group",
+        "options" : "Shift Group",
+        "insert_after": "enable_auto_attendance"
+        }
 ]
