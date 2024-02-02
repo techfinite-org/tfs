@@ -17,7 +17,7 @@
     "fieldname": "custom_shift_group",
     "fieldtype": "Link",
     "label": "Shift Group",
-    "Options" : "Shift Group",
+    "options" : "Shift Group",
     "insert_after": "attendance_device_id"
     }
 ]
