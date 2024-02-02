@@ -35,7 +35,7 @@ function showLocationOnMap(frm) {
     var longitude = frm.doc.custom_employee_longitude;
 
     if (!isNaN(latitude) && !isNaN(longitude)) {
-        var latlng = new L.latLng(latitude, longitude);
+        var latlng = new L.LatLng(latitude, longitude);
         var marker = L.marker(latlng);
          
         map.flyTo(latlng, map.getZoom());
