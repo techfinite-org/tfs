@@ -67,7 +67,7 @@ doctype_js = {"Employee Checkin" : "public/js/employee_checkin-override.js"}
 # Installation
 # ------------
 
-before_install = "tfs.before_install.before_install"
+# after_install = "tfs.before_install.after_install"
 # after_install = "tfs.install.after_install"
 
 # Uninstallation
@@ -228,3 +228,6 @@ doc_events = {
 # auth_hooks = [
 #	"tfs.auth.validate"
 # ]
+fixtures = [
+	"Custom Field"
+]

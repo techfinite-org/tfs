@@ -1,0 +1,12 @@
+[
+    {
+"doctype": "Custom Field",
+"dt": "Customer",
+"module": "tfs",
+"name": "Customer-age",
+"fieldname": "age",
+"fieldtype": "Int",
+"label": "Age",
+"insert_after": "customer_group"
+}
+]
