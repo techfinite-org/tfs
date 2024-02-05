@@ -28,8 +28,8 @@ EMPLOYEE_CHUNK_SIZE = 50
 class OverrideShiftType(Document):
 	print("\n\n\n\n\n\n\n ********************** From Override class OverrideShiftType***********************\n\n\n\n\n\n\n\n")
 	@frappe.whitelist()
- 
 	def process_auto_attendance(self):
+		
 		if (
 			not cint(self.enable_auto_attendance)
 			or not self.process_attendance_after
@@ -43,7 +43,7 @@ class OverrideShiftType(Document):
 			single_shift_logs = list(group)
 			attendance_date = key[1].date()
 			employee = key[0]
-			permissions = frappe.get_list('Permission Request', filters={'employee':employee, 'custom_from_date': attendance_date }, fields = ['custom_permission_hours'])
+			permissions = frappe.get_list('Permission Request', filters={'employee':employee, 'custom_from_date': attendance_date,'custom_permission_type': 'Official' }, fields = ['custom_permission_hours'])
 			print(f"permission : {permissions}")
 			permissions_list =[permission.custom_permission_hours for permission in permissions]
 			permission_hours = 0
@@ -131,14 +131,14 @@ class OverrideShiftType(Document):
 		)
 		total_working_hours = total_working_hours + permission_hours
 		if (
-			cint(self.enable_entry_grace_period)
+			cint(self.enable_late_entry_marking)
 			and in_time
 			and in_time > logs[0].shift_start + timedelta(minutes=cint(self.late_entry_grace_period))
 		):
 			late_entry = True
 
 		if (
-			cint(self.enable_exit_grace_period)
+			cint(self.enable_early_exit_marking)
 			and out_time
 			and out_time < logs[0].shift_end - timedelta(minutes=cint(self.early_exit_grace_period))
 		):
@@ -306,8 +306,30 @@ class OverrideShiftType(Document):
 		return True
 
 
-def process_auto_attendance_for_all_shifts():
-	shift_list = frappe.get_all("Shift Type", filters={"enable_auto_attendance": "1"}, pluck="name")
-	for shift in shift_list:
-		doc = frappe.get_cached_doc("Shift Type", shift)
-		doc.process_auto_attendance()
+@frappe.whitelist()
+def process_auto_attendance_for_all_shifts(shift_list):
+    response = {}
+    cleaned_string = shift_list[1:-1].replace('"', '')
+    shift_list_orginal = cleaned_string.split(",")
+    print(shift_list_orginal)
+    for shift in shift_list_orginal:
+        print(shift)
+        try:
+            # Try to get the Shift Type document
+            doc = frappe.get_cached_doc("Shift Type", shift)
+            
+            # Check if the document is fetched successfully
+            if doc:
+                doc.process_auto_attendance()
+            else:
+                response[shift] = "Please select any shift."
+        except Exception as e:
+            # Log the error and include it in the response
+            frappe.log_error(f"Error processing auto attendance for shift '{shift}': {str(e)}")
+            response[shift] = f"Error: {str(e)}"
+    
+    return response
+
+
+
+
