@@ -20,5 +20,16 @@
         "label": "Shift Group",
         "options" : "Shift Group",
         "insert_after": "enable_auto_attendance"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Permission Request",
+        "module": "tfs",
+        "name": "Permission Request-custom_permission_type",
+        "fieldname": "custom_permission_type",
+        "fieldtype": "Select",
+        "label": "Permission Type",
+        "options" : "Personal,Official",
+        "insert_after": "reason"
         }
 ]
