@@ -29,7 +29,7 @@
         "fieldname": "custom_permission_type",
         "fieldtype": "Select",
         "label": "Permission Type",
-        "options" : "Personal,Official",
+        "options" : "Personal\nOfficial",
         "insert_after": "reason"
         }
 ]
