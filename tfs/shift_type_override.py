@@ -131,14 +131,14 @@ class OverrideShiftType(Document):
 		)
 		total_working_hours = total_working_hours + permission_hours
 		if (
-			cint(self.enable_late_entry_marking)
+			cint(self.enable_entry_grace_period)
 			and in_time
 			and in_time > logs[0].shift_start + timedelta(minutes=cint(self.late_entry_grace_period))
 		):
 			late_entry = True
 
 		if (
-			cint(self.enable_early_exit_marking)
+			cint(self.enable_exit_grace_period)
 			and out_time
 			and out_time < logs[0].shift_end - timedelta(minutes=cint(self.early_exit_grace_period))
 		):
@@ -311,23 +311,36 @@ def process_auto_attendance_for_all_shifts(shift_list):
     response = {}
     cleaned_string = shift_list[1:-1].replace('"', '')
     shift_list_orginal = cleaned_string.split(",")
-    print(shift_list_orginal)
+    
+    total_shifts = len(shift_list_orginal)
+    current_shift = 0
+
     for shift in shift_list_orginal:
-        print(shift)
         try:
             # Try to get the Shift Type document
             doc = frappe.get_cached_doc("Shift Type", shift)
-            
+
             # Check if the document is fetched successfully
             if doc:
                 doc.process_auto_attendance()
+                current_shift += 1
+
+                # Publish real-time progress update to the client
+                frappe.publish_realtime("progress", dict(
+                    process="process_auto_attendance_for_all_shifts",
+                    total=total_shifts,
+                    current=current_shift,
+                    description=f"Processing auto attendance for shift '{shift}'"
+                ), user=frappe.session.user)
+
+                response[shift] = f"Auto attendance processed successfully for shift '{shift}'."
             else:
                 response[shift] = "Please select any shift."
         except Exception as e:
             # Log the error and include it in the response
             frappe.log_error(f"Error processing auto attendance for shift '{shift}': {str(e)}")
             response[shift] = f"Error: {str(e)}"
-    
+
     return response
 
 
