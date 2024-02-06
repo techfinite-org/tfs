@@ -1,0 +1,83 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-01-30 16:52:58.881738",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "process_attendance_after",
+  "last_sync_of_checkin",
+  "section_break_zkeaa",
+  "select_all",
+  "column_break_iztph",
+  "unselect_all",
+  "section_break_wtnbo",
+  "shift_collection"
+ ],
+ "fields": [
+  {
+   "fieldname": "shift_collection",
+   "fieldtype": "Table",
+   "label": "Shift Collection",
+   "options": "Shift Collection"
+  },
+  {
+   "fieldname": "process_attendance_after",
+   "fieldtype": "Date",
+   "label": "Process Attendance After"
+  },
+  {
+   "fieldname": "last_sync_of_checkin",
+   "fieldtype": "Datetime",
+   "label": "Last Sync of Checkin"
+  },
+  {
+   "fieldname": "select_all",
+   "fieldtype": "Button",
+   "label": "Select All",
+   "width": "2"
+  },
+  {
+   "fieldname": "unselect_all",
+   "fieldtype": "Button",
+   "label": "Unselect All"
+  },
+  {
+   "fieldname": "section_break_wtnbo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_zkeaa",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_iztph",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-02-03 18:26:09.597608",
+ "modified_by": "Administrator",
+ "module": "Tfs",
+ "name": "Mark Attendance",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
