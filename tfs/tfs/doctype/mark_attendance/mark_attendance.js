@@ -1,3 +1,20 @@
+// frappe.realtime.on("progress", function (data) {
+//     if (data.process === "process_auto_attendance_for_all_shifts") {
+//         var total = data.total;
+//         var current = data.current;
+//         var description = data.description;
+
+//         // Update the client-side progress bar
+//         frappe.show_progress(__('Processing Auto Attendance'), (current / total));
+
+//         // You can also update a description or log progress information
+//         console.log('description---------------------------',description);
+//     }
+// });
+
+
+
+
 frappe.ui.form.on('Mark Attendance', {
    
     refresh: function (frm) {
@@ -112,6 +129,15 @@ function markAttendanceSelectedShifts(frm) {
         },
         callback: function (response) {
             console.log("Response message:", response.message);
+            var responseLength = response.message.length;
+            if (response.message && typeof response.message === 'object' && Object.keys(response.message).length > 0) {
+                // Iterate through the keys (shifts) in the response
+                Object.keys(response.message).forEach(function (shift) {
+                    // Display a message for each successfully processed shift
+                    frappe.msgprint(response.message[shift]);
+                });
+            }
+          
         }
     });
 }
