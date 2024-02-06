@@ -235,4 +235,3 @@ scheduler_events = {
 	}
 }
 
-
