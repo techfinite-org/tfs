@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "autoname": "field:region",
+ "creation": "2024-02-06 14:21:45.065205",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "revenue",
+  "collection",
+  "settled_amount",
+  "tds_amount",
+  "open_receipt",
+  "open_bills",
+  "region"
+ ],
+ "fields": [
+  {
+   "fieldname": "revenue",
+   "fieldtype": "Currency",
+   "label": "Revenue",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "collection",
+   "fieldtype": "Currency",
+   "label": "Collection",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "settled_amount",
+   "fieldtype": "Currency",
+   "label": "Settled Amount",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "tds_amount",
+   "fieldtype": "Currency",
+   "label": "TDS Amount",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "open_receipt",
+   "fieldtype": "Currency",
+   "label": "Open Receipt",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "open_bills",
+   "fieldtype": "Currency",
+   "label": "Open Bills",
+   "options": "Company:company:default_currency"
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Data",
+   "label": "Region",
+   "unique": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-06 19:26:16.047053",
+ "modified_by": "Administrator",
+ "module": "Tfs",
+ "name": "Agarwals Dashboard",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
