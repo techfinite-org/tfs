@@ -227,11 +227,11 @@ override_doctype_class = {
 
 
 #to check
-scheduler_events = {
-    "cron": {
-		"*/30 * * * *" : [
-			"tfs.tfs.doctype.agarwals_dashboard.agarwals_dashboard.value_updater"
-		]
-	}
-}
+# scheduler_events = {
+#     "cron": {
+# 		"*/30 * * * *" : [
+# 			"tfs.tfs.doctype.agarwals_dashboard.agarwals_dashboard.value_updater"
+# 		]
+# 	}
+# }
 
