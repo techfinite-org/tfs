@@ -143,3 +143,4 @@ def value_updater():
             doc.open_bills = open_bills[0][0]
             doc.region = every_region[0][0]
             doc.save()
+
