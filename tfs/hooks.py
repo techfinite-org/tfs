@@ -228,6 +228,17 @@ doc_events = {
 # auth_hooks = [
 #	"tfs.auth.validate"
 # ]
+
+
+#to check
+# scheduler_events = {
+#     "cron": {
+# 		"*/30 * * * *" : [
+# 			"tfs.tfs.doctype.agarwals_dashboard.agarwals_dashboard.value_updater"
+# 		]
+# 	}
+# }
+
 fixtures = [
 	"Custom Field"
 ]
