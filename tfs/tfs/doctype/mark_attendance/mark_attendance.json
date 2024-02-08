@@ -9,20 +9,10 @@
  "field_order": [
   "process_attendance_after",
   "last_sync_of_checkin",
-  "section_break_zkeaa",
-  "select_all",
-  "column_break_iztph",
-  "unselect_all",
-  "section_break_wtnbo",
-  "shift_collection"
+  "section_break_x594m",
+  "shift_html"
  ],
  "fields": [
-  {
-   "fieldname": "shift_collection",
-   "fieldtype": "Table",
-   "label": "Shift Collection",
-   "options": "Shift Collection"
-  },
   {
    "fieldname": "process_attendance_after",
    "fieldtype": "Date",
@@ -34,33 +24,19 @@
    "label": "Last Sync of Checkin"
   },
   {
-   "fieldname": "select_all",
-   "fieldtype": "Button",
-   "label": "Select All",
-   "width": "2"
-  },
-  {
-   "fieldname": "unselect_all",
-   "fieldtype": "Button",
-   "label": "Unselect All"
-  },
-  {
-   "fieldname": "section_break_wtnbo",
+   "fieldname": "section_break_x594m",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "section_break_zkeaa",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_iztph",
-   "fieldtype": "Column Break"
+   "fieldname": "shift_html",
+   "fieldtype": "HTML",
+   "label": "Shift HTML"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-02-03 18:26:09.597608",
+ "modified": "2024-02-08 09:58:21.498960",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Mark Attendance",

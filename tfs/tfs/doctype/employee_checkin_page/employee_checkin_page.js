@@ -123,8 +123,8 @@ frappe.ui.form.on('Employee Checkin Page', {
                         console.log("------------------------- response message -----------------------------",response.message);
                         console.log("------------------------- this array value -----------------------------",response.message[1]);
                         result = response.message;
-                        frm.set_value('distance_in_km', parseFloat(result).toFixed(2))  
-                        if (response.message[1] == 'Not In Range'){
+                        frm.set_value('distance_in_km', parseFloat(result[0]).toFixed(2))  
+                        if (result[1] == 'remote user'){
 
                             let itemShow = ["Client Location", "On-Duty"];
                             let d = new frappe.ui.Dialog({
