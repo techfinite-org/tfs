@@ -31,5 +31,48 @@
         "label": "Permission Type",
         "options" : "Personal\nOfficial",
         "insert_after": "reason"
-        }
+    },
+    {
+            "doctype": "Custom Field",
+            "dt": "Employee",
+            "module": "tfs",
+            "name": "Employee-custom_client_visit",
+            "fieldname": "custom_client_visit",
+            "fieldtype": "Check",
+            "label": "Client Location",
+            "insert_after": "custom_work_from_home"
+    },
+
+    {
+                "doctype": "Custom Field",
+                "dt": "Employee",
+                "module": "tfs",
+                "name": "Employee-custom_work_from_home",
+                "fieldname": "custom_work_from_home",
+                "fieldtype": "Check",
+                "label": "Work from Home",
+                "insert_after": "custom_on_duty"
+    },
+
+{
+    "doctype": "Custom Field",
+    "dt": "Employee",
+    "module": "tfs",
+    "name": "Employee-custom_on_duty",
+    "fieldname": "custom_on_duty",
+    "fieldtype": "Check",
+    "label": "On Duty",
+    "insert_after": "custom_checkin_option"
+},
+{
+    "doctype": "Custom Field",
+    "dt": "Employee",
+    "module": "tfs",
+    "name": "Employee-custom_checkin_option",
+    "fieldname": "custom_checkin_option",
+    "fieldtype": "Section Break",
+    "label": "Check-in Option",
+    "insert_after": "create_user_permission",
+    "collapsible": 1
+}
 ]
