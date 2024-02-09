@@ -40,7 +40,7 @@ function showLocationOnMap(frm) {
          
         map.flyTo(latlng, map.getZoom());
         marker.addTo(map);
-        marker.bindPopup('Employee Location').openPopup();
+        marker.bindPopup('Checkin Location').openPopup();
     } else {
         console.log("Invalid coordinates. Please set a valid location.")
     }

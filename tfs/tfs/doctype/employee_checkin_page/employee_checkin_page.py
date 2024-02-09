@@ -26,6 +26,8 @@ def get_userdetails():
     """
 
     employee_details_result = frappe.db.sql(designation_query, user_id, as_dict=True)
+    
+    print(employee_details_result)
      
     if employee_details_result:
         for employee_detail in employee_details_result:
@@ -37,10 +39,12 @@ def get_userdetails():
         frappe.msgprint("No employee details found for the given user_id and status.")
     
     
+    
     return user_details
 
 @frappe.whitelist()
 def employee_check_in(log_type, emp_longitude, emp_latitude):
+    
   
     user_details = get_userdetails()
     if 1 in user_details['checkin_options'].values():
@@ -53,8 +57,7 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                 print("checkin_types", checkin_types)
         return 0, 'remote user', checkin_types
 
-
-       
+    
 
     # Define branch_query
     branch_query = """
@@ -80,7 +83,7 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                 branch_longitude = branch_info.custom_branch_longitude
                 branch_range = branch_info.custom_range
                 # frappe.msgprint(f"Branch: {branch_info.branch}, Latitude: {branch_latitude}, Longitude: {branch_longitude},")
-                # rest of your code
+                
             else:
                 # Handle the case where branch_info is not available
                 frappe.msgprint("Branch information not available.")
@@ -133,7 +136,7 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                 return distance,"Not In Range"
             
             else:
-            
+                formatted_distance = round(distance, 2)
                 if 'employee' in user_details:
                     employee_checkin = frappe.new_doc("Employee Checkin")
 
@@ -142,7 +145,7 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                     employee_checkin.set("log_type", log_type)
                     employee_checkin.set("employee", user_details['employee'])
                     employee_checkin.set("device_id", "Remote")
-                    employee_checkin.set("custom_distance_in_km",distance)
+                    employee_checkin.set("custom_distance_in_km",formatted_distance)
                     employee_checkin.set("custom_employee_latitude",emp_latitude)
                     employee_checkin.set("custom_employee_longitude",emp_longitude)
                     
@@ -300,8 +303,7 @@ def employee_check_in(log_type, emp_longitude, emp_latitude):
                         frappe.msgprint("Unknown log type. Please provide a valid log type.")
                 except frappe.exceptions.ValidationError:
                     frappe.msgprint("Check-in failed. Please try again.")
-                else:
-                    frappe.msgprint("Employee details not available. Cannot perform check-in.")
+
         else:
             frappe.msgprint("Please contact the administrator.")
     
