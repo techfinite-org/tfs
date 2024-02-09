@@ -103,7 +103,7 @@ function frappe_call(logType, frm) { // Add frm as a parameter
                 console.log("------------------------- response message -----------------------------", response.message);
                 console.log("------------------------- this array value -----------------------------", response.message[1]);
                 result = response.message;
-                frm.set_value('distance_in_km', parseFloat(result[0]).toFixed(2));
+                frm.set_value('distance_in_km', parseFloat(result).toFixed(2));
                 console.log("checkin",result[2]);
                 if (result[2]) {
                     let itemShow = [].concat(result[2]);
