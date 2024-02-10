@@ -90,15 +90,21 @@ function markAttendanceSelectedShifts(frm) {
             shift_list: marked_shifts,
         },
         freeze: true,
+        freeze_message: __("Marking Attendance")
         
-        callback: function (response) {
-            console.log("Response message:", response.message);
-            var responseLength = response.message.length;
-            if (response.message && typeof response.message === 'object' && Object.keys(response.message).length > 0) {
-                Object.keys(response.message).forEach(function (shift) {
-                    frappe.msgprint(response.message[shift]);
-                });
-            }
+        // callback: function (response) {
+        //     console.log("Response message:", response.message);
+        //     var responseLength = response.message.length;
+        //     if (response.message && typeof response.message === 'object' && Object.keys(response.message).length > 0) {
+        //         Object.keys(response.message).forEach(function (shift) {
+        //             frappe.msgprint(response.message[shift]);
+        //         });
+        //     }
+        // }
+    }).then((r) => {
+        if (!r.exc) {
+            frappe.show_alert({ message: __("Attendance marked successfully"), indicator: "green" });
+            frm.refresh();
         }
     });
 }
