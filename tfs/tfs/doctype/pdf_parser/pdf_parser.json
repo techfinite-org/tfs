@@ -1,40 +1,57 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:customer",
  "creation": "2023-12-20 15:06:34.624702",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "is_enabled",
   "customer",
   "tpa_name",
-  "mapping"
+  "mapping",
+  "index_data"
  ],
  "fields": [
   {
    "fieldname": "customer",
    "fieldtype": "Link",
    "label": "Customer ",
-   "options": "Customer"
+   "options": "Customer",
+   "unique": 1
   },
   {
    "fieldname": "mapping",
-   "fieldtype": "JSON",
+   "fieldtype": "Text",
    "label": "Mapping"
   },
   {
    "fieldname": "tpa_name",
    "fieldtype": "Data",
    "label": "TPA Name"
+  },
+  {
+   "default": "1",
+   "fieldname": "index_data",
+   "fieldtype": "JSON",
+   "label": "Index Data"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_enabled",
+   "fieldtype": "Check",
+   "label": "Is Enabled"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-20 15:07:34.111920",
+ "modified": "2024-02-13 19:39:13.084345",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Pdf Parser",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

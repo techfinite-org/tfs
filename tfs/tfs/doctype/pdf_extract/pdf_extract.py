@@ -49,55 +49,63 @@ def pdfwithtext():
                 else:
                     customer = tpa_name
 
-        tpa_doc = frappe.get_doc("Pdf Parser",{"tpa_name":customer},["mapping"])
-        tpa_json = tpa_doc.mapping
-        data = json.loads(tpa_json)
-        json_data = {}
-        for key, values in data.items():
-            if key == "name":
-                json_data["name"] = [customer]
-            elif key == "claim_number":
-                claim_number = match(values["search"], values["index"], cleaned_words)
-                json_data["claim_number"] = [claim_number]
-            elif key == "settled_amount":
-                settled_amount = match(values["search"], values["index"], cleaned_words)
-                json_data["settled_amount"] = [settled_amount]
-            elif key == "utr":
-                transaction_number = match(values["search"], values["index"], cleaned_words)
-                json_data["utr_number"] = [transaction_number]
-            elif key == "tds":
-                tds = match(values["search"], values["index"], cleaned_words)
-                json_data["tds_amount"] = [tds]
-            elif key == "deductions":
-                deductions = match(values["search"], values["index"], cleaned_words)
-                json_data["deduction"] = [deductions]
-        
-        print(claim_number, settled_amount, transaction_number, tds, deductions)
-        data_frame = pd.DataFrame(json_data)
-        today = datetime.now()
-        formatted_date = today.strftime("%d-%m-%Y")
-        data_frame.to_csv(f"{full_path}/public/files/{customer}-{settled_amount}-{formatted_date}.csv", index=False)
-        
-        
-        
-        
-        
-def pattern(word):
-    pattern = r'\b' + re.escape(word) + r'\s+(\w+)'
-    return pattern
-
-def match(word , position , cleaned_words):
-    to_search = pattern(word)
-    match = re.search (to_search,cleaned_words)
-    if match:
-        result = match.group(position)
-        if result:
-            print(word ,":" ,result)
-            return result
+        tpa_list  = frappe.db.get_all("Pdf Parser",{"tpa_name":customer, "is_enabled":True},["mapping", "index_data","name"])
+        if tpa_list:
+            tpa_doc = tpa_list[0]
+            tpa_json = tpa_doc.mapping
+            index_data = tpa_doc.index_data
+            grouping_index = json.loads(index_data)
+            matched_text = re.search (tpa_json,cleaned_words)
+            json_data = {}
+            #for Customer
+            json_data["name"] = [tpa_doc.name]
+            #for Claim Number
+            if grouping_index["claim_number"] != 0:
+                json_data["claim_number"] = matched_text.group(grouping_index["claim_number"])
+            else:
+                json_data["claim_number"] = None
+            #for Claim Amount
+            if grouping_index["claim_amount"] != 0:
+                json_data["claim_amount"] = matched_text.group(grouping_index["claim_amount"])
+            else:
+                json_data["claim_amount"] = None
+            #for deductions
+            if grouping_index["deduction"] != 0:
+                json_data["deduction"] = matched_text.group(grouping_index["deduction"])
+            else:
+                json_data["deduction"] = None
+            #for tds_amount
+            if grouping_index["tds_amount"] != 0:
+                json_data["tds_amount"] = matched_text.group(grouping_index["tds_amount"])
+            else:
+                json_data["tds_amount"] = None
+            #for Settled Amount
+            if grouping_index["settled_amount"] != 0:
+                json_data["settled_amount"] = matched_text.group(grouping_index["settled_amount"])
+            else:
+                json_data["settled_amount"] = None
+            #for Utr number
+            if grouping_index["utr_number"] != 0:
+                json_data["utr_number"] = matched_text.group(grouping_index["utr_number"])
+            else:
+                json_data["utr_number"] = None
+            #for Transaction date
+            if grouping_index["transaction_date"] != 0:
+                json_data["transaction_date"] = matched_text.group(grouping_index["transaction_date"])
+            else:
+                json_data["transaction_date"] = None
+            #for Parsed Date 
+            json_data["parsed_date"] = datetime.now()
+            
+            #saving it to csv
+            data_frame = pd.DataFrame(json_data)
+            today = datetime.now()
+            formatted_date = today.strftime("%d-%m-%Y")
+            data_frame.to_csv(f"{full_path}/public/files/{tpa_doc.name}-{formatted_date}.csv", index=False)
         else:
-            print("there are no result for this match")
-    else:
-        print("There are no match for this pattern",to_search)
+            frappe.throw("There is no corresponding tpa name in the pdf parser doctype")
+        
+        
     
 
 @frappe.whitelist()
