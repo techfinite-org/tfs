@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestPdfParser(FrappeTestCase):
+class TestSettlementAdvicePdfConfiguration(FrappeTestCase):
 	pass

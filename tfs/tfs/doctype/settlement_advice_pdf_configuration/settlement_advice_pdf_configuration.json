@@ -8,49 +8,49 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "is_enabled",
+  "is_active",
   "customer",
-  "tpa_name",
-  "mapping",
-  "index_data"
+  "customer_search_text",
+  "regex",
+  "indexes"
  ],
  "fields": [
   {
    "fieldname": "customer",
    "fieldtype": "Link",
-   "label": "Customer ",
+   "label": "Customer",
    "options": "Customer",
    "unique": 1
   },
   {
-   "fieldname": "mapping",
-   "fieldtype": "Text",
-   "label": "Mapping"
+   "fieldname": "customer_search_text",
+   "fieldtype": "Data",
+   "label": "Customer Search Text"
   },
   {
-   "fieldname": "tpa_name",
-   "fieldtype": "Data",
-   "label": "TPA Name"
+   "fieldname": "regex",
+   "fieldtype": "Text",
+   "label": "Regex"
   },
   {
    "default": "1",
-   "fieldname": "index_data",
+   "fieldname": "indexes",
    "fieldtype": "JSON",
-   "label": "Index Data"
+   "label": "Indexes"
   },
   {
    "default": "0",
-   "fieldname": "is_enabled",
+   "fieldname": "is_active",
    "fieldtype": "Check",
-   "label": "Is Enabled"
+   "label": "Is Active"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-13 19:39:13.084345",
+ "modified": "2024-02-15 11:33:56.841429",
  "modified_by": "Administrator",
  "module": "Tfs",
- "name": "Pdf Parser",
+ "name": "Settlement Advice Pdf Configuration",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
