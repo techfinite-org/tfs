@@ -133,7 +133,7 @@ doc_events = {
 	# 	"on_trash": "method"
 	# } 
 	"Employee Checkin": {
-		"before_insert": "tfs.emploee_checkin_override.assign_shift"
+		"before_save": "tfs.emploee_checkin_override.assign_shift"
 	}
 	
 }
