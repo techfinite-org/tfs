@@ -50,14 +50,13 @@ frappe.ui.form.on('Control Panel', {
 
 	create_sales_invoice:function(frm){
             frappe.call({
-					method: "agarwals.utils.sales_invoice_creation_and_cancellation.create_sales_background_job",
-					args: {
-						n:100
-					},
-					callback: function(r){
-						var return_msg = r.message
-						console.log(return_msg)
-					}
+					method: "agarwals.utils.sales_invoice_creator.create_sales_invoice",
+			});
+        },
+
+    process_payment_using_payment_entry:function(frm){
+            frappe.call({
+					method: "agarwals.utils.run_transform.run_payment_entry",
 			});
         },
 
@@ -117,12 +116,6 @@ frappe.ui.form.on('Control Panel', {
 		})
 	},
 
-	map_claim_book_details_in_bill: function(frm){
-	    console.log("Hiiiiii")
-		frappe.call({
-			method:"agarwals.utils.run_transform.map_claim_book_records",
-		})
-	},
 
 	mapping_insurance: function(frm) {
 		frappe.call({

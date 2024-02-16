@@ -26,12 +26,14 @@
   "mapping_insurance",
   "process_bank_transaction",
   "process_payment_entry",
+  "process_payment_using_payment_entry",
   "configurations_section",
   "allowed_file_extensions",
   "site_path",
   "administrator",
   "mapping_section",
-  "map_claim_book_details_in_bill"
+  "map_claim_book_details_in_bill",
+  "delete_bank_transactions"
  ],
  "fields": [
   {
@@ -152,13 +154,23 @@
    "fieldtype": "Link",
    "label": "Administrator",
    "options": "User"
+  },
+  {
+   "fieldname": "delete_bank_transactions",
+   "fieldtype": "Button",
+   "label": "Delete Bank Transactions"
+  },
+  {
+   "fieldname": "process_payment_using_payment_entry",
+   "fieldtype": "Button",
+   "label": "Process Payment Using Payment Entry"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-01-28 11:34:34.591682",
+ "modified": "2024-02-16 16:14:56.953757",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
