@@ -10,7 +10,7 @@
  "idx": 0,
  "is_public": 1,
  "is_standard": 1,
- "label": "Revenue",
+ "label": "Revenue-1",
  "method": "tfs.tfs.doctype.agarwals_dashboard.agarwals_dashboard.base_total",
  "modified": "2024-02-06 15:57:49.058928",
  "modified_by": "Administrator",
