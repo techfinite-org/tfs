@@ -24,16 +24,16 @@ def pdfwithtext():
             continue
         if customer:
             json_data = {}
-            customer_parsing_details = frappe.get_doc("Settlement Advice Pdf Configuration",customer)
+            config = frappe.get_doc("Settlement Advice Pdf Configuration",customer)
             key_list = ["claim_number", "claim_amount","deduction","tds_amount","settled_amount","utr_number","transaction_date"] 
-            tpa_json = customer_parsing_details.regex
+            tpa_json = config.regex
             matched_text = re.search (tpa_json,cleaned_words)
-            index_json = customer_parsing_details.indexes
+            index_json = config.indexes
             index_obj = json.loads(index_json)
             for key in key_list:
                 json_data = extract_values(key, index_obj, json_data, matched_text)
             # pasred_obj = json.loads(json_data)
-            sa_doc = create_sa(json_data, file_upload_record)
+            sa_doc = create_sa(json_data, file_upload_record, config)
                 
     
 def identify_customer(file_upload_record):
@@ -104,36 +104,14 @@ def extract_values(key, group_index , json_data, matched_text):
         json_data[key] = None
     return json_data
     
-def change_date_format(new_str):
-    str_split = re.search('^\d+\W+(\w+)', new_str)
-    try:
-        month_str = str_split.group(1)
-    except:
-        formatted_date = re.sub("\D","-",new_str)
-        return formatted_date
-    i = 1
-    months = ["jan","feb","mar","apr","may","june","july", "aug","sep","oct","nov","dec"]
-    if month_str.lower() in  months:
-        for month in months :
-            if month_str.lower() == month:
-                if i < 10 :
-                    processed_str = re.sub('([A-Za-z]+)', "0"+str(i), new_str)
-                else:
-                    processed_str = re.sub('([A-Za-z]+)', str(i), new_str)
-                break
-            elif month == "dec":
-                processed_str = new_str
-            i+=1
-        formatted_date = re.sub("\D","-",processed_str)
-    else:
-        formatted_date = re.sub("\D","-",new_str)
-            
-    return formatted_date 
     
-def create_sa(pasred_obj,file_upload_record):
-    str = pasred_obj["transaction_date"]
-    new_string = change_date_format(str)
-    transaction_date = datetime.strptime(new_string,"%d-%m-%Y").date()
+def create_sa(pasred_obj,file_upload_record, config):
+    date_str = pasred_obj["transaction_date"]
+    try:
+        transaction_date = datetime.strptime(date_str,config.date_format).date()
+    except:
+        formatted_date = date_format(date_str, config.date_format)
+        transaction_date = datetime.strptime(formatted_date,config.date_format).date() 
     new_settlement_advice = frappe.new_doc("Settlement Advice")
     new_settlement_advice.claim_id = pasred_obj["claim_number"]
     new_settlement_advice.utr_number = pasred_obj["utr_number"]
@@ -146,3 +124,19 @@ def create_sa(pasred_obj,file_upload_record):
     new_settlement_advice.status = "Open"
     new_settlement_advice.save()
     return new_settlement_advice
+
+
+def date_format(date_str,date_format):
+    splitter = date_format[2]
+    splitted_date = re.split(date_str,splitter)
+    splitted_month = splitted_date[1]
+    i = 0
+    month_list =""
+    for char in splitted_month:
+        if i== 0:
+            i+=1
+            month_list += char
+        else:
+            month_list += char.lower()
+    formatted_date = re.sub(f"(\w+)",month_list, date_str)
+    return formatted_date
