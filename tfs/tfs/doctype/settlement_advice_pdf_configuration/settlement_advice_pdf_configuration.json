@@ -1,0 +1,80 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:customer",
+ "creation": "2023-12-20 15:06:34.624702",
+ "default_view": "List",
+ "doctype": "DocType",
+ "documentation": "https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "is_active",
+  "customer",
+  "customer_search_text",
+  "regex",
+  "indexes",
+  "date_format"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "unique": 1
+  },
+  {
+   "fieldname": "customer_search_text",
+   "fieldtype": "Data",
+   "label": "Customer Search Text"
+  },
+  {
+   "fieldname": "regex",
+   "fieldtype": "Text",
+   "label": "Regex"
+  },
+  {
+   "default": "1",
+   "fieldname": "indexes",
+   "fieldtype": "JSON",
+   "label": "Indexes"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "date_format",
+   "fieldtype": "Data",
+   "label": "Date Format"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-16 21:55:03.602530",
+ "modified_by": "Administrator",
+ "module": "Tfs",
+ "name": "Settlement Advice Pdf Configuration",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

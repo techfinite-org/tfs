@@ -36,7 +36,7 @@ def assign_shift(self, method):
             self.shift = shift.name
             
             create_shift_assignment(self.employee, shift.name, now)
-
+            
 def create_shift_assignment(employee, shift_type, now):
     shift_assignment = frappe.new_doc("Shift Assignment")
     shift_assignment.employee = employee

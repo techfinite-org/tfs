@@ -10,97 +10,63 @@ from datetime import datetime
 import re
 from frappe.model.document import Document
 
-# class PdfExtract(Document):
+class PdfExtract(Document):
+    pass
+
 @frappe.whitelist()
 def pdfwithtext():
-    transaction_number = 0
-    customer_name = []
-    folder = frappe.get_all("File", filters={"folder":"Home/Attachments"},fields=["file_url", "file_name" , "file_type"])
-    customer_list  = frappe.get_all("Pdf Parser",{},["tpa_name","customer","mapping"])
-    for every_customer in customer_list:
-        customer_name.append(every_customer.tpa_name)
-    for every_file in folder:
-        if every_file.file_type ==None or every_file.file_type.lower() != "pdf":
+    fileupload_list_of_unparsed_pdfs = frappe.db.get_all("File upload",{"status": "Open","document_type":"Settlement Advice"},["*"])
+    for file_upload_record in fileupload_list_of_unparsed_pdfs:
+        # pdf = file_upload_record.upload
+        customer, cleaned_words = identify_customer(file_upload_record)
+        skip = validate_pdf(cleaned_words)
+        if skip == True:
             continue
-        
-        text = None
+        if customer:
+            json_data = {}
+            config = frappe.get_doc("Settlement Advice Pdf Configuration",customer)
+            key_list = ["claim_number", "claim_amount","deduction","tds_amount","settled_amount","utr_number","transaction_date"] 
+            tpa_json = config.regex
+            matched_text = re.search (tpa_json,cleaned_words)
+            index_json = config.indexes
+            index_obj = json.loads(index_json)
+            for key in key_list:
+                json_data = extract_values(key, index_obj, json_data, matched_text)
+            # pasred_obj = json.loads(json_data)
+            sa_doc = create_sa(json_data, file_upload_record, config)
+                
+    
+def identify_customer(file_upload_record):
         base_path = os.getcwd()
         site_path =frappe.get_site_path()[1:]
-        full_path = base_path+site_path
-        pdf_file = full_path+str(every_file.file_url)
-        pdffileobj = open(pdf_file, 'rb')
+        full_path = base_path+site_path+file_upload_record.upload
+    # list of customers
+        customers = []
+        customer_list  = frappe.db.get_all("Settlement Advice Pdf Configuration",{},["customer_search_text","customer","regex"])
+        for customer in customer_list:
+            customers.append(customer.customer_search_text)
+            
+    #Extracting pdf 
+        pdffileobj = open(full_path, 'rb')
         pdfreader = pdfplumber.open(pdffileobj)
-        x = len(pdfreader.pages)
-        for i in range(x):
-            page_obj = pdfreader.pages[i]
-            if text != None:
-                text += page_obj.extract_text()
-            else:
-                text = page_obj.extract_text()
-        cleaned_words = new_line(text)
-        if "Denial"  in cleaned_words:
-            continue
-        print(cleaned_words)
-        for every_customer_name in customer_name:
-            if every_customer_name in text:
+        cleaned_words = pdf_data_extract(pdfreader)
+    #check customer in cleaned words
+        for every_customer_name in customers:
+            if every_customer_name in cleaned_words:
                 tpa_name = every_customer_name
-                if "TPA" in tpa_name:
-                    customer = tpa_name
-                else:
-                    customer = tpa_name
+                customer_name = [customer_name_in_pdf.customer for customer_name_in_pdf in customer_list if customer_name_in_pdf.customer_search_text == tpa_name]
+                break
+            
+        if customer_name and cleaned_words:
+            return customer_name[0], cleaned_words
 
-        tpa_doc = frappe.get_doc("Pdf Parser",{"tpa_name":customer},["mapping"])
-        tpa_json = tpa_doc.mapping
-        data = json.loads(tpa_json)
-        json_data = {}
-        for key, values in data.items():
-            if key == "name":
-                json_data["name"] = [customer]
-            elif key == "claim_number":
-                claim_number = match(values["search"], values["index"], cleaned_words)
-                json_data["claim_number"] = [claim_number]
-            elif key == "settled_amount":
-                settled_amount = match(values["search"], values["index"], cleaned_words)
-                json_data["settled_amount"] = [settled_amount]
-            elif key == "utr":
-                transaction_number = match(values["search"], values["index"], cleaned_words)
-                json_data["utr_number"] = [transaction_number]
-            elif key == "tds":
-                tds = match(values["search"], values["index"], cleaned_words)
-                json_data["tds_amount"] = [tds]
-            elif key == "deductions":
-                deductions = match(values["search"], values["index"], cleaned_words)
-                json_data["deduction"] = [deductions]
-        
-        print(claim_number, settled_amount, transaction_number, tds, deductions)
-        data_frame = pd.DataFrame(json_data)
-        today = datetime.now()
-        formatted_date = today.strftime("%d-%m-%Y")
-        data_frame.to_csv(f"{full_path}/public/files/{customer}-{settled_amount}-{formatted_date}.csv", index=False)
-        
-        
-        
-        
-        
-def pattern(word):
-    pattern = r'\b' + re.escape(word) + r'\s+(\w+)'
-    return pattern
 
-def match(word , position , cleaned_words):
-    to_search = pattern(word)
-    match = re.search (to_search,cleaned_words)
-    if match:
-        result = match.group(position)
-        if result:
-            print(word ,":" ,result)
-            return result
-        else:
-            print("there are no result for this match")
-    else:
-        print("There are no match for this pattern",to_search)
-    
-
-@frappe.whitelist()
+def validate_pdf(cleaned_words):
+    words_to_check = ["Denial"]
+    for word in words_to_check:
+        if word in cleaned_words:
+            return True
+        
 def new_line(text):
     new_line = None
     for char in text:
@@ -117,3 +83,60 @@ def new_line(text):
                 new_line += "".join(char)
 
     return new_line
+
+
+def pdf_data_extract(pdfreader):
+    text = None
+    for i in range(len(pdfreader.pages)):
+            page_obj = pdfreader.pages[i]
+            if text != None:
+                text += page_obj.extract_text()
+            else:
+                text = page_obj.extract_text()
+    cleaned_words = new_line(text)
+    return cleaned_words
+    
+def extract_values(key, group_index , json_data, matched_text):
+    test = group_index[key]
+    if group_index[key] != 0:
+        json_data[key] = matched_text.group(group_index[key])
+    else:
+        json_data[key] = None
+    return json_data
+    
+    
+def create_sa(pasred_obj,file_upload_record, config):
+    date_str = pasred_obj["transaction_date"]
+    try:
+        transaction_date = datetime.strptime(date_str,config.date_format).date()
+    except:
+        formatted_date = date_format(date_str, config.date_format)
+        transaction_date = datetime.strptime(formatted_date,config.date_format).date() 
+    new_settlement_advice = frappe.new_doc("Settlement Advice")
+    new_settlement_advice.claim_id = pasred_obj["claim_number"]
+    new_settlement_advice.utr_number = pasred_obj["utr_number"]
+    new_settlement_advice.claim_amount = pasred_obj["claim_amount"]
+    new_settlement_advice.disallowed_amount = pasred_obj["deduction"]
+    new_settlement_advice.tds_amount=pasred_obj["tds_amount"]
+    new_settlement_advice.settled_amount = pasred_obj["settled_amount"]
+    new_settlement_advice.paid_date = transaction_date
+    new_settlement_advice.source_file = file_upload_record["name"]
+    new_settlement_advice.status = "Open"
+    new_settlement_advice.save()
+    return new_settlement_advice
+
+
+def date_format(date_str,date_format):
+    splitter = date_format[2]
+    splitted_date = re.split(date_str,splitter)
+    splitted_month = splitted_date[1]
+    i = 0
+    month_list =""
+    for char in splitted_month:
+        if i== 0:
+            i+=1
+            month_list += char
+        else:
+            month_list += char.lower()
+    formatted_date = re.sub(f"(\w+)",month_list, date_str)
+    return formatted_date
