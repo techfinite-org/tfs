@@ -107,11 +107,7 @@ def extract_values(key, group_index , json_data, matched_text):
     
 def create_sa(pasred_obj,file_upload_record, config):
     date_str = pasred_obj["transaction_date"]
-    try:
-        transaction_date = datetime.strptime(date_str,config.date_format).date()
-    except:
-        formatted_date = date_format(date_str, config.date_format)
-        transaction_date = datetime.strptime(formatted_date,config.date_format).date() 
+    transaction_date = datetime.strptime(date_str,config.date_format).date()
     new_settlement_advice = frappe.new_doc("Settlement Advice")
     new_settlement_advice.claim_id = pasred_obj["claim_number"]
     new_settlement_advice.utr_number = pasred_obj["utr_number"]
@@ -125,18 +121,3 @@ def create_sa(pasred_obj,file_upload_record, config):
     new_settlement_advice.save()
     return new_settlement_advice
 
-
-def date_format(date_str,date_format):
-    splitter = date_format[2]
-    splitted_date = re.split(date_str,splitter)
-    splitted_month = splitted_date[1]
-    i = 0
-    month_list =""
-    for char in splitted_month:
-        if i== 0:
-            i+=1
-            month_list += char
-        else:
-            month_list += char.lower()
-    formatted_date = re.sub(f"(\w+)",month_list, date_str)
-    return formatted_date
