@@ -66,7 +66,7 @@ def validate_pdf(cleaned_words):
     for word in words_to_check:
         if word in cleaned_words:
             return True
-        
+
 def new_line(text):
     new_line = None
     for char in text:

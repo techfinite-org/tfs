@@ -21,7 +21,6 @@ def get_checkin_shifts(self, method, now):
                 if not next_shift:
                     return curr_shift, None
     
-    
 def assign_shift(self, method):
     if not self.shift:
         now = frappe.utils.get_datetime(self.time)
