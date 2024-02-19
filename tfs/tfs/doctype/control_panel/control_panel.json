@@ -26,14 +26,20 @@
   "mapping_insurance",
   "process_bank_transaction",
   "process_payment_entry",
-  "process_payment_using_payment_entry",
+"process_payment_using_payment_entry",
   "configurations_section",
   "allowed_file_extensions",
   "site_path",
   "administrator",
   "mapping_section",
   "map_claim_book_details_in_bill",
-  "delete_bank_transactions"
+  "delete_bank_transactions",
+  "aws_section",
+  "aws_access_key",
+  "aws_secret_key",
+  "region",
+  "bucket",
+  "last_time_stamp"
  ],
  "fields": [
   {
@@ -156,21 +162,52 @@
    "options": "User"
   },
   {
-   "fieldname": "delete_bank_transactions",
-   "fieldtype": "Button",
-   "label": "Delete Bank Transactions"
+    "fieldname": "delete_bank_transactions",
+    "fieldtype": "Button",
+    "label": "Delete Bank Transactions"
+   },
+   {
+    "fieldname": "process_payment_using_payment_entry",
+    "fieldtype": "Button",
+    "label": "Process Payment Using Payment Entry"
+   },
+  {
+   "collapsible": 1,
+   "fieldname": "aws_section",
+   "fieldtype": "Section Break",
+   "label": "AWS"
   },
   {
-   "fieldname": "process_payment_using_payment_entry",
-   "fieldtype": "Button",
-   "label": "Process Payment Using Payment Entry"
+   "fieldname": "aws_access_key",
+   "fieldtype": "Data",
+   "label": "AWS Access Key"
+  },
+  {
+   "fieldname": "aws_secret_key",
+   "fieldtype": "Data",
+   "label": "AWS Secret Key"
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Data",
+   "label": "Region"
+  },
+  {
+   "fieldname": "bucket",
+   "fieldtype": "Data",
+   "label": "Bucket"
+  },
+  {
+   "fieldname": "last_time_stamp",
+   "fieldtype": "Datetime",
+   "label": "Last time stamp"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-01-28 11:34:34.591682",
+ "modified": "2024-02-19 14:08:41.757550",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
