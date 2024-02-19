@@ -14,13 +14,15 @@ from frappe.utils import cint, cstr, getdate
 Filters = frappe._dict
 
 status_map = {
-	"Present": "P",
+	"Present": "PI",
 	"Absent": "A",
 	"Half Day": "HD",
 	"Work From Home": "WFH",
 	"On Leave": "L",
 	"Holiday": "H",
 	"Weekly Off": "WO",
+	"Weekly Off Present":"WOP",
+	"Holiday Present" : "HOP"
 	
 }
 
@@ -55,7 +57,7 @@ def execute(filters: Optional[Filters] = None) -> Tuple:
 
 def get_message() -> str:
 	message = ""
-	colors = ["green", "red", "orange", "green", "#318AD8", "", ""]
+	colors = ["green", "red", "orange", "green", "#318AD8", "", "","",""]
 
 	count = 0
 	for status, abbr in status_map.items():
