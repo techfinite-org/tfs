@@ -74,5 +74,35 @@
     "label": "Check-in Option",
     "insert_after": "create_user_permission",
     "collapsible": 1
+},
+{
+    "doctype": "Custom Field",
+    "dt": "Leave Application",
+    "module": "tfs",
+    "name": "Leave Application-custom_from_date_time",
+    "fieldname": "custom_from_date_time",
+    "fieldtype": "Datetime",
+    "label": "From Date Time",
+    "insert_after": "to_date"
+},
+{
+    "doctype": "Custom Field",
+    "dt": "Leave Application",
+    "module": "tfs",
+    "name": "Leave Application-custom_to_date_time",
+    "fieldname": "custom_to_date_time",
+    "fieldtype": "Datetime",
+    "label": "To Date Time",
+    "insert_after": "custom_from_date_time"
+},
+{
+    "doctype": "Custom Field",
+    "dt": "Leave Type",
+    "module": "tfs",
+    "name": "Leave Type-custom_hourly",
+    "fieldname": "custom_hourly",
+    "fieldtype": "Check",
+    "label": "Hourly",
+    "insert_after": "is_compensatory"
 }
 ]
