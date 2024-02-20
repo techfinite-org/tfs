@@ -27,7 +27,7 @@ frappe.ui.form.on("Leave Application", {
         }
         if (frm.doc.docstatus == 0) {
             return frappe.call({
-                method: "hrms.hr.doctype.leave_application.leave_application.get_mandatory_approval",
+                method: "tfs.leave_application_override.get_mandatory_approval",
                 args: {
                     doctype: frm.doc.doctype,
                 },
@@ -57,7 +57,7 @@ frappe.ui.form.on("Leave Application", {
         let lwps;
         if (frm.doc.employee) {
             frappe.call({
-                method: "hrms.hr.doctype.leave_application.leave_application.get_leave_details",
+                method: "tfs.leave_application_override.get_leave_details",
                 async: false,
                 args: {
                     employee: frm.doc.employee,
@@ -190,7 +190,7 @@ frappe.ui.form.on("Leave Application", {
     get_leave_balance: function(frm) {
         if (frm.doc.docstatus === 0 && frm.doc.employee && frm.doc.leave_type && frm.doc.from_date && frm.doc.to_date) {
             return frappe.call({
-                method: "hrms.hr.doctype.leave_application.leave_application.get_leave_balance_on",
+                method: "tfs.leave_application_override.get_leave_balance_on",
                 args: {
                     employee: frm.doc.employee,
                     date: frm.doc.from_date,
@@ -219,7 +219,7 @@ frappe.ui.form.on("Leave Application", {
             }
             // server call is done to include holidays in leave days calculations
             return frappe.call({
-                method: "hrms.hr.doctype.leave_application.leave_application.get_number_of_leave_days",
+                method: "tfs.leave_application_override.get_number_of_leave_days",
                 args: {
                     "employee": frm.doc.employee,
                     "leave_type": frm.doc.leave_type,
@@ -251,7 +251,7 @@ frappe.ui.form.on("Leave Application", {
             }
             // server call is done to include holidays in leave days calculations
             return frappe.call({
-                method: "hrms.hr.doctype.leave_application.leave_application.get_number_of_leave_days_hours",
+                method: "tfs.leave_application_override.get_number_of_leave_days_hours",
                 args: {
                     "employee": frm.doc.employee,
                     "leave_type": frm.doc.leave_type,
@@ -276,7 +276,7 @@ frappe.ui.form.on("Leave Application", {
     set_leave_approver: function(frm) {
         if (frm.doc.employee) {
             return frappe.call({
-                method: "hrms.hr.doctype.leave_application.leave_application.get_leave_approver",
+                method: "tfs.leave_application_override.get_leave_approver",
                 args: {
                     "employee": frm.doc.employee,
                 },
@@ -323,7 +323,7 @@ frappe.tour["Leave Application"] = [
 ];
 function show_date_time_field(frm) {
     frappe.call({
-        method: 'hrms.hr.doctype.leave_application.leave_application.hide_unhide_date_time_field',
+        method: 'tfs.leave_application_override.hide_unhide_date_time_field',
         args: {
             leave_type: frm.doc.leave_type
         },
