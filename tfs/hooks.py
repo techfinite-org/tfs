@@ -120,7 +120,7 @@ override_doctype_class = {
 	
 	"Compensatory Leave Request": "tfs.compensatory_leave_request_overrides.CustomCompensatoryLeaveRequest",
     "Shift Type": "tfs.shift_type_override.OverrideShiftType",
-    # "Leave Application":"tfs.leave_application_override.LeaveApplicationOverride",
+    "Leave Application":"tfs.leave_application_override.LeaveApplicationOverride",
     "Attendance":"tfs.attendance_override.AttendanceOverride",
     # "Employee Checkin" : "tfs.employee_checkin_overrides.OverrideEmployeeCheckin"
     # "ToDo": "custom_app.overrides.CustomToDo"
