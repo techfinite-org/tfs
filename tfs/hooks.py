@@ -244,5 +244,6 @@ scheduler_events = {
 }
 
 fixtures = [
-	"Custom Field"
+	"Custom Field",
+    "Leave Type"
 ]
