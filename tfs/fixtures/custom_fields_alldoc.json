@@ -1,0 +1,126 @@
+[
+    {
+        "doctype": "Custom Field",
+        "dt": "Employee",
+        "module": "tfs",
+        "name": "Employee-custom_shift_group",
+        "fieldname": "custom_shift_group",
+        "fieldtype": "Link",
+        "label": "Shift Group",
+        "options": "Shift Group",
+        "insert_after": "attendance_device_id"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Shift Type",
+        "module": "tfs",
+        "name": "Shift Type-custom_shift_group",
+        "fieldname": "custom_shift_group",
+        "fieldtype": "Link",
+        "label": "Shift Group",
+        "options": "Shift Group",
+        "insert_after": "enable_auto_attendance"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Permission Request",
+        "module": "tfs",
+        "name": "Permission Request-custom_permission_type",
+        "fieldname": "custom_permission_type",
+        "fieldtype": "Select",
+        "label": "Permission Type",
+        "options": "Personal\nOfficial",
+        "insert_after": "reason"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Employee",
+        "module": "tfs",
+        "name": "Employee-custom_client_visit",
+        "fieldname": "custom_client_visit",
+        "fieldtype": "Check",
+        "label": "Client Location",
+        "insert_after": "custom_work_from_home"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Employee",
+        "module": "tfs",
+        "name": "Employee-custom_work_from_home",
+        "fieldname": "custom_work_from_home",
+        "fieldtype": "Check",
+        "label": "Work from Home",
+        "insert_after": "custom_on_duty"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Employee",
+        "module": "tfs",
+        "name": "Employee-custom_on_duty",
+        "fieldname": "custom_on_duty",
+        "fieldtype": "Check",
+        "label": "On Duty",
+        "insert_after": "custom_checkin_option"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Employee",
+        "module": "tfs",
+        "name": "Employee-custom_checkin_option",
+        "fieldname": "custom_checkin_option",
+        "fieldtype": "Section Break",
+        "label": "Check-in Option",
+        "insert_after": "create_user_permission",
+        "collapsible": 1
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Leave Application",
+        "module": "tfs",
+        "name": "Leave Application-custom_from_date_time",
+        "fieldname": "custom_from_date_time",
+        "fieldtype": "Datetime",
+        "label": "From Date Time",
+        "insert_after": "to_date"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Leave Application",
+        "module": "tfs",
+        "name": "Leave Application-custom_to_date_time",
+        "fieldname": "custom_to_date_time",
+        "fieldtype": "Datetime",
+        "label": "To Date Time",
+        "insert_after": "custom_from_date_time"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Leave Type",
+        "module": "tfs",
+        "name": "Leave Type-custom_hourly",
+        "fieldname": "custom_hourly",
+        "fieldtype": "Check",
+        "label": "Hourly",
+        "insert_after": "is_compensatory"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Compensatory Leave Request",
+        "module": "tfs",
+        "name": "Compensatory Leave Request-custom_work_end_date_time",
+        "fieldname": "custom_work_end_date_time",
+        "fieldtype": "Datetime",
+        "label": "Work End Date Time",
+        "insert_after": "custom_work_from_date_time"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Compensatory Leave Request",
+        "module": "tfs",
+        "name": "Compensatory Leave Request-custom_work_from_date_time",
+        "fieldname": "custom_work_from_date_time",
+        "fieldtype": "Datetime",
+        "label": "Work From Date Time",
+        "insert_after": "work_end_date"
+    }
+]
