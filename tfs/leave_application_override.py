@@ -34,7 +34,7 @@ from hrms.hr.utils import (
 	share_doc_with_approver,
 	validate_active_employee,
 )
-from hrms.mixins.pwa_notifications import PWANotificationsMixin
+# from hrms.mixins.pwa_notifications import PWANotificationsMixin
 from hrms.utils import get_employee_email
 
 
@@ -65,7 +65,7 @@ class LeaveAcrossAllocationsError(frappe.ValidationError):
 from frappe.model.document import Document
 
 
-class LeaveApplicationOverride(Document, PWANotificationsMixin):
+class LeaveApplicationOverride(Document):
 
 	print("\n\n\n\n\n\n\n ********************** From Override class LeaveApplicationOverride***********************\n\n\n\n\n\n\n\n")
 
