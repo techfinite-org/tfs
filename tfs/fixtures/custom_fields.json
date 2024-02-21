@@ -116,13 +116,14 @@
     "insert_after": "custom_work_from_date_time"
 },
 {
-    "doctype": "Custom Field",
-    "dt": "Compensatory Leave Request",
+    "doctype": "Leave Type",
+   
     "module": "tfs",
-    "name": "Compensatory Leave Request-custom_work_from_date_time",
-    "fieldname": "custom_work_from_date_time",
-    "fieldtype": "Datetime",
-    "label": "Work From Date Time",
-    "insert_after": "work_end_date"
+    "name": "Permission Hours - Official",
+    "fieldname": "leave_type_name",
+    "fieldtype": "Data",
+    "label": "Leave Type Name",
+    "custom_hourly": 1
+   
 }
 ]
