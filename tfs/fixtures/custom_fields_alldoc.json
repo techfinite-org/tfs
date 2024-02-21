@@ -122,16 +122,6 @@
         "fieldtype": "Datetime",
         "label": "Work From Date Time",
         "insert_after": "work_end_date"
-    },
-    {
-        "doctype": "Leave Type",
-       
-        "module": "tfs",
-        "name": "Permission Hours - Official",
-        "fieldname": "leave_type_name",
-        "fieldtype": "Data",
-        "label": "Leave Type Name",
-        "custom_hourly": 1
-       
     }
+   
 ]
