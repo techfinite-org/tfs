@@ -43,16 +43,17 @@ class OverrideShiftType(Document):
 			single_shift_logs = list(group)
 			attendance_date = key[1].date()
 			employee = key[0]
-			permissions = frappe.get_list('Permission Request', filters={'employee':employee, 'custom_from_date': attendance_date,'custom_permission_type': 'Official' }, fields = ['custom_permission_hours'])
+			permissions = frappe.get_list('Leave Application', filters={'employee':"HR-EMP-00001", 'from_date': attendance_date,'leave_type': 'Permission Hours - Official' }, fields = ['total_leave_days'])
+			# permissions = frappe.get_list('Permission Request', filters={'employee':employee, 'custom_from_date': attendance_date,'custom_permission_type': 'Official' }, fields = ['custom_permission_hours'])
 			print(f"permission : {permissions}")
-			permissions_list =[permission.custom_permission_hours for permission in permissions]
+			permissions_list =[permission.total_leave_days for permission in permissions]
 			permission_hours = 0
 			
 			if len(permissions_list) > 0 :
   
 				for pr in permissions_list: 
 					print("-- - - - - - -- - - -- -  -- ",type(pr))
-					permission_hours+=float(pr)
+					permission_hours += float(pr) / 60
 					print("------------------------extra hours------------------:",permission_hours)
 
 			if not self.should_mark_attendance(employee, attendance_date):
@@ -131,6 +132,7 @@ class OverrideShiftType(Document):
 		)
 		total_working_hours = total_working_hours + permission_hours
 		if (
+			# enable_entry_grace_period
 			cint(self.enable_entry_grace_period)
 			and in_time
 			and in_time > logs[0].shift_start + timedelta(minutes=cint(self.late_entry_grace_period))
@@ -138,6 +140,7 @@ class OverrideShiftType(Document):
 			late_entry = True
 
 		if (
+			# enable_exit_grace_period
 			cint(self.enable_exit_grace_period)
 			and out_time
 			and out_time < logs[0].shift_end - timedelta(minutes=cint(self.early_exit_grace_period))
