@@ -2,7 +2,6 @@
 # License: GNU General Public License v3. See license.txt
 
 import datetime
-from datetime import datetime
 from typing import Dict, Optional, Tuple, Union
 
 import frappe
@@ -34,8 +33,6 @@ from hrms.hr.utils import (
 	share_doc_with_approver,
 	validate_active_employee,
 )
-# from hrms.mixins.pwa_notifications import PWANotificationsMixin
-from hrms.utils import get_employee_email
 
 
 class LeaveDayBlockedError(frappe.ValidationError):
@@ -66,18 +63,10 @@ from frappe.model.document import Document
 
 
 class LeaveApplicationOverride(Document):
-
-	print("\n\n\n\n\n\n\n ********************** From Override class LeaveApplicationOverride***********************\n\n\n\n\n\n\n\n")
-
 	def get_feed(self):
 		return _("{0}: From {0} of type {1}").format(self.employee_name, self.leave_type)
 
-	def after_insert(self):
-		self.notify_approver()
-
 	def validate(self):
-        
-		# self.set_dates_for_hourly_permissions()
 		validate_active_employee(self.employee)
 		set_employee_name(self)
 		self.validate_dates()
@@ -93,28 +82,6 @@ class LeaveApplicationOverride(Document):
 			self.validate_optional_leave()
 		self.validate_applicable_after()
 
- 
-	# def set_dates_for_hourly_permissions(self):
-	# 	if self.leave_type:
-	# 		leave_type = frappe.get_doc('Leave Type', self.leave_type)
-	# 		if leave_type and leave_type.custom_hourly == 1:
-	# 			self.hourly = 1
-	# 			custom_from_date_time = datetime.strptime(self.custom_from_date_time, "%Y-%m-%d %H:%M:%S")
-	# 			custom_to_date_time = datetime.strptime(self.custom_to_date_time, "%Y-%m-%d %H:%M:%S")
-	# 			self.from_date = custom_from_date_time.date()
-	# 			self.to_date = custom_to_date_time.date()	
-	# 			print(custom_to_date_time,custom_from_date_time)
- 
-	
- 
-	# def set_dates_for_hourly_permissions(self):
-	# 	if self.leave_type:
-	# 		leave_type = frappe.get_doc('Leave Type', self.leave_type)
-	# 		if leave_type and leave_type.custom_hourly == 1:
-	# 			self.from_date = self.custom_from_date_time
-	# 			self.to_date = self.custom_to_date_time
-	
-	
 	def on_update(self):
 		if self.status == "Open" and self.docstatus < 1:
 			# notify leave approver about creation
@@ -122,8 +89,6 @@ class LeaveApplicationOverride(Document):
 				self.notify_leave_approver()
 
 		share_doc_with_approver(self, self.leave_approver)
-		self.publish_update()
-		self.notify_approval_status()
 
 	def on_submit(self):
 		if self.status in ["Open", "Cancelled"]:
@@ -150,20 +115,6 @@ class LeaveApplicationOverride(Document):
 		if frappe.db.get_single_value("HR Settings", "send_leave_notification"):
 			self.notify_employee()
 		self.cancel_attendance()
-
-		self.publish_update()
-
-	def after_delete(self):
-		self.publish_update()
-
-	def publish_update(self):
-		employee_user = frappe.db.get_value("Employee", self.employee, "user_id", cache=True)
-		frappe.publish_realtime(
-			event="hrms:update_leaves",
-			message={"employee": self.employee},
-			user=employee_user,
-			after_commit=True,
-		)
 
 	def validate_applicable_after(self):
 		if self.leave_type:
@@ -319,8 +270,7 @@ class LeaveApplicationOverride(Document):
 		if attendance_name:
 			# update existing attendance, change absent to on leave
 			doc = frappe.get_doc("Attendance", attendance_name)
-			if doc.status != status:
-				doc.db_set({"status": status, "leave_type": self.leave_type, "leave_application": self.name})
+			doc.db_set({"status": status, "leave_type": self.leave_type, "leave_application": self.name})
 		else:
 			# make new attendance and submit it
 			doc = frappe.new_doc("Attendance")
@@ -395,11 +345,9 @@ class LeaveApplicationOverride(Document):
 	def validate_balance_leaves(self):
 		if self.from_date and self.to_date:
 			self.total_leave_days = get_number_of_leave_days_hours(
-                self.employee, self.leave_type, self.from_date, self.to_date, self.custom_from_date_time, self.custom_to_date_time, self.half_day, self.half_day_date
-          )
-			# print('----------------------Total_leave_days------------------',self.total_leave_days)
-			# print('----------------------typeof------------------',type(self.total_leave_days))
-   
+				self.employee, self.leave_type, self.from_date, self.to_date, self.custom_from_date_time, self.custom_to_date_time, self.half_day, self.half_day_date
+			)
+
 			if self.total_leave_days <= 0:
 				frappe.throw(
 					_(
@@ -510,8 +458,66 @@ class LeaveApplicationOverride(Document):
 
 	def validate_max_days(self):
 		max_days = frappe.db.get_value("Leave Type", self.leave_type, "max_continuous_days_allowed")
-		if max_days and self.total_leave_days > cint(max_days):
-			frappe.throw(_("Leave of type {0} cannot be longer than {1}").format(self.leave_type, max_days))
+		if not max_days:
+			return
+
+		details = self.get_consecutive_leave_details()
+
+		if details.total_consecutive_leaves > cint(max_days):
+			msg = _("Leave of type {0} cannot be longer than {1}.").format(
+				get_link_to_form("Leave Type", self.leave_type), max_days
+			)
+			if details.leave_applications:
+				msg += "<br><br>" + _("Reference: {0}").format(
+					", ".join(get_link_to_form("Leave Application", name) for name in details.leave_applications)
+				)
+
+			frappe.throw(msg, title=_("Maximum Consecutive Leaves Exceeded"))
+
+	def get_consecutive_leave_details(self) -> dict:
+		leave_applications = set()
+
+		def _get_first_from_date(reference_date):
+			"""gets `from_date` of first leave application from previous consecutive leave applications"""
+			prev_date = add_days(reference_date, -1)
+			application = frappe.db.get_value(
+				"Leave Application",
+				{"employee": self.employee, "leave_type": self.leave_type, "to_date": prev_date},
+				["name", "from_date"],
+				as_dict=True,
+			)
+			if application:
+				leave_applications.add(application.name)
+				return _get_first_from_date(application.from_date)
+			return reference_date
+
+		def _get_last_to_date(reference_date):
+			"""gets `to_date` of last leave application from following consecutive leave applications"""
+			next_date = add_days(reference_date, 1)
+			application = frappe.db.get_value(
+				"Leave Application",
+				{"employee": self.employee, "leave_type": self.leave_type, "from_date": next_date},
+				["name", "to_date"],
+				as_dict=True,
+			)
+			if application:
+				leave_applications.add(application.name)
+				return _get_last_to_date(application.to_date)
+			return reference_date
+
+		first_from_date = _get_first_from_date(self.from_date)
+		last_to_date = _get_last_to_date(self.to_date)
+
+		total_consecutive_leaves = get_number_of_leave_days(
+			self.employee, self.leave_type, first_from_date, last_to_date
+		)
+
+		return frappe._dict(
+			{
+				"total_consecutive_leaves": total_consecutive_leaves,
+				"leave_applications": leave_applications,
+			}
+		)
 
 	def validate_attendance(self):
 		attendance = frappe.db.sql(
@@ -554,9 +560,8 @@ class LeaveApplicationOverride(Document):
 			self.half_day_date = None
 
 	def notify_employee(self):
-		employee_email = get_employee_email(self.employee)
-
-		if not employee_email:
+		employee = frappe.get_doc("Employee", self.employee)
+		if not employee.user_id:
 			return
 
 		parent_doc = frappe.get_doc("Leave Application", self.name)
@@ -573,7 +578,7 @@ class LeaveApplicationOverride(Document):
 			{
 				# for post in messages
 				"message": message,
-				"message_to": employee_email,
+				"message_to": employee.user_id,
 				# for email
 				"subject": email_template.subject,
 				"notify": "employee",
@@ -703,18 +708,16 @@ class LeaveApplicationOverride(Document):
 			self.leave_type,
 			self.from_date,
 			first_alloc_end,
-			self.half_day_date,
 			self.half_day,
-
+			self.half_day_date,
 		)
 		leaves_in_second_alloc = get_number_of_leave_days(
 			self.employee,
 			self.leave_type,
 			second_alloc_start,
 			self.to_date,
-			self.half_day_date,
 			self.half_day,
-
+			self.half_day_date,
 		)
 
 		args = dict(
@@ -740,7 +743,7 @@ class LeaveApplicationOverride(Document):
 		raise_exception = False if frappe.flags.in_patch else True
 
 		leaves = get_number_of_leave_days(
-			self.employee, self.leave_type, self.from_date, self.to_date, self.half_day, self.half_day_date
+			self.employee, self.leave_type, self.from_date, expiry_date, self.half_day, self.half_day_date
 		)
 
 		if leaves:
@@ -757,7 +760,7 @@ class LeaveApplicationOverride(Document):
 		if getdate(expiry_date) != getdate(self.to_date):
 			start_date = add_days(expiry_date, 1)
 			leaves = get_number_of_leave_days(
-				self.employee, self.leave_type, self.from_date, self.to_date, self.half_day, self.half_day_date
+				self.employee, self.leave_type, start_date, self.to_date, self.half_day, self.half_day_date
 			)
 
 			if leaves:
@@ -786,6 +789,7 @@ def get_allocation_expiry_for_cf_leaves(
 
 	return expiry[0][0] if expiry else ""
 
+
 @frappe.whitelist()
 def get_number_of_leave_days_hours(
     employee: str,
@@ -802,7 +806,8 @@ def get_number_of_leave_days_hours(
 		if leave_type:
 			leave_type_doc = frappe.get_doc('Leave Type', leave_type)
 		if leave_type_doc and leave_type_doc.custom_hourly == 1:
-			# time = time_diff_in_seconds(custom_to_date_time, custom_from_date_time) / 60, leave_type_doc.custom_hourly
+			time = time_diff_in_seconds(custom_to_date_time, custom_from_date_time) / 60, leave_type_doc.custom_hourly
+			print(time)
 			return time_diff_in_seconds(custom_to_date_time, custom_from_date_time) / 60
 		# print('_________________________________2',get_number_of_leave_days(
 		# 	employee,
@@ -821,6 +826,8 @@ def get_number_of_leave_days_hours(
 			half_day_date,
 			holiday_list=holiday_list,
 		)
+
+
 @frappe.whitelist()
 def hide_unhide_date_time_field(leave_type):
     leave_type_doc = None
@@ -840,32 +847,32 @@ def hide_unhide_date_time_field(leave_type):
 
 @frappe.whitelist()
 def get_number_of_leave_days(
-    employee: str,
-    leave_type: str,
-    from_date: datetime.date,
-    to_date: datetime.date,
-    half_day: Union[int, str, None] = None,
-    half_day_date: Union[datetime.date, str, None] = None,
-    holiday_list: Optional[str] = None,
+	employee: str,
+	leave_type: str,
+	from_date: datetime.date,
+	to_date: datetime.date,
+	half_day: Union[int, str, None] = None,
+	half_day_date: Union[datetime.date, str, None] = None,
+	holiday_list: Optional[str] = None,
 ) -> float:
-    """Returns number of leave days between 2 dates after considering half day and holidays
-    (Based on the include_holiday setting in Leave Type)"""
-    number_of_days = 0
-    if cint(half_day) == 1:
-        if getdate(from_date) == getdate(to_date):
-            number_of_days = 0.5
-        elif half_day_date and getdate(from_date) <= getdate(half_day_date) <= getdate(to_date):
-            number_of_days = date_diff(to_date, from_date) + 0.5
-        else:
-            number_of_days = date_diff(to_date, from_date) + 1
-    else:
-        number_of_days = date_diff(to_date, from_date) + 1
-     
-    if not frappe.db.get_value("Leave Type", leave_type, "include_holiday"):
-        number_of_days = flt(number_of_days) - flt(
-            get_holidays(employee, from_date, to_date, holiday_list=holiday_list)
-        )
-    return number_of_days
+	"""Returns number of leave days between 2 dates after considering half day and holidays
+	(Based on the include_holiday setting in Leave Type)"""
+	number_of_days = 0
+	if cint(half_day) == 1:
+		if getdate(from_date) == getdate(to_date):
+			number_of_days = 0.5
+		elif half_day_date and getdate(from_date) <= getdate(half_day_date) <= getdate(to_date):
+			number_of_days = date_diff(to_date, from_date) + 0.5
+		else:
+			number_of_days = date_diff(to_date, from_date) + 1
+	else:
+		number_of_days = date_diff(to_date, from_date) + 1
+
+	if not frappe.db.get_value("Leave Type", leave_type, "include_holiday"):
+		number_of_days = flt(number_of_days) - flt(
+			get_holidays(employee, from_date, to_date, holiday_list=holiday_list)
+		)
+	return number_of_days
 
 
 @frappe.whitelist()
@@ -1167,6 +1174,7 @@ def get_leaves_for_period(
 	return leave_days
 
 
+
 def get_leave_entries(employee, leave_type, from_date, to_date):
 	"""Returns leave entries between from_date and to_date."""
 	return frappe.db.sql(
@@ -1422,7 +1430,3 @@ def get_leave_approver(employee):
 		)
 
 	return leave_approver
-
-
-def on_doctype_update():
-	frappe.db.add_index("Leave Application", ["employee", "from_date", "to_date"])
