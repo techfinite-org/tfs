@@ -17,8 +17,8 @@
   "bank_statement_section",
   "process_transaction_stagging",
   "section_break_cgwd2",
-  "map_tpa_in_bill",
-  "map_region_in_bill",
+  "map_claim_key",
+  "update_utr_columns",
   "map_branch_type_in_bill",
   "create_sales_invoice",
   "process_settlement_advice",
@@ -33,7 +33,11 @@
   "administrator",
   "mapping_section",
   "map_claim_book_details_in_bill",
-  "delete_bank_transactions"
+  "delete_bank_transactions",
+  "update_matcher",
+  "chunk_configuration_section",
+  "payment_matching_chunk_size",
+  "match_logic"
  ],
  "fields": [
   {
@@ -98,16 +102,6 @@
    "label": "Bill Utilities"
   },
   {
-   "fieldname": "map_tpa_in_bill",
-   "fieldtype": "Button",
-   "label": "Map TPA in Bill"
-  },
-  {
-   "fieldname": "map_region_in_bill",
-   "fieldtype": "Button",
-   "label": "Map Region in Bill"
-  },
-  {
    "fieldname": "create_sales_invoice",
    "fieldtype": "Button",
    "label": "Create Sales Invoice"
@@ -164,13 +158,43 @@
    "fieldname": "process_payment_using_payment_entry",
    "fieldtype": "Button",
    "label": "Process Payment Using Payment Entry"
+  },
+  {
+   "fieldname": "map_claim_key",
+   "fieldtype": "Button",
+   "label": "Map Claim Key"
+  },
+  {
+   "fieldname": "update_utr_columns",
+   "fieldtype": "Button",
+   "label": "Update UTR Columns"
+  },
+  {
+   "fieldname": "update_matcher",
+   "fieldtype": "Button",
+   "label": "Update Matcher"
+  },
+  {
+   "fieldname": "chunk_configuration_section",
+   "fieldtype": "Section Break",
+   "label": "Chunk Configuration"
+  },
+  {
+   "fieldname": "payment_matching_chunk_size",
+   "fieldtype": "Data",
+   "label": "Payment Matching Chunk Size"
+  },
+  {
+   "fieldname": "match_logic",
+   "fieldtype": "Data",
+   "label": "Match Logic"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-02-16 16:14:56.953757",
+ "modified": "2024-02-21 19:59:26.522688",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

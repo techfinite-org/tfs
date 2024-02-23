@@ -151,6 +151,11 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+	update_matcher: function(frm){
+	    frappe.call({
+	        method:"agarwals.utils.matcher.update_matcher"
+	    })
+	},
 	process_settlement_advice: function(frm) {
 		frappe.call({
 			method:"agarwals.utils.settlement_advice_staging_process.process",
