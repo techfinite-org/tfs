@@ -21,6 +21,14 @@ frappe.ui.form.on("Leave Application", {
         // Ignore cancellation of doctype on cancel all.
         frm.toggle_display('custom_from_date_time', false);
         frm.toggle_display('custom_to_date_time', false);
+
+        if (frm.doc.custom_from_date_time && frm.doc.custom_to_date_time) {
+
+            frm.toggle_display('custom_from_date_time', true);
+            frm.toggle_display('custom_to_date_time',true);
+            frm.toggle_display('from_date', false);
+            frm.toggle_display('to_date',false);
+        }
         frm.ignore_doctypes_on_cancel_all = ["Leave Ledger Entry"];
         
 
