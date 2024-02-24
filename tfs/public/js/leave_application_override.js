@@ -141,6 +141,9 @@ frappe.ui.form.on("Leave Application", {
         frm.set_value("custom_from_date_time", null);
         frm.set_value("custom_to_date_time", null);
 		frm.set_value("total_leave_days", null)
+        frm.set_value("leave_balance", null)
+        frm.fields_dict['total_leave_days'].df.label = '';
+        frm.fields_dict['leave_balance'].df.label = '';
         show_date_time_field(frm);
         frm.trigger("get_leave_balance");
         
@@ -158,6 +161,7 @@ frappe.ui.form.on("Leave Application", {
         frm.trigger("calculate_total_days");
     },
     from_date: function(frm) {
+
         frm.trigger("make_dashboard");
         frm.trigger("half_day_datepicker");
         if (!frm.doc.custom_from_date_time && !frm.doc.custom_to_date_time){
@@ -166,21 +170,24 @@ frappe.ui.form.on("Leave Application", {
     },
     
     to_date: function(frm) {
+
         frm.trigger("make_dashboard");
         frm.trigger("half_day_datepicker");
-        if (!frm.doc.custom_from_date_time && !frm.doc.custom_to_date_time){
+ 
             frm.trigger("calculate_total_days");
-            }
+            
             
     },
 
     custom_from_date_time: function(frm){
+
         if(!frm.doc.from_date){
             frm.set_value("from_date", frm.doc.custom_from_date_time);
         }
         frm.trigger("calculate_total_days_hours");
     },
     custom_to_date_time: function(frm){
+
         if(!frm.doc.to_date){
             frm.set_value("to_date", frm.doc.custom_to_date_time);
         }
@@ -240,7 +247,8 @@ frappe.ui.form.on("Leave Application", {
                 },
                 callback: function(r) {
                     if (r && r.message) {
-                        
+                        console.log(r)
+
                         frm.set_value("total_leave_days", r.message);
                         frm.trigger("get_leave_balance");
                     }
@@ -275,7 +283,7 @@ frappe.ui.form.on("Leave Application", {
                 callback: function(r) {
                     console.log("-----------------------------------",r.message)
                     if (r && r.message) {
-                        
+
                         frm.set_value("total_leave_days", r.message);
                         frm.trigger("get_leave_balance");
                     }
@@ -348,11 +356,15 @@ function show_date_time_field(frm) {
                     frm.toggle_display('from_date', false);
                     frm.toggle_display('to_date', false);
 					frm.toggle_display('half_day',false);
+                    frm.fields_dict['total_leave_days'].df.label = 'Total Minutes';
+                    frm.fields_dict['leave_balance'].df.label = 'Minutes Balance Before Application';
                 } else if (frm.doc.leave_type && result == 'hide') {
                     frm.toggle_display('from_date', true);
                     frm.toggle_display('to_date', true);
                     frm.toggle_display('custom_from_date_time', false);
                     frm.toggle_display('custom_to_date_time', false);
+                    frm.fields_dict['total_leave_days'].df.label = 'Total Leave Days';
+                    frm.fields_dict['leave_balance'].df.label = 'Leave Balance Before Application';
                 }
             }
         }

@@ -28,9 +28,13 @@ app_include_css = [ "/assets/tfs/css/tfs.css" ]
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Employee Checkin" : "public/js/employee_checkin-override.js"}
-doctype_js = {"Compensatory Leave Request" : "public/js/compensatory_leave_request_override.js"}
-doctype_js = {"Leave Application" : "public/js/leave_application_override.js"}
+
+doctype_js = {
+    "Leave Application": "public/js/leave_application_override.js",
+    "Compensatory Leave Request": "public/js/compensatory_leave_request_override.js",
+    "Employee Checkin": "public/js/employee_checkin_override.js",
+    
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
