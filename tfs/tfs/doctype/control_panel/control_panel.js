@@ -169,7 +169,14 @@ frappe.ui.form.on('Control Panel', {
 				}
 			}
 		})
+	},
+	download_file: function(frm) {
+		frappe.call({
+			method:"agarwals.website_downloader.downloader_job.enqueue_job",
+			args:{
+				"tpa_name":frm.doc.tpa,
+		        "hospital_branch":frm.doc.branch
+			}
+		})
 	}
 });
-
-

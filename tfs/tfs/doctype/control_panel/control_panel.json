@@ -21,7 +21,6 @@
   "map_region_in_bill",
   "map_branch_type_in_bill",
   "create_sales_invoice",
-  "process_settlement_advice",
   "other_utility_section",
   "mapping_insurance",
   "process_bank_transaction",
@@ -33,7 +32,19 @@
   "administrator",
   "mapping_section",
   "map_claim_book_details_in_bill",
-  "delete_bank_transactions"
+  "delete_bank_transactions",
+  "aws_section",
+  "aws_access_key",
+  "aws_secret_key",
+  "region",
+  "bucket",
+  "last_time_stamp",
+  "advice_utilities_section",
+  "process_settlement_advice",
+  "tpa_download_section",
+  "tpa",
+  "branch",
+  "download_file"
  ],
  "fields": [
   {
@@ -164,13 +175,72 @@
    "fieldname": "process_payment_using_payment_entry",
    "fieldtype": "Button",
    "label": "Process Payment Using Payment Entry"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "aws_section",
+   "fieldtype": "Section Break",
+   "label": "AWS"
+  },
+  {
+   "fieldname": "aws_access_key",
+   "fieldtype": "Data",
+   "label": "AWS Access Key"
+  },
+  {
+   "fieldname": "aws_secret_key",
+   "fieldtype": "Data",
+   "label": "AWS Secret Key"
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Data",
+   "label": "Region"
+  },
+  {
+   "fieldname": "bucket",
+   "fieldtype": "Data",
+   "label": "Bucket"
+  },
+  {
+   "fieldname": "last_time_stamp",
+   "fieldtype": "Datetime",
+   "label": "Last time stamp"
+  },
+  {
+   "fieldname": "tpa_download_section",
+   "fieldtype": "Heading",
+   "label": "TPA Download"
+  },
+  {
+   "fieldname": "tpa",
+   "fieldtype": "Link",
+   "label": "TPA",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "download_file",
+   "fieldtype": "Button",
+   "label": "Download File"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "advice_utilities_section",
+   "fieldtype": "Section Break",
+   "label": "Advice Utilities"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-02-16 16:14:56.953757",
+ "modified": "2024-02-26 10:39:20.957168",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
