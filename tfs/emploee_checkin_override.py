@@ -6,7 +6,7 @@ def get_checkin_shifts(self, method, now):
         employee = frappe.get_doc('Employee', self.employee)
         shift_group = employee.custom_shift_group
         if shift_group:
-            shifts = frappe.get_all('Shift Type', filters={'custom_shift_group': shift_group}, fields=['name', 'start_time', 'end_time','begin_check_in_before_shift_start_time','allow_check_out_after_shift_end_time'])
+            shifts = frappe.get_all('Shift Type', filters={'custom_shift_group': shift_group}, fields=['name', 'start_time', 'end_time','begin_check_in_before_shift_start_time','allow_check_out_after_shift_end_time','late_entry_grace_period'])
             shifts.sort(key=lambda x: datetime.strptime(str(x.start_time), '%H:%M:%S').time())
             next_shift = {}
             curr_shift = {}
@@ -43,6 +43,18 @@ def assign_shift(self, method):
                             minutes=shift.begin_check_in_before_shift_start_time
                             )
             actual_end = shift_end + timedelta(minutes=shift.allow_check_out_after_shift_end_time)
+            time_format = "%Y-%m-%d %H:%M:%S"
+            self_time_datetime = datetime.strptime(self.time, time_format)
+            shift_start_and_grace = shift_start + timedelta(minutes=shift.late_entry_grace_period)
+            late_entry = self_time_datetime - shift_start_and_grace
+            # Check if the late entry is negative, and adjust accordingly
+            if late_entry.total_seconds() < 0:
+            # Handle negative late entry, set custom_late_entry to a default value or handle it as needed
+                self.custom_late_entry = 0  # Replace with your desired default value
+            else:
+                self.custom_late_entry = late_entry
+           
+            print("late_entry",late_entry)
             self.shift_start = shift_start
             self.shift_end = shift_end
             self.shift_actual_start = actual_start
