@@ -52,7 +52,14 @@ def assign_shift(self, method):
             # Handle negative late entry, set custom_late_entry to a default value or handle it as needed
                 self.custom_late_entry = 0  # Replace with your desired default value
             else:
-                self.custom_late_entry = late_entry
+                hours, remainder_minutes = divmod(late_entry.seconds, 3600)
+                minutes = remainder_minutes // 60
+
+                if hours > 0:
+                   self.custom_late_entry = f"{hours} Hr"
+                else:
+                     self.custom_late_entry = f"{minutes} Min"
+
            
             print("late_entry",late_entry)
             self.shift_start = shift_start
