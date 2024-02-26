@@ -122,6 +122,17 @@
         "fieldtype": "Datetime",
         "label": "Work From Date Time",
         "insert_after": "work_end_date"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Employee Checkin",
+        "module": "tfs",
+        "name": "Employee Checkin-custom_late_entry",
+        "fieldname": "custom_late_entry",
+        "fieldtype": "Data",
+        "label": "Late Entry",
+        "insert_after": "shift_actual_end"
     }
+   
    
 ]

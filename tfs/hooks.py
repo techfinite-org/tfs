@@ -32,7 +32,7 @@ app_include_css = [ "/assets/tfs/css/tfs.css" ]
 doctype_js = {
     "Leave Application": "public/js/leave_application_override.js",
     "Compensatory Leave Request": "public/js/compensatory_leave_request_override.js",
-    "Employee Checkin": "public/js/employee_checkin_override.js",
+    "Employee Checkin": "public/js/employee_checkin-override.js",
     
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
