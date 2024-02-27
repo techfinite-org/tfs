@@ -33,7 +33,6 @@
   "mapping_section",
   "map_claim_book_details_in_bill",
   "delete_bank_transactions",
-<<<<<<< HEAD
   "aws_section",
   "aws_access_key",
   "aws_secret_key",
@@ -46,12 +45,10 @@
   "tpa",
   "branch",
   "download_file"
-=======
   "update_matcher",
   "chunk_configuration_section",
   "payment_matching_chunk_size",
   "match_logic"
->>>>>>> e40ca17f75ad7cb5ee473a3041ea11ddd2e072b9
  ],
  "fields": [
   {
