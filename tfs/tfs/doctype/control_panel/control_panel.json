@@ -44,7 +44,7 @@
   "tpa_download_section",
   "tpa",
   "branch",
-  "download_file"
+  "download_file",
   "update_matcher",
   "chunk_configuration_section",
   "payment_matching_chunk_size",
