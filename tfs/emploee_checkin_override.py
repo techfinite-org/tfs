@@ -44,7 +44,11 @@ def assign_shift(self, method):
                             )
             actual_end = shift_end + timedelta(minutes=shift.allow_check_out_after_shift_end_time)
             time_format = "%Y-%m-%d %H:%M:%S"
-            self_time_datetime = datetime.strptime(self.time, time_format)
+            if isinstance(self.time, datetime):
+                self_time_str = self.time.strftime(time_format)
+            else:    
+                self_time_str = self.time
+            self_time_datetime = datetime.strptime(self_time_str, time_format)
             shift_start_and_grace = shift_start + timedelta(minutes=shift.late_entry_grace_period)
             late_entry = self_time_datetime - shift_start_and_grace
             # Check if the late entry is negative, and adjust accordingly
