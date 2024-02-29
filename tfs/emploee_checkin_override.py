@@ -48,6 +48,7 @@ def assign_shift(self, method):
                 self_time_str = self.time.strftime(time_format)
             else:    
                 self_time_str = self.time
+            # print("---------self_time_str----------",self_time_str)    
             self_time_datetime = datetime.strptime(self_time_str, time_format)
             shift_start_and_grace = shift_start + timedelta(minutes=shift.late_entry_grace_period)
             late_entry = self_time_datetime - shift_start_and_grace
@@ -60,12 +61,12 @@ def assign_shift(self, method):
                 minutes = remainder_minutes // 60
 
                 if hours > 0:
-                   self.custom_late_entry = f"{hours} Hr"
+                   self.custom_late_entry = f"{hours}:{minutes} Hr"
                 else:
                      self.custom_late_entry = f"{minutes} Min"
 
            
-            print("late_entry",late_entry)
+            # print("late_entry",late_entry)
             self.shift_start = shift_start
             self.shift_end = shift_end
             self.shift_actual_start = actual_start

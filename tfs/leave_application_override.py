@@ -1,9 +1,10 @@
 # Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors
 # License: GNU General Public License v3. See license.txt
 
-import datetime
-from typing import Dict, Optional, Tuple, Union
 
+from typing import Dict, Optional, Tuple, Union
+from frappe.utils import get_datetime, now_datetime
+from datetime import datetime
 import frappe
 from frappe import _
 from frappe.query_builder.functions import Max, Min, Sum
@@ -398,6 +399,21 @@ class LeaveApplicationOverride(Document):
 			)
 
 	def validate_leave_overlap(self):
+		leave_type_doc = frappe.get_doc('Leave Type', self.leave_type)
+		existing_records = frappe.get_all(
+        "Leave Application",
+        filters={
+            "employee": self.employee,
+            "docstatus": 1,  # Consider only submitted records
+            "name": ["!=", self.name],  # Exclude the current record
+        },
+        fields=["custom_from_date_time", "custom_to_date_time"],
+   		 )
+		for record in existing_records:
+			if do_time_ranges_overlap(
+            		self.custom_from_date_time, self.custom_to_date_time, record.custom_from_date_time, record.custom_to_date_time
+       				 ):
+					frappe.throw(_("Time overlap with existing Leave Application"))	
 		if not self.name:
 			# hack! if name is null, it could cause problems with !=
 			self.name = "New Leave Application"
@@ -415,6 +431,8 @@ class LeaveApplicationOverride(Document):
 				"from_date": self.from_date,
 				"to_date": self.to_date,
 				"name": self.name,
+				# "from_date_time":self.custom_from_date_time,
+				# "to_date_time" : self.custom_to_date_time
 			},
 			as_dict=1,
 		):
@@ -432,6 +450,9 @@ class LeaveApplicationOverride(Document):
 				total_leaves_on_half_day = self.get_total_leaves_on_half_day()
 				if total_leaves_on_half_day >= 1:
 					self.throw_overlap_error(d)
+			elif (leave_type_doc and leave_type_doc.custom_hourly == 1):
+				continue	
+
 			else:
 				self.throw_overlap_error(d)
 
@@ -442,6 +463,7 @@ class LeaveApplicationOverride(Document):
 		)
 		frappe.throw(msg, OverlapError)
 
+ 
 	def get_total_leaves_on_half_day(self):
 		leave_count_on_half_day_date = frappe.db.sql(
 			"""select count(name) from `tabLeave Application`
@@ -807,7 +829,7 @@ def get_number_of_leave_days_hours(
 			leave_type_doc = frappe.get_doc('Leave Type', leave_type)
 		if leave_type_doc and leave_type_doc.custom_hourly == 1:
 			time = time_diff_in_seconds(custom_to_date_time, custom_from_date_time) / 60, leave_type_doc.custom_hourly
-			print(time)
+			# print(time)
 			return time_diff_in_seconds(custom_to_date_time, custom_from_date_time) / 60
 		# print('_________________________________2',get_number_of_leave_days(
 		# 	employee,
@@ -1054,7 +1076,7 @@ def get_remaining_leaves(
 	leave_balance returns the available leave balance
 	leave_balance_for_consumption returns the minimum leaves remaining after comparing with remaining days for allocation expiry
 	"""
-
+	# print(allocation.leave_type)
 	def _get_remaining_leaves(remaining_leaves, end_date):
 		"""Returns minimum leaves remaining after comparing with remaining days for allocation expiry"""
 		if remaining_leaves > 0:
@@ -1134,6 +1156,7 @@ def get_leaves_for_period(
 			and cint(leave_type_doc.custom_hourly) == 1
    		):
 			leave_days += leave_entry.leaves
+
    
 		elif (
 			inclusive_period
@@ -1430,3 +1453,12 @@ def get_leave_approver(employee):
 		)
 
 	return leave_approver
+
+
+def do_time_ranges_overlap(start1, end1, start2, end2):
+    # Convert date-time strings to datetime objects
+   start1 = get_datetime(start1) if start1 else now_datetime()
+   end1 = get_datetime(end1) if end1 else now_datetime()
+   start2 = get_datetime(start2) if start2 else now_datetime()
+   end2 = get_datetime(end2) if end2 else now_datetime()
+   return start1 < end2 and start2 < end1
