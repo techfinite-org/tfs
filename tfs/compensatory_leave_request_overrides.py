@@ -80,7 +80,7 @@ class CustomCompensatoryLeaveRequest(Document):
 			date_difference = date_time_difference
 		else :
 			date_difference = date_diff(self.work_end_date, self.work_from_date) + 1
-		print(date_time_difference)
+
 		if self.half_day:
 			date_difference -= 0.5
 		leave_period = get_leave_period(self.work_from_date, self.work_end_date, company)
