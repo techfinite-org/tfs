@@ -2,7 +2,7 @@
  "actions": [],
  "allow_copy": 1,
  "allow_rename": 1,
- "creation": "2024-01-03 11:11:28.607325",
+ "creation": "2024-03-07 12:36:24.373846",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -13,26 +13,22 @@
   "claimbook_section",
   "process_claimbook",
   "settlement_advice_section",
-  "process_settlement_stagging",
+  "process_settlement_staging",
   "bank_statement_section",
-  "process_transaction_stagging",
+  "process_transaction_staging",
+  "configurations_section",
+  "site_path",
+  "allowed_file_extensions",
   "section_break_cgwd2",
-  "map_claim_key",
-  "update_utr_columns",
-  "map_branch_type_in_bill",
   "create_sales_invoice",
   "other_utility_section",
   "mapping_insurance",
   "process_bank_transaction",
-  "process_payment_entry",
+  "payment_utilities_section",
+  "generate_claim_key",
+  "process_matcher",
+  "process_payment_using_journal_entry",
   "process_payment_using_payment_entry",
-  "configurations_section",
-  "allowed_file_extensions",
-  "site_path",
-  "administrator",
-  "mapping_section",
-  "map_claim_book_details_in_bill",
-  "delete_bank_transactions",
   "aws_section",
   "aws_access_key",
   "aws_secret_key",
@@ -41,11 +37,6 @@
   "last_time_stamp",
   "advice_utilities_section",
   "process_settlement_advice",
-  "tpa_download_section",
-  "tpa",
-  "branch",
-  "download_file",
-  "update_matcher",
   "chunk_configuration_section",
   "payment_matching_chunk_size",
   "match_logic"
@@ -56,8 +47,18 @@
    "fieldtype": "Section Break"
   },
   {
+   "fieldname": "process_debtors",
+   "fieldtype": "Button",
+   "label": "Process Debtors"
+  },
+  {
    "fieldname": "claimbook_section",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "process_claimbook",
+   "fieldtype": "Button",
+   "label": "Process ClaimBook"
   },
   {
    "fieldname": "settlement_advice_section",
@@ -68,44 +69,26 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "other_utility_section",
+   "fieldname": "process_transaction_staging",
+   "fieldtype": "Button",
+   "label": "Process Bank Transaction Staging"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "configurations_section",
    "fieldtype": "Section Break",
-   "label": "Transaction Utilities"
+   "label": "Configurations"
   },
   {
-   "fieldname": "process_debtors",
-   "fieldtype": "Button",
-   "label": "Process Debtors"
+   "fieldname": "site_path",
+   "fieldtype": "Data",
+   "label": "Site Path"
   },
   {
-   "fieldname": "process_claimbook",
-   "fieldtype": "Button",
-   "label": "Process ClaimBook"
-  },
-  {
-   "fieldname": "process_settlement_stagging",
-   "fieldtype": "Button",
-   "label": "Process Settlement Advice Stagging"
-  },
-  {
-   "fieldname": "process_transaction_stagging",
-   "fieldtype": "Button",
-   "label": "Process Bank Transaction Stagging"
-  },
-  {
-   "fieldname": "mapping_insurance",
-   "fieldtype": "Button",
-   "label": "Mapping Insurance"
-  },
-  {
-   "fieldname": "process_bank_transaction",
-   "fieldtype": "Button",
-   "label": "Process Bank Transaction"
-  },
-  {
-   "fieldname": "process_payment_entry",
-   "fieldtype": "Button",
-   "label": "Process Payment Entry"
+   "default": "XLSX,PDF,XLS",
+   "fieldname": "allowed_file_extensions",
+   "fieldtype": "Data",
+   "label": "Allowed File Extensions"
   },
   {
    "fieldname": "section_break_cgwd2",
@@ -118,52 +101,39 @@
    "label": "Create Sales Invoice"
   },
   {
-   "fieldname": "process_settlement_advice",
-   "fieldtype": "Button",
-   "label": "Process Settlement Advice"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "configurations_section",
+   "fieldname": "other_utility_section",
    "fieldtype": "Section Break",
-   "label": "Configurations"
+   "label": "Bank Utilities"
   },
   {
-   "default": "XLSX,PDF,XLS",
-   "fieldname": "allowed_file_extensions",
-   "fieldtype": "Data",
-   "label": "Allowed File Extensions"
-  },
-  {
-   "fieldname": "map_branch_type_in_bill",
+   "fieldname": "mapping_insurance",
    "fieldtype": "Button",
-   "label": "Map Branch Type in Bill"
+   "label": "Mapping Insurance"
   },
   {
-   "fieldname": "site_path",
-   "fieldtype": "Data",
-   "label": "Site Path"
+   "fieldname": "process_bank_transaction",
+   "fieldtype": "Button",
+   "label": "Process Bank Transaction"
   },
   {
-   "fieldname": "mapping_section",
+   "fieldname": "payment_utilities_section",
    "fieldtype": "Section Break",
-   "label": "Mapping"
+   "label": "Payment Utilities"
   },
   {
-   "fieldname": "map_claim_book_details_in_bill",
+   "fieldname": "generate_claim_key",
    "fieldtype": "Button",
-   "label": "Map Claim Book Details in Bill"
+   "label": "Generate Claim Key"
   },
   {
-   "fieldname": "administrator",
-   "fieldtype": "Link",
-   "label": "Administrator",
-   "options": "User"
-  },
-  {
-   "fieldname": "delete_bank_transactions",
+   "fieldname": "process_matcher",
    "fieldtype": "Button",
-   "label": "Delete Bank Transactions"
+   "label": "Process Matcher"
+  },
+  {
+   "fieldname": "process_payment_using_journal_entry",
+   "fieldtype": "Button",
+   "label": "Process Payment Using Journal Entry"
   },
   {
    "fieldname": "process_payment_using_payment_entry",
@@ -202,47 +172,15 @@
    "label": "Last time stamp"
   },
   {
-   "fieldname": "tpa_download_section",
-   "fieldtype": "Heading",
-   "label": "TPA Download"
-  },
-  {
-   "fieldname": "tpa",
-   "fieldtype": "Link",
-   "label": "TPA",
-   "options": "Customer"
-  },
-  {
-   "fieldname": "branch",
-   "fieldtype": "Link",
-   "label": "Branch",
-   "options": "Branch"
-  },
-  {
-   "fieldname": "download_file",
-   "fieldtype": "Button",
-   "label": "Download File"
-  },
-  {
    "collapsible": 1,
    "fieldname": "advice_utilities_section",
    "fieldtype": "Section Break",
    "label": "Advice Utilities"
   },
   {
-   "fieldname": "map_claim_key",
+   "fieldname": "process_settlement_advice",
    "fieldtype": "Button",
-   "label": "Map Claim Key"
-  },
-  {
-   "fieldname": "update_utr_columns",
-   "fieldtype": "Button",
-   "label": "Update UTR Columns"
-  },
-  {
-   "fieldname": "update_matcher",
-   "fieldtype": "Button",
-   "label": "Update Matcher"
+   "label": "Process Settlement Advice"
   },
   {
    "fieldname": "chunk_configuration_section",
@@ -258,13 +196,18 @@
    "fieldname": "match_logic",
    "fieldtype": "Data",
    "label": "Match Logic"
+  },
+  {
+   "fieldname": "process_settlement_staging",
+   "fieldtype": "Button",
+   "label": "Process Settlement Advice Staging"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-02-21 19:59:26.522688",
+ "modified": "2024-03-07 13:03:32.398970",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
