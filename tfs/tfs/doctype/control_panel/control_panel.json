@@ -17,6 +17,8 @@
   "bank_statement_section",
   "process_transaction_staging",
   "configurations_section",
+  "start_date",
+  "end_date",
   "site_path",
   "allowed_file_extensions",
   "section_break_cgwd2",
@@ -203,18 +205,27 @@
    "fieldtype": "Button",
    "label": "Process Settlement Advice Staging"
   },
-  
   {
    "fieldname": "calculate_dso",
    "fieldtype": "Button",
    "label": "Calculate DSO"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-07 17:06:20.031061",
+ "modified": "2024-03-07 17:28:33.497194",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
