@@ -39,7 +39,8 @@
   "process_settlement_advice",
   "chunk_configuration_section",
   "payment_matching_chunk_size",
-  "match_logic"
+  "match_logic",
+  "calculate_dso"
  ],
  "fields": [
   {
@@ -201,13 +202,19 @@
    "fieldname": "process_settlement_staging",
    "fieldtype": "Button",
    "label": "Process Settlement Advice Staging"
+  },
+  
+  {
+   "fieldname": "calculate_dso",
+   "fieldtype": "Button",
+   "label": "Calculate DSO"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-07 13:03:32.398970",
+ "modified": "2024-03-07 17:06:20.031061",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

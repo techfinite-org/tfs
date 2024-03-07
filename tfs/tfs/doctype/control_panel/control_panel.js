@@ -143,5 +143,10 @@ frappe.ui.form.on('Control Panel', {
 				"hospital_branch": frm.doc.branch
 			}
 		})
+	},
+	calculate_dso: function(frm) {
+		frappe.call({
+		   method:"agarwals.utils.dso_calculator.initiator",
+		})
 	}
 });
