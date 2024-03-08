@@ -36,7 +36,7 @@ class AdditionalSalaryImport(Document):
                     self.create_additional_salary(names, field_name)
  
     def create_additional_salary(self, names, field_name):
-        print("-------------------create_additional_salary-----------------", names, field_name)
+        # print("-------------------create_additional_salary-----------------", names, field_name)
  
         if field_name is not None:
             value = getattr(self, field_name, 0)
@@ -50,7 +50,7 @@ class AdditionalSalaryImport(Document):
  
                     # Check if field_name is None before trying to get the attribute
                     additional_salary.amount = int(value)
-                    print("-------------------self.name-----------------", self.name)
+                    # print("-------------------self.name-----------------", self.name)
  
                     additional_salary.save()
                     additional_salary.submit()
