@@ -148,5 +148,10 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 		   method:"agarwals.utils.dso_calculator.initiator",
 		})
+	},
+	process_payment_using_journal_entry: function(frm) {
+		frappe.call({
+			method:"agarwals.utils.journal_entry_process.run"
+		})
 	}
 });

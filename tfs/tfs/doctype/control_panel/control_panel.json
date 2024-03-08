@@ -31,14 +31,14 @@
   "process_matcher",
   "process_payment_using_journal_entry",
   "process_payment_using_payment_entry",
+  "advice_utilities_section",
+  "process_settlement_advice",
   "aws_section",
   "aws_access_key",
   "aws_secret_key",
   "region",
   "bucket",
   "last_time_stamp",
-  "advice_utilities_section",
-  "process_settlement_advice",
   "chunk_configuration_section",
   "payment_matching_chunk_size",
   "match_logic",
@@ -136,7 +136,7 @@
   {
    "fieldname": "process_payment_using_journal_entry",
    "fieldtype": "Button",
-   "label": "Process Payment Using Journal Entry"
+   "label": "Process Payment Using Journal Entry ( Bulk )"
   },
   {
    "fieldname": "process_payment_using_payment_entry",
@@ -175,7 +175,6 @@
    "label": "Last time stamp"
   },
   {
-   "collapsible": 1,
    "fieldname": "advice_utilities_section",
    "fieldtype": "Section Break",
    "label": "Advice Utilities"
@@ -225,7 +224,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-07 17:28:33.497194",
+ "modified": "2024-03-08 10:17:11.059671",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
