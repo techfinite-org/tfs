@@ -132,6 +132,17 @@
         "fieldtype": "Data",
         "label": "Late Entry",
         "insert_after": "shift_actual_end"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Additional Salary",
+        "module": "tfs",
+        "name": "Additional Salary-custom_additional_salary_reference",
+        "fieldname": "custom_additional_salary_reference",
+        "fieldtype": "Link",
+        "label": "Additional Salary Reference",
+        "options": "Additional Salary Import",
+        "insert_after": "ref_docname"
     }
    
    
