@@ -108,7 +108,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_payment_using_payment_entry: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.run_transform.run_payment_entry",
+			method: "agarwals.utils.payment_entry_creator.run_payment_entry",
 		});
 	},
 	process_payment_using_journal_entry: function (frm) {
