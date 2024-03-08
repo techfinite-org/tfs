@@ -1,0 +1,188 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-03-08 15:59:24.000444",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "employee",
+  "payroll_date",
+  "company",
+  "salary_component_section",
+  "staff_welfare_fund",
+  "canteen",
+  "esi",
+  "advance",
+  "lic1",
+  "food",
+  "cooptex",
+  "column_break_xvcko",
+  "onam__token",
+  "lwf",
+  "it",
+  "sbinew",
+  "uniform",
+  "lic",
+  "tds",
+  "professional_tax",
+  "income_tax",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "payroll_date",
+   "fieldtype": "Date",
+   "label": "Payroll Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "salary_component_section",
+   "fieldtype": "Section Break",
+   "label": "Salary Component"
+  },
+  {
+   "fieldname": "staff_welfare_fund",
+   "fieldtype": "Currency",
+   "label": "staff welfare fund"
+  },
+  {
+   "fieldname": "canteen",
+   "fieldtype": "Currency",
+   "label": "CANTEEN"
+  },
+  {
+   "fieldname": "esi",
+   "fieldtype": "Currency",
+   "label": "ESI"
+  },
+  {
+   "fieldname": "advance",
+   "fieldtype": "Currency",
+   "label": "Advance"
+  },
+  {
+   "fieldname": "lic1",
+   "fieldtype": "Currency",
+   "label": "LIC1"
+  },
+  {
+   "fieldname": "food",
+   "fieldtype": "Currency",
+   "label": "FOOD"
+  },
+  {
+   "fieldname": "cooptex",
+   "fieldtype": "Currency",
+   "label": "CO-OPTEX"
+  },
+  {
+   "fieldname": "column_break_xvcko",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "onam__token",
+   "fieldtype": "Currency",
+   "label": "Onam  Token"
+  },
+  {
+   "fieldname": "lwf",
+   "fieldtype": "Currency",
+   "label": "LWF"
+  },
+  {
+   "fieldname": "it",
+   "fieldtype": "Currency",
+   "label": "IT"
+  },
+  {
+   "fieldname": "sbinew",
+   "fieldtype": "Currency",
+   "label": "SBI-NEW"
+  },
+  {
+   "fieldname": "uniform",
+   "fieldtype": "Currency",
+   "label": "UNIFORM"
+  },
+  {
+   "fieldname": "lic",
+   "fieldtype": "Currency",
+   "label": "LIC"
+  },
+  {
+   "fieldname": "tds",
+   "fieldtype": "Currency",
+   "label": "TDS"
+  },
+  {
+   "fieldname": "professional_tax",
+   "fieldtype": "Currency",
+   "label": "Professional Tax"
+  },
+  {
+   "fieldname": "income_tax",
+   "fieldtype": "Currency",
+   "label": "Income Tax"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Additional Salary Import",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "series",
+   "options": "ADD.-.SAL.-.YYYY.-.MM.-.####"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-03-08 19:25:54.283679",
+ "modified_by": "Administrator",
+ "module": "tfs",
+ "name": "Additional Salary Import",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
