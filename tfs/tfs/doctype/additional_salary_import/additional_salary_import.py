@@ -63,10 +63,5 @@ class AdditionalSalaryImport(Document):
                 return field.fieldname
         return None
  
-    def on_cancel(self):
-        as_records = frappe.get_all('Additional Salary', filters={'custom_additional_salary_reference' : self.name}, pluck = 'name')
-        for record in as_records:
-            as_record = frappe.get_doc('Additional Salary',record)
-            as_record.cancel()
 
-        frappe.get_doc('Additional Salary Import', self.name).cancel()
+
