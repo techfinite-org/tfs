@@ -154,6 +154,16 @@
         "label": "Attendance Link",
         "options": "Attendance",
         "insert_after": "amended_from"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Employee",
+        "module": "tfs",
+        "name": "Employee-custom_enable_automatic_compensatory_leave_request",
+        "fieldname": "custom_enable_automatic_compensatory_leave_request",
+        "fieldtype": "Check",
+        "label": "Enable Automatic Compensatory Leave request",
+        "insert_after": "custom_shift_group"
     }
    
    
