@@ -143,6 +143,17 @@
         "label": "Additional Salary Reference",
         "options": "Additional Salary Import",
         "insert_after": "ref_docname"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Compensatory Leave Request",
+        "module": "tfs",
+        "name": "Compensatory Leave Request-custom_attendance_link",
+        "fieldname": "custom_attendance_link",
+        "fieldtype": "Link",
+        "label": "Attendance Link",
+        "options": "Attendance",
+        "insert_after": "amended_from"
     }
    
    
