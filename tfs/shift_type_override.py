@@ -43,7 +43,7 @@ class OverrideShiftType(Document):
 			single_shift_logs = list(group)
 			attendance_date = key[1].date()
 			employee = key[0]
-			permissions = frappe.get_list('Leave Application', filters={'employee':employee, 'from_date': attendance_date,'leave_type': ['in', ['Permission Hours - Official', 'Permission Hours - Personal']],'status':'Approved'}, fields = ['total_leave_days'])
+			permissions = frappe.get_list('Leave Application', filters={'employee':employee, 'from_date': attendance_date,'leave_type': ['in', ['Permission Hours - Official', 'Permission Hours - Personal','OT']],'status':'Approved'}, fields = ['total_leave_days'])
 			# permissions = frappe.get_list('Permission Request', filters={'employee':employee, 'custom_from_date': attendance_date,'custom_permission_type': 'Official' }, fields = ['custom_permission_hours'])
 			print(f"permission : {permissions}")
 			permissions_list =[permission.total_leave_days for permission in permissions]
