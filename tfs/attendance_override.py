@@ -3,6 +3,7 @@
 
 
 import frappe
+from datetime import datetime, timedelta
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils import (
@@ -44,7 +45,12 @@ class AttendanceOverride(Document):
 	def on_cancel(self):
 		self.unlink_attendance_from_checkins()
   
-	def on_submit(self):
+	def enqueue_with_delay(queue, timeout, *args, **kwargs):
+		delay = 120  # 2 minutes delay
+		eta = datetime.utcnow() + timedelta(seconds=delay)
+		frappe.enqueue(queue, timeout=timeout, enqueue_after_commit=True, job_name='Delayed Task', enqueue_after=eta, *args, **kwargs)
+
+	def on_change(self):
 		print("on_submit")
 		
 		employee_holidat_list , compensatory_leave_request = frappe.get_cached_value(
@@ -66,20 +72,20 @@ class AttendanceOverride(Document):
 						print("--------------------------------------Weekly Present---------------------------------")
 						# create_compensatory_leave_request(employee=self.employee,attendance_date=self.attendance_date,reason=leave_reason)
 						frappe.enqueue("tfs.attendance_override.create_compensatory_leave_request", 
-								queue="long", timeout=60,employee=self.employee,attendance_date=self.attendance_date,reason=leave_reason,attendance_link = self.name)
+								queue="long",timeout=120,employee=self.employee,attendance_date=self.attendance_date,reason=leave_reason)
 					elif self.status == 'Half Day':
 						frappe.enqueue("tfs.attendance_override.create_compensatory_leave_request", 
-								queue="long", timeout=60,employee=self.employee,attendance_date=self.attendance_date,reason=leave_reason,attendance_link = self.name)
+								queue="long",timeout=120,employee=self.employee,attendance_date=self.attendance_date,reason=leave_reason)
 
 					# self.create_compensatory_leave_request()
 				else:
 					if self.status == 'Present':
 						print("Holiday Present")
 						frappe.enqueue("tfs.attendance_override.create_compensatory_leave_request", 
-								queue="long", timeout=120,employee=self.employee,attendance_date=self.attendance_date,reason=leave_reason,attendance_link = self.name)
+								queue="long",timeout=120,employee=self.employee,attendance_date=self.attendance_date,reason=leave_reason)
 					elif self.status == 'Half Day':
 						frappe.enqueue("tfs.attendance_override.create_compensatory_leave_request", 
-								queue="long", timeout=60,employee=self.employee,attendance_date=self.attendance_date,reason=leave_reason,attendance_link = self.name)	
+								queue="long",timeout=120,employee=self.employee,attendance_date=self.attendance_date,reason=leave_reason)	
   
 	# def on_submit(self):
 	# 	print("on_submit")
@@ -359,14 +365,14 @@ def get_events(start, end, filters=None):
 
 
 @frappe.whitelist()
-def create_compensatory_leave_request(employee, attendance_date,attendance_link, reason):
+def create_compensatory_leave_request(employee, attendance_date, reason):
     compensatory_leave_request = frappe.new_doc("Compensatory Leave Request")
     compensatory_leave_request.employee = employee
     compensatory_leave_request.leave_type = 'Compensatory Off'
     compensatory_leave_request.work_from_date = attendance_date
     compensatory_leave_request.work_end_date = attendance_date
     compensatory_leave_request.reason = reason
-    compensatory_leave_request.custom_attendance_link = attendance_link
+    # compensatory_leave_request.custom_attendance_link = attendance_link
 
     if 'half' in reason.lower():
         compensatory_leave_request.half_day = 1
