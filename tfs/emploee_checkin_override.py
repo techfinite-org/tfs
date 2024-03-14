@@ -71,6 +71,7 @@ def assign_shift(self, method):
             self.shift_end = shift_end
             self.shift_actual_start = actual_start
             self.shift_actual_end = actual_end
+            self.custom_entry_number = 1
             create_shift_assignment(self.employee, shift.name, now)
 			
 def create_shift_assignment(employee, shift_type, now):
