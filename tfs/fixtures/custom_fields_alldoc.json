@@ -164,7 +164,16 @@
         "fieldtype": "Check",
         "label": "Enable Automatic Compensatory Leave request",
         "insert_after": "custom_shift_group"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Employee Checkin",
+        "module": "tfs",
+        "name": "Employee Checkin-custom_entry_number",
+        "fieldname": "custom_entry_number",
+        "fieldtype": "Data",
+        "label": "Entry Number",
+        "insert_after": "custom_company",
+        "read_only":1
     }
-   
-   
 ]
