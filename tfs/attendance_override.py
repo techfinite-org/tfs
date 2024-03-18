@@ -51,7 +51,7 @@ class AttendanceOverride(Document):
 		frappe.enqueue(queue, timeout=timeout, enqueue_after_commit=True, job_name='Delayed Task', enqueue_after=eta, *args, **kwargs)
 
 	def on_submit(self):
-		print("on_submit")
+		# print("on_submit")
 		
 		employee_holidat_list , compensatory_leave_request = frappe.get_cached_value(
 			"Employee", self.employee, ["holiday_list","custom_enable_automatic_compensatory_leave_request"]
@@ -69,7 +69,7 @@ class AttendanceOverride(Document):
 				if holiday == 1:
 			
 					if self.status == 'Present':  
-						print("--------------------------------------Weekly Present---------------------------------")
+						# print("--------------------------------------Weekly Present---------------------------------")
 
 						create_compensatory_leave_request_with_delay(self.employee, self.attendance_date, leave_reason,self.name)
 
@@ -80,7 +80,7 @@ class AttendanceOverride(Document):
 					# self.create_compensatory_leave_request()
 				else:
 					if self.status == 'Present':
-						print("Holiday Present")
+						# print("Holiday Present")
 
 						create_compensatory_leave_request_with_delay(self.employee, self.attendance_date, leave_reason,self.name)
 					elif self.status == 'Half Day':
