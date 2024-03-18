@@ -104,7 +104,7 @@ class LeaveApplicationOverride(Document):
 					# Format the date without the time part
 					formatted_date = date.strftime("%Y-%m-%d")
 					print(f"Date: {formatted_date}, Count: {count}")
-					if count > min_leave_employee:
+					if count >= min_leave_employee:
 						exceeded_dates.append((formatted_date, count))
 
 				# Check if there are any dates where the count exceeds the threshold
