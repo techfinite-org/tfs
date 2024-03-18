@@ -28,7 +28,7 @@ def assign_shift(self, method):
         now = frappe.utils.get_datetime(self.time)
         now_date = now.date()
         curr_shift, next_shift = get_checkin_shifts(self, method, now)
-        print(f"Current Shift :{ curr_shift }, Next Shift: { next_shift }, current_time{ now }")
+        # print(f"Current Shift :{ curr_shift }, Next Shift: { next_shift }, current_time{ now }")
         shift = curr_shift
         if shift:
             if not next_shift or ((timedelta(hours=now.hour, minutes=now.minute, seconds=now.second) - curr_shift.start_time) < (next_shift.start_time - timedelta(hours=now.hour, minutes=now.minute, seconds=now.second))):
