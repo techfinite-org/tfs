@@ -184,7 +184,8 @@
         "fieldname": "custom_threshold_for_leave_application_per_day",
         "fieldtype": "Int",
         "label": "Threshold for Leave Application Per Day",
-        "insert_after": "custom_allow_leave_application_threshold_setup"
+        "insert_after": "custom_allow_leave_application_threshold_setup",
+        "depends_on":"eval:doc.custom_allow_leave_application_threshold_setup==1"
     },
     {
         "doctype": "Custom Field",
@@ -194,8 +195,7 @@
         "fieldname": "custom_allow_leave_application_threshold_setup",
         "fieldtype": "Check",
         "label": "Allow Leave Application Threshold Setup",
-        "insert_after": "payroll_cost_center",
-        "depends_on":"eval:doc.custom_allow_leave_application_threshold_setup==1"
+        "insert_after": "payroll_cost_center"
     }
 
 ]
