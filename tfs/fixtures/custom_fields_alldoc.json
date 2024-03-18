@@ -175,5 +175,27 @@
         "label": "Entry Number",
         "insert_after": "custom_company",
         "read_only":1
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Department",
+        "module": "tfs",
+        "name": "Department-custom_threshold_for_leave_application_per_day",
+        "fieldname": "custom_threshold_for_leave_application_per_day",
+        "fieldtype": "Int",
+        "label": "Threshold for Leave Application Per Day",
+        "insert_after": "custom_allow_leave_application_threshold_setup"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Department",
+        "module": "tfs",
+        "name": "Department-custom_allow_leave_application_threshold_setup",
+        "fieldname": "custom_allow_leave_application_threshold_setup",
+        "fieldtype": "Check",
+        "label": "Allow Leave Application Threshold Setup",
+        "insert_after": "payroll_cost_center",
+        "depends_on":"eval:doc.custom_allow_leave_application_threshold_setup==1"
     }
+
 ]
