@@ -167,6 +167,7 @@ doc_events = {
 #	],
 # }
 
+
 # Testing
 # -------
 
@@ -243,6 +244,9 @@ scheduler_events = {
     "cron": {
 		"*/30 * * * *" : [
 			"tfs.tfs.doctype.agarwals_dashboard.agarwals_dashboard.value_updater"
+		],
+  	    "*/2 * * * *": [
+			"tfs.tfs.email_queue.schedule_email_sender"
 		]
 	}
 }
