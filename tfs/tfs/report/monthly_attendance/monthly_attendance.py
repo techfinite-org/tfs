@@ -38,6 +38,7 @@ def get_message() -> str:
 
 	return message
 day_abbr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
 def generate_date_range(from_date_str, to_date_str):
     # Convert string dates to datetime objects
     from_date = datetime.strptime(from_date_str, "%Y-%m-%d")
@@ -135,7 +136,10 @@ def execute(filters=None):
 
         # Create a map of attendance dates to statuses
         attendance_status_map = {record["attendance_date"].strftime("%Y-%m-%d"): record["status"] for record in attendance_records}
+        
         holiday_status_map = get_holiday_status(employee_doc, date_column)
+        unmarked_attendance_map = get_unmarked_attendance(attendance_status_map, date_column, holiday_status_map)
+        print("------------------print(unmarked)--------------------",unmarked_attendance_map)
         holiday_present_map = get_holiday_present(employee_doc, date_column, attendance_status_map)
         late_entry_map = get_late_entry_sum(employee_doc, date_column)
         late_entry_value = late_entry_map
@@ -149,6 +153,7 @@ def execute(filters=None):
             status = attendance_status_map.get(date, '')
             holiday_status = holiday_status_map.get(date, '')
             holiday_present = holiday_present_map.get(date, '') 
+            unmarked_attendance = unmarked_attendance_map.get(date, '')
             # print("------------------status---------------",status)
             # print("-----------------holiday_present-----------------",holiday_present)
             if status == 'Present':
@@ -165,8 +170,15 @@ def execute(filters=None):
                 status_abbreviation = 'A'
                 status_counts["A"] += 1
             elif status == 'Half Day':
-                status_abbreviation = 'HD'
-                status_counts["HD"] += 1
+                if holiday_present == 'Weekly Off Half Day': 
+                    status_abbreviation = 'WOP'
+                    status_counts["WOP"] += 0.5	
+                elif holiday_present == 'Holiday Half Day': 
+                    status_abbreviation = 'HOP'
+                    status_counts["HOP"] += 0.5	
+                else:    
+                    status_abbreviation = 'HD'
+                    status_counts["HD"] += 1
             elif status == 'On Leave':
                 status_abbreviation = 'L'
                 status_counts["L"] += 1
@@ -185,6 +197,9 @@ def execute(filters=None):
             elif holiday_present == 'Holiday Present':  
                 status_abbreviation = 'HOP'    
                 status_counts["HOP"] += 1
+            elif unmarked_attendance == 'Unmarked':  
+                status_abbreviation = 'A'    
+                status_counts["A"] += 1    
             else:
                 # You can handle other statuses or leave them empty as needed
                 status_abbreviation = ''
@@ -265,30 +280,30 @@ def get_holiday_present(employee_doc, date_column, attendance_status_map):
             'parent': holiday_list.name,
             'holiday_date': holiday_date_str,
         }, ['weekly_off'])
-        # print("---------------------------employee_doc.name-------------------------------------",employee_doc.name)
-        # print("*----------------------------holiday_date_str------------------------",holiday_date_str)
-        # print("----------------------------attendance_status_map123------------------------------------",attendance_status_map.get(date))
-        # print("----------------------------attendance_status_map123------------------------------------",holiday)
+
         if holiday is not None:
             # Check if it's a weekly off
             if holiday == 1:
-                # Check if attendance is marked as present
+                # Check if attendance is marked as present or half-day
                 if attendance_status_map.get(date) == 'Present':
                     holiday_present_map[date] = 'Weekly Off Present'
-                    # print("---------------holiday_present_map[date]------------------",holiday_present_map[date])
+                elif attendance_status_map.get(date) == 'Half Day':
+                    holiday_present_map[date] = 'Weekly Off Half Day'
                 else:
                     holiday_present_map[date] = 'Weekly Off'
-                    # print("---------------holiday_present_map[date]Weekly Off------------------",holiday_present_map[date])
             else:
-                # Check if attendance is marked as present
+                # Check if attendance is marked as present or half-day
                 if attendance_status_map.get(date) == 'Present':
                     holiday_present_map[date] = 'Holiday Present'
+                elif attendance_status_map.get(date) == 'Half Day':
+                    holiday_present_map[date] = 'Holiday Half Day'
                 else:
                     holiday_present_map[date] = 'Holiday'
         else:
             holiday_present_map[date] = None
 
     return holiday_present_map
+
 
 
 
@@ -314,9 +329,23 @@ def get_late_entry_sum(employee_doc, date_column):
                 if match:
                     hours, minutes = map(int, match.groups())
                     late_entry_sum += hours * 60 + minutes
-                    print(f"------------------------------late_entry for {date}------------------------", late_entry_value)
+                    # print(f"------------------------------late_entry for {date}------------------------", late_entry_value)
                 elif "Min" in late_entry_value:
                     minutes = int(late_entry_value.split(" ")[0])
                     late_entry_sum += minutes
 
     return late_entry_sum
+
+def get_unmarked_attendance(attendance_status_map, date_column, holiday_status_map):
+    unmarked_dates = {}
+    for day in date_column:
+        if day not in attendance_status_map:
+            status = holiday_status_map.get(day, None)  # Get the status from holiday_status_map for the current day
+            if status is None:
+                unmarked_dates[day] = "Unmarked"
+            # elif status != 'Holiday':
+            #     unmarked_dates[day] = "Not a holiday"
+    return unmarked_dates
+			
+    
+    
