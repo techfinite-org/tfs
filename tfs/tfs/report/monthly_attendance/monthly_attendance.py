@@ -90,7 +90,7 @@ def execute(filters=None):
         {"label": "A", "fieldtype": "Data", "fieldname": "sum_absent", "width": 50},
         {"label": "HD", "fieldtype": "Data", "fieldname": "sum_half_day", "width": 50},
         {"label": "L", "fieldtype": "Data", "fieldname": "sum_leave", "width": 50},
-        {"label": "WFM", "fieldtype": "Data", "fieldname": "sum_work_from_home", "width": 80},
+        {"label": "WFH", "fieldtype": "Data", "fieldname": "sum_work_from_home", "width": 80},
         {"label": "WO", "fieldtype": "Data", "fieldname": "sum_weekly_off", "width": 80},
         {"label": "H", "fieldtype": "Data", "fieldname": "sum_holiday", "width": 50},
         {"label": "WOP", "fieldtype": "Data", "fieldname": "sum_weekly_off_present", "width": 80},
@@ -147,7 +147,7 @@ def execute(filters=None):
         
         status_counts = {
             "P": 0, "A": 0, "HD": 0, "L": 0,
-            "WFM": 0, "WO": 0, "H": 0, "WOP": 0, "HOP": 0
+            "WFH": 0, "WO": 0, "H": 0, "WOP": 0, "HOP": 0
         }
         for date in date_column:
             status = attendance_status_map.get(date, '')
@@ -183,8 +183,8 @@ def execute(filters=None):
                 status_abbreviation = 'L'
                 status_counts["L"] += 1
             elif status == 'Work From Home':
-                status_abbreviation = 'WFM'
-                status_counts["WFM"] += 1
+                status_abbreviation = 'WFH'
+                status_counts["WFH"] += 1
             elif holiday_status == 'Weekly Off':
                 status_abbreviation = 'WO'
                 status_counts["WO"] += 1
