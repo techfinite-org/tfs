@@ -14,6 +14,8 @@
   "process_claimbook",
   "settlement_advice_section",
   "process_settlement_staging",
+  "bill_adjustment_section",
+  "process_bill_adjustment",
   "bank_statement_section",
   "process_transaction_staging",
   "configurations_section",
@@ -218,13 +220,22 @@
    "fieldname": "end_date",
    "fieldtype": "Date",
    "label": "End Date"
+  },
+  {
+   "fieldname": "bill_adjustment_section",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "process_bill_adjustment",
+   "fieldtype": "Button",
+   "label": "Process Bill Adjustment"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-08 10:17:11.059671",
+ "modified": "2024-03-28 14:09:21.983977",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

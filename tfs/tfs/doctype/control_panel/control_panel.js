@@ -153,5 +153,22 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method:"agarwals.utils.journal_entry_process.run"
 		})
-	}
+	},
+	process_bill_adjustment: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.run_transform.run_transform_process",
+			args: {
+				type: "adjustment"
+			},
+			callback: function (r) {
+				if (r.message != "Success") {
+					frappe.throw(r.message)
+				}
+				else {
+					frappe.msgprint("Debtors Reports are loaded")
+				}
+			}
+		})
+	},
+
 });
