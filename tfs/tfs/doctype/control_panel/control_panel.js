@@ -165,7 +165,7 @@ frappe.ui.form.on('Control Panel', {
 					frappe.throw(r.message)
 				}
 				else {
-					frappe.msgprint("Debtors Reports are loaded")
+					frappe.msgprint("Bill Adjustments are loaded")
 				}
 			}
 		})
