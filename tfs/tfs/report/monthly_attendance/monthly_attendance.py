@@ -7,6 +7,8 @@
 
 
 
+
+
 import re
 from frappe.exceptions import DoesNotExistError, ValidationError
 import frappe
@@ -131,12 +133,13 @@ def execute(filters=None):
         attendance_records = frappe.get_all(
             "Attendance",
             filters={"employee": employee_id, "docstatus":1,"attendance_date": ["between", (from_date, to_date)]},
-            fields=["attendance_date", "status"]
+            fields=["attendance_date", "status","leave_type"]
         )
-
+        leave_type_map = get_leave_type(attendance_records,date_column)
         # Create a map of attendance dates to statuses
         attendance_status_map = {record["attendance_date"].strftime("%Y-%m-%d"): record["status"] for record in attendance_records}
         
+        print("---------------------leave_type_map-----------------",leave_type_map)
         holiday_status_map = get_holiday_status(employee_doc, date_column)
         unmarked_attendance_map = get_unmarked_attendance(attendance_status_map, date_column, holiday_status_map)
         print("------------------print(unmarked)--------------------",unmarked_attendance_map)
@@ -151,6 +154,7 @@ def execute(filters=None):
         }
         for date in date_column:
             status = attendance_status_map.get(date, '')
+            leave_type_status = leave_type_map.get(date, '')
             holiday_status = holiday_status_map.get(date, '')
             holiday_present = holiday_present_map.get(date, '') 
             unmarked_attendance = unmarked_attendance_map.get(date, '')
@@ -180,7 +184,10 @@ def execute(filters=None):
                     status_abbreviation = 'HD'
                     status_counts["HD"] += 1
             elif status == 'On Leave':
-                status_abbreviation = 'L'
+                if leave_type_status:
+                    status_abbreviation = f'L({leave_type_status})'
+                else:
+                    status_abbreviation = 'L'
                 status_counts["L"] += 1
             elif status == 'Work From Home':
                 status_abbreviation = 'WFH'
@@ -346,6 +353,29 @@ def get_unmarked_attendance(attendance_status_map, date_column, holiday_status_m
             # elif status != 'Holiday':
             #     unmarked_dates[day] = "Not a holiday"
     return unmarked_dates
+
+def get_leave_type(attendance_records, date_column):
+    leave_type = {}
+    
+    # Assuming attendance_records is a list of dictionaries with keys 'attendance_date', 'status', and 'leave_type'
+    attendance_leave_type_map = {
+        record["attendance_date"].strftime("%Y-%m-%d"): record["leave_type"]
+        for record in attendance_records
+        if record["status"] == "On Leave"
+    }
+    print(attendance_leave_type_map)
+    if attendance_leave_type_map:
+        for day in date_column:
+            status = attendance_leave_type_map.get(day, None)
+            if status is not None:
+                leave_type[day] = status
+    
+    return leave_type
+
+
+    
+    
+    
 			
     
     
