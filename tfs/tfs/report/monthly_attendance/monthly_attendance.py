@@ -3,12 +3,6 @@
 
 # import frappe
 
-
-
-
-
-
-
 import re
 from frappe.exceptions import DoesNotExistError, ValidationError
 import frappe
@@ -23,7 +17,6 @@ status_map = {
 	"Weekly Off": "WO",
 	"Weekly Off Present":"WOP",
 	"Holiday Present" : "HOP"
-	
 }
 def get_message() -> str:
 	message = ""
@@ -180,6 +173,9 @@ def execute(filters=None):
                 elif holiday_present == 'Holiday Half Day': 
                     status_abbreviation = 'HOP'
                     status_counts["HOP"] += 0.5	
+                elif leave_type_status:  	
+                    status_abbreviation = f'L({leave_type_status})1/2'
+                    status_counts["L"] += 1    
                 else:    
                     status_abbreviation = 'HD'
                     status_counts["HD"] += 1
@@ -361,14 +357,14 @@ def get_leave_type(attendance_records, date_column):
     attendance_leave_type_map = {
         record["attendance_date"].strftime("%Y-%m-%d"): record["leave_type"]
         for record in attendance_records
-        if record["status"] == "On Leave"
+        if record["status"] in ["On Leave", "Half Day"]
     }
-    print(attendance_leave_type_map)
+    
     if attendance_leave_type_map:
         for day in date_column:
-            status = attendance_leave_type_map.get(day, None)
-            if status is not None:
-                leave_type[day] = status
+            leave_status = attendance_leave_type_map.get(day, None)
+            if leave_status is not None:
+                leave_type[day] = leave_status
     
     return leave_type
 

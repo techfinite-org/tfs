@@ -21,7 +21,8 @@ frappe.ui.form.on("Leave Application", {
         // Ignore cancellation of doctype on cancel all.
         frm.toggle_display('custom_from_date_time', false);
         frm.toggle_display('custom_to_date_time', false);
-
+        frm.toggle_display("custom_forenoon", false);
+        frm.toggle_display("custom_afternoon", false);
         if (frm.doc.custom_from_date_time && frm.doc.custom_to_date_time) {
 
             frm.toggle_display('custom_from_date_time', true);
@@ -148,6 +149,23 @@ frappe.ui.form.on("Leave Application", {
     },
     half_day: function(frm) {
         if (frm.doc.half_day) {
+            // If half_day is selected, show custom_forenoon and custom_afternoon checkboxes
+            frm.toggle_display("custom_forenoon", true);
+            frm.toggle_display("custom_afternoon", true);
+            frm.set_value("custom_forenoon", 1);
+
+        } else {
+            // If half_day is not selected, hide custom_forenoon and custom_afternoon checkboxes
+            frm.toggle_display("custom_forenoon", false);
+            frm.toggle_display("custom_afternoon", false);
+            
+            // Set custom_forenoon and custom_afternoon to 0
+            frm.set_value("custom_forenoon", 0);
+            frm.set_value("custom_afternoon", 0);
+        }
+        
+        // Update other fields and triggers as needed
+        if (frm.doc.half_day) {
             if (frm.doc.from_date == frm.doc.to_date) {
                 frm.set_value("half_day_date", frm.doc.from_date);
             } else {
@@ -255,7 +273,17 @@ frappe.ui.form.on("Leave Application", {
         }
     },
 
+    custom_forenoon:function(frm){
+        if (frm.doc.custom_forenoon == 1 ) {
+            frm.set_value('custom_afternoon', 0);
+        }
+    },
 
+    custom_afternoon:function(frm){
+        if ( frm.doc.custom_afternoon == 1) {
+            frm.set_value('custom_forenoon', 0);
+        }
+    },
     calculate_total_days_hours: function(frm) {
         if (frm.doc.from_date && frm.doc.to_date && frm.doc.employee && frm.doc.leave_type && frm.doc.custom_from_date_time && frm.doc.custom_to_date_time) {
             let from_date = Date.parse(frm.doc.from_date);
