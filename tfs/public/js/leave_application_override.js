@@ -24,11 +24,15 @@ frappe.ui.form.on("Leave Application", {
         frm.toggle_display("custom_forenoon", false);
         frm.toggle_display("custom_afternoon", false);
         if (frm.doc.custom_from_date_time && frm.doc.custom_to_date_time) {
-
+       
             frm.toggle_display('custom_from_date_time', true);
             frm.toggle_display('custom_to_date_time',true);
             frm.toggle_display('from_date', false);
             frm.toggle_display('to_date',false);
+            frm.fields_dict['total_leave_days'].df.label = 'Total Minutes';
+            frm.refresh_field('total_leave_days');
+            frm.fields_dict['leave_balance'].df.label = 'Minutes Balance Before Application';
+            frm.refresh_field('leave_balance');
         }
         frm.ignore_doctypes_on_cancel_all = ["Leave Ledger Entry"];
         
