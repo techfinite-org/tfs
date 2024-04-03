@@ -159,7 +159,7 @@ frappe.ui.form.on('Control Panel', {
 			method:"agarwals.utils.payer_match.run_mapper"
 		})
 	},
-	bill_adjustments: function (frm) {
+	bill_adjustment: function (frm) {
 		frappe.call({
 			method:"agarwals.utils.bill_adjustments.run_bill_adjust"
 		})
