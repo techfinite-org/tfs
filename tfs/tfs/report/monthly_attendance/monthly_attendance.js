@@ -41,10 +41,10 @@ frappe.query_reports["Monthly Attendance"] = {
                 return `<span style="color: blue;">${__("H")}</span>`;
             }
 			else if (value === "WOP") {
-                return `<span style="color: #87CEEB ;">${__("WOP")}</span>`;
+                return `<span style="color: #502195 ;">${__("WOP")}</span>`;
             }
 			else if (value === "HOP") {
-                return `<span style="color: #87CEEB ;">${__("HOP")}</span>`;
+                return `<span style="color: #502195 ;">${__("HOP")}</span>`;
             }
 			
         

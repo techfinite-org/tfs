@@ -43,18 +43,18 @@ class OverrideShiftType(Document):
 			single_shift_logs = list(group)
 			attendance_date = key[1].date()
 			employee = key[0]
-			permissions = frappe.get_list('Leave Application', filters={'employee':employee, 'from_date': attendance_date,'leave_type': ['in', ['Permission Hours - Official', 'Permission Hours - Personal']],'status':'Approved'}, fields = ['total_leave_days'])
+			permissions = frappe.get_list('Leave Application', filters={'employee':employee, 'from_date': attendance_date,'leave_type': ['in', ['Permission Hours - Official', 'Permission Hours - Personal','OT']],'status':'Approved'}, fields = ['total_leave_days'])
 			# permissions = frappe.get_list('Permission Request', filters={'employee':employee, 'custom_from_date': attendance_date,'custom_permission_type': 'Official' }, fields = ['custom_permission_hours'])
-			print(f"permission : {permissions}")
+			# print(f"permission : {permissions}")
 			permissions_list =[permission.total_leave_days for permission in permissions]
 			permission_hours = 0
 			
 			if len(permissions_list) > 0 :
   
 				for pr in permissions_list: 
-					print("-- - - - - - -- - - -- -  -- ",type(pr))
+					# print("-- - - - - - -- - - -- -  -- ",type(pr))
 					permission_hours += float(pr) / 60
-					print("------------------------extra hours------------------:",permission_hours)
+					# print("------------------------extra hours------------------:",permission_hours)
 
 			if not self.should_mark_attendance(employee, attendance_date):
 				continue
@@ -316,9 +316,9 @@ def process_auto_attendance_for_all_shifts(shift_list):
     response = {}
     cleaned_string = shift_list[1:-1].replace('"', '')
     shift_list_orginal = cleaned_string.split(",")
-    print(shift_list_orginal)
+    # print(shift_list_orginal)
     for shift in shift_list_orginal:
-        print(shift)
+        # print(shift)
         try:
             # Try to get the Shift Type document
             doc = frappe.get_cached_doc("Shift Type", shift)

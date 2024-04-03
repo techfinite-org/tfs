@@ -132,7 +132,90 @@
         "fieldtype": "Data",
         "label": "Late Entry",
         "insert_after": "shift_actual_end"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Additional Salary",
+        "module": "tfs",
+        "name": "Additional Salary-custom_additional_salary_reference",
+        "fieldname": "custom_additional_salary_reference",
+        "fieldtype": "Link",
+        "label": "Additional Salary Reference",
+        "options": "Additional Salary Import",
+        "insert_after": "ref_docname"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Compensatory Leave Request",
+        "module": "tfs",
+        "name": "Compensatory Leave Request-custom_attendance_link",
+        "fieldname": "custom_attendance_link",
+        "fieldtype": "Link",
+        "label": "Attendance Link",
+        "options": "Attendance",
+        "insert_after": "amended_from"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Employee",
+        "module": "tfs",
+        "name": "Employee-custom_enable_automatic_compensatory_leave_request",
+        "fieldname": "custom_enable_automatic_compensatory_leave_request",
+        "fieldtype": "Check",
+        "label": "Enable Automatic Compensatory Leave request",
+        "insert_after": "custom_shift_group"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Employee Checkin",
+        "module": "tfs",
+        "name": "Employee Checkin-custom_entry_number",
+        "fieldname": "custom_entry_number",
+        "fieldtype": "Data",
+        "label": "Entry Number",
+        "insert_after": "custom_company",
+        "read_only":1
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Department",
+        "module": "tfs",
+        "name": "Department-custom_threshold_for_leave_application_per_day",
+        "fieldname": "custom_threshold_for_leave_application_per_day",
+        "fieldtype": "Int",
+        "label": "Threshold for Leave Application Per Day",
+        "insert_after": "custom_allow_leave_application_threshold_setup",
+        "depends_on":"eval:doc.custom_allow_leave_application_threshold_setup==1"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Department",
+        "module": "tfs",
+        "name": "Department-custom_allow_leave_application_threshold_setup",
+        "fieldname": "custom_allow_leave_application_threshold_setup",
+        "fieldtype": "Check",
+        "label": "Allow Leave Application Threshold Setup",
+        "insert_after": "payroll_cost_center"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Leave Application",
+        "module": "tfs",
+        "name": "Leave Application-custom_afternoon",
+        "fieldname": "custom_afternoon",
+        "fieldtype": "Check",
+        "label": "Afternoon",
+        "insert_after": "custom_forenoon"
+    },
+    {
+        "doctype": "Custom Field",
+        "dt": "Leave Application",
+        "module": "tfs",
+        "name": "Leave Application-custom_forenoon",
+        "fieldname": "custom_forenoon",
+        "fieldtype": "Check",
+        "label": "Forenoon",
+        "insert_after": "half_day"
     }
-   
-   
+
 ]

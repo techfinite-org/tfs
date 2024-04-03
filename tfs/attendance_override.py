@@ -3,6 +3,7 @@
 
 
 import frappe
+from datetime import datetime, timedelta
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils import (
@@ -43,6 +44,78 @@ class AttendanceOverride(Document):
 
 	def on_cancel(self):
 		self.unlink_attendance_from_checkins()
+  
+	def enqueue_with_delay(queue, timeout, *args, **kwargs):
+		delay = 120  # 2 minutes delay
+		eta = datetime.utcnow() + timedelta(seconds=delay)
+		frappe.enqueue(queue, timeout=timeout, enqueue_after_commit=True, job_name='Delayed Task', enqueue_after=eta, *args, **kwargs)
+
+	def on_submit(self):
+		# print("on_submit")
+		
+		employee_holidat_list , compensatory_leave_request = frappe.get_cached_value(
+			"Employee", self.employee, ["holiday_list","custom_enable_automatic_compensatory_leave_request"]
+		)
+		if not employee_holidat_list:
+			return {}
+		if compensatory_leave_request == 1:
+			holiday_list = frappe.get_doc('Holiday List', employee_holidat_list)
+			holiday = frappe.get_value('Holiday', {
+				'parent': holiday_list.name,
+				'holiday_date': self.attendance_date,
+			}, ['weekly_off'])
+			if holiday is not None:
+				leave_reason = get_leave_reason(self.status, holiday)
+				if holiday == 1:
+			
+					if self.status == 'Present':  
+						# print("--------------------------------------Weekly Present---------------------------------")
+
+						create_compensatory_leave_request_with_delay(self.employee, self.attendance_date, leave_reason,self.name)
+
+					elif self.status == 'Half Day':
+
+						create_compensatory_leave_request_with_delay(self.employee, self.attendance_date, leave_reason,self.name)
+
+					# self.create_compensatory_leave_request()
+				else:
+					if self.status == 'Present':
+						# print("Holiday Present")
+
+						create_compensatory_leave_request_with_delay(self.employee, self.attendance_date, leave_reason,self.name)
+					elif self.status == 'Half Day':
+
+						create_compensatory_leave_request_with_delay(self.employee, self.attendance_date, leave_reason,self.name)
+  
+	# def on_submit(self):
+	# 	print("on_submit")
+	# 	employee_holiday_list = frappe.get_cached_value(
+	# 		"Employee", self.employee, ["holiday_list"]
+	# 	)
+	# 	holiday_list = frappe.get_doc('Holiday List', employee_holiday_list)
+	# 	is_weekly_off = frappe.get_value('Holiday', {
+	# 		'parent': holiday_list.name,
+	# 		'holiday_date': self.attendance_date,
+	# 	}, ['weekly_off'])
+
+	# 	leave_reason = get_leave_reason(self.status, is_weekly_off)
+
+	# 	if is_weekly_off == 1:
+	# 		# Enqueue the job with a delay of 1 minute only for weekly present
+	# 		frappe.enqueue(
+	# 			"tfs.attendance_override.create_compensatory_leave_request",
+	# 			queue="long",
+	# 			timeout=60,
+	# 			employee=self.employee,
+	# 			attendance_date=self.attendance_date,
+	# 			reason=leave_reason
+	# 		)
+	# 	else:
+	# 		# Execute the function directly for holiday present
+	# 		create_compensatory_leave_request(
+	# 			self.employee, self.attendance_date, leave_reason
+	# 		)  
+
 
 	def validate_attendance_date(self):
 		date_of_joining = frappe.db.get_value("Employee", self.employee, "date_of_joining")
@@ -237,6 +310,103 @@ def get_events(start, end, filters=None):
 	conditions = get_filters_cond("Attendance", filters, [])
 	add_attendance(events, start, end, conditions=conditions)
 	return events
+
+# @frappe.whitelist()
+# def create_compensatory_leave_request_weekoff(employee,attendance_date):
+#     compensatory_leave_request = frappe.new_doc("Compensatory Leave Request")
+#     compensatory_leave_request.employee = employee
+#     compensatory_leave_request.leave_type = 'Compensatory Off'
+#     compensatory_leave_request.work_from_date = attendance_date
+#     compensatory_leave_request.work_end_date = attendance_date
+#     compensatory_leave_request.reason = 'Week off present'
+#     compensatory_leave_request.save()
+#     compensatory_leave_request.submit()
+#     return compensatory_leave_request 
+
+# @frappe.whitelist()
+# def create_compensatory_leave_request_holiday(employee,attendance_date):
+#     compensatory_leave_request = frappe.new_doc("Compensatory Leave Request")
+#     compensatory_leave_request.employee = employee
+#     compensatory_leave_request.leave_type = 'Compensatory Off'
+#     compensatory_leave_request.work_from_date = attendance_date
+#     compensatory_leave_request.work_end_date = attendance_date
+#     compensatory_leave_request.reason = 'Holiday present'
+#     compensatory_leave_request.save()
+#     compensatory_leave_request.submit()
+#     return compensatory_leave_request 
+
+# @frappe.whitelist()
+# def create_compensatory_leave_request_weekoff_halfday(employee,attendance_date):
+#     compensatory_leave_request = frappe.new_doc("Compensatory Leave Request")
+#     compensatory_leave_request.employee = employee
+#     compensatory_leave_request.leave_type = 'Compensatory Off'
+#     compensatory_leave_request.work_from_date = attendance_date
+#     compensatory_leave_request.work_end_date = attendance_date
+#     compensatory_leave_request.reason = 'Week off half day present'
+#     compensatory_leave_request.half_day = 1
+#     compensatory_leave_request.half_day_date = attendance_date
+#     compensatory_leave_request.save()
+#     compensatory_leave_request.submit()
+#     return compensatory_leave_request 
+
+# @frappe.whitelist()
+# def create_compensatory_leave_request_holiday_halfday(employee,attendance_date):
+#     compensatory_leave_request = frappe.new_doc("Compensatory Leave Request")
+#     compensatory_leave_request.employee = employee
+#     compensatory_leave_request.leave_type = 'Compensatory Off'
+#     compensatory_leave_request.work_from_date = attendance_date
+#     compensatory_leave_request.work_end_date = attendance_date
+#     compensatory_leave_request.reason = 'Holiday half present'
+#     compensatory_leave_request.half_day = 1
+#     compensatory_leave_request.half_day_date = attendance_date
+#     compensatory_leave_request.save()
+#     compensatory_leave_request.submit()
+#     return compensatory_leave_request 
+
+
+@frappe.whitelist()
+def create_compensatory_leave_request(employee, attendance_date, reason,attendance_link):
+    compensatory_leave_request = frappe.new_doc("Compensatory Leave Request")
+    compensatory_leave_request.employee = employee
+    compensatory_leave_request.leave_type = 'Compensatory Off'
+    compensatory_leave_request.work_from_date = attendance_date
+    compensatory_leave_request.work_end_date = attendance_date
+    compensatory_leave_request.reason = reason
+    compensatory_leave_request.custom_attendance_link = attendance_link
+
+    if 'half' in reason.lower():
+        compensatory_leave_request.half_day = 1
+        compensatory_leave_request.half_day_date = attendance_date
+
+    compensatory_leave_request.save()
+    compensatory_leave_request.submit()
+    return compensatory_leave_request
+
+
+
+@frappe.whitelist()
+def create_compensatory_leave_request_with_delay(employee, attendance_date, reason,attendance_link, delay_minutes=2):
+    eta = datetime.utcnow() + timedelta(minutes=delay_minutes)
+    frappe.enqueue("tfs.attendance_override.create_compensatory_leave_request", 
+				queue="long", 
+				enqueue_after_commit=True, 
+				job_name='Delayed Compensatory Leave Request', 
+				employee=employee, 
+				attendance_date=attendance_date, 
+				reason=reason,
+    			attendance_link = attendance_link)
+
+
+
+
+def get_leave_reason(status, is_weekly_off):
+    if status == 'Present':
+        return 'Week off present' if is_weekly_off == 1 else 'Holiday present'
+    elif status == 'Half Day':
+        return 'Week off half day present' if is_weekly_off == 1 else 'Holiday half present'
+    else:
+        return ''
+
 
 
 def add_attendance(events, start, end, conditions=None):

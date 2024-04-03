@@ -21,7 +21,8 @@ frappe.ui.form.on("Leave Application", {
         // Ignore cancellation of doctype on cancel all.
         frm.toggle_display('custom_from_date_time', false);
         frm.toggle_display('custom_to_date_time', false);
-
+        frm.toggle_display("custom_forenoon", false);
+        frm.toggle_display("custom_afternoon", false);
         if (frm.doc.custom_from_date_time && frm.doc.custom_to_date_time) {
 
             frm.toggle_display('custom_from_date_time', true);
@@ -85,9 +86,7 @@ frappe.ui.form.on("Leave Application", {
             });
             $("div").remove(".form-dashboard-section.custom");
             frm.dashboard.add_section(
-                frappe.render_template("leave_application_dashboard", {
-                    data: leave_details
-                }),
+                `${getLeaveApplicationDashboardHTML(leave_details)}`,
                 __("Allocated Leaves")
             );
             frm.dashboard.show();
@@ -149,6 +148,23 @@ frappe.ui.form.on("Leave Application", {
         
     },
     half_day: function(frm) {
+        if (frm.doc.half_day) {
+            // If half_day is selected, show custom_forenoon and custom_afternoon checkboxes
+            frm.toggle_display("custom_forenoon", true);
+            frm.toggle_display("custom_afternoon", true);
+            frm.set_value("custom_forenoon", 1);
+
+        } else {
+            // If half_day is not selected, hide custom_forenoon and custom_afternoon checkboxes
+            frm.toggle_display("custom_forenoon", false);
+            frm.toggle_display("custom_afternoon", false);
+            
+            // Set custom_forenoon and custom_afternoon to 0
+            frm.set_value("custom_forenoon", 0);
+            frm.set_value("custom_afternoon", 0);
+        }
+        
+        // Update other fields and triggers as needed
         if (frm.doc.half_day) {
             if (frm.doc.from_date == frm.doc.to_date) {
                 frm.set_value("half_day_date", frm.doc.from_date);
@@ -257,7 +273,17 @@ frappe.ui.form.on("Leave Application", {
         }
     },
 
+    custom_forenoon:function(frm){
+        if (frm.doc.custom_forenoon == 1 ) {
+            frm.set_value('custom_afternoon', 0);
+        }
+    },
 
+    custom_afternoon:function(frm){
+        if ( frm.doc.custom_afternoon == 1) {
+            frm.set_value('custom_forenoon', 0);
+        }
+    },
     calculate_total_days_hours: function(frm) {
         if (frm.doc.from_date && frm.doc.to_date && frm.doc.employee && frm.doc.leave_type && frm.doc.custom_from_date_time && frm.doc.custom_to_date_time) {
             let from_date = Date.parse(frm.doc.from_date);
@@ -369,4 +395,43 @@ function show_date_time_field(frm) {
             }
         }
     });
+}
+
+function getLeaveApplicationDashboardHTML(data) {
+    let html = "";
+    if (!jQuery.isEmptyObject(data)) {
+        html += `
+            <table class="table table-bordered small">
+                <thead>
+                    <tr>
+                        <th style="width: 16%">${__("Leave Type")}</th>
+                        <th style="width: 16%" class="text-right">${__("Total Allocated Leaves")}</th>
+                        <th style="width: 16%" class="text-right">${__("Expired Leaves")}</th>
+                        <th style="width: 16%" class="text-right">${__("Used Leaves")}</th>
+                        <th style="width: 16%" class="text-right">${__("Leaves Pending Approval")}</th>
+                        <th style="width: 16%" class="text-right">${__("Available Leaves")}</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+        
+        for (const [key, value] of Object.entries(data)) {
+            let color = cint(value["remaining_leaves"]) > 0 ? "green" : "red";
+            html += `
+                <tr>
+                    <td>${key}</td>
+                    ${value["total_leaves"] <= 900 ? `<td class="text-right">${value["total_leaves"]}</td>` : `<td class="text-right"></td>`}
+                    <td class="text-right">${value["expired_leaves"]}</td>
+                    <td class="text-right">${value["leaves_taken"]}</td>
+                    <td class="text-right">${value["leaves_pending_approval"]}</td>
+                    ${value["total_leaves"] <= 900 ? `<td class="text-right" style="color: ${color}">${value["remaining_leaves"]}</td>` : `<td class="text-right"></td>`}
+                </tr>`;
+        }
+
+        html += `
+                </tbody>
+            </table>`;
+    } else {
+        html += `<p style="margin-top: 30px;">${__("No Leave has been allocated.")}</p>`;
+    }
+    return html;
 }

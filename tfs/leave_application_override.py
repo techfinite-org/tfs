@@ -4,8 +4,9 @@
 
 from typing import Dict, Optional, Tuple, Union
 from frappe.utils import get_datetime, now_datetime
-from datetime import datetime
+from datetime import datetime,timedelta
 import frappe
+from collections import Counter
 from frappe import _
 from frappe.query_builder.functions import Max, Min, Sum
 from frappe.utils import (
@@ -70,6 +71,7 @@ class LeaveApplicationOverride(Document):
 	def validate(self):
 		validate_active_employee(self.employee)
 		set_employee_name(self)
+		
 		self.validate_dates()
 		self.validate_balance_leaves()
 		self.validate_leave_overlap()
@@ -89,14 +91,82 @@ class LeaveApplicationOverride(Document):
 			if frappe.db.get_single_value("HR Settings", "send_leave_notification"):
 				self.notify_leave_approver()
 
-		share_doc_with_approver(self, self.leave_approver)
+	def validate_threshold_for_leave_application_per_day(self):
+		min_leave_employee, check = frappe.db.get_value("Department", self.department, 
+														["custom_threshold_for_leave_application_per_day",
+														"custom_allow_leave_application_threshold_setup"])
+		if check == 1:
+			print(min_leave_employee, check)
+			if min_leave_employee != 0:
+				date_counts = self.date_wise_total_count_of_leave_application()
+				exceeded_dates = []  # List to store dates where count exceeds threshold
+				for date, count in date_counts.items():
+					# Format the date without the time part
+					formatted_date = date.strftime("%Y-%m-%d")
+					print(f"Date: {formatted_date}, Count: {count}")
+					if count >= min_leave_employee:
+						exceeded_dates.append((formatted_date, count))
+
+				# Check if there are any dates where the count exceeds the threshold
+				if exceeded_dates:
+					error_message = "Threshold exceeded for the following dates:\n"
+					for date, count in exceeded_dates:
+						error_message += f"Date: {date}, Count: {count}\n"
+					frappe.throw(error_message)
+
+
+
+
+	def date_wise_total_count_of_leave_application(self):
+     
+		from_date_str = self.from_date.strftime("%Y-%m-%d")
+		to_date_str = self.to_date.strftime("%Y-%m-%d")
+		# Convert the date strings to datetime objects
+		from_date = datetime.strptime(from_date_str, "%Y-%m-%d")
+		to_date = datetime.strptime(to_date_str, "%Y-%m-%d")
+
+		# Initialize an empty list to store the dates
+		dates_list = []
+
+		# Iterate over the date range and append each date to the list
+		current_date = from_date
+		while current_date <= to_date:
+			dates_list.append(current_date)
+			current_date += timedelta(days=1)
+
+		# Initialize a dictionary to store date counts
+		date_counts = Counter()
+
+		# Iterate over the dates in dates_list
+		for date in dates_list:
+			# Retrieve leave application records for the current date
+			approved_dates = frappe.get_list(
+				"Attendance",
+				filters={
+					"attendance_date": date,
+					"status": 'On Leave',
+					"docstatus":1
+				},
+				fields=["name"]
+			)
+			# Increment the count for the current date
+			date_counts[date] += len(approved_dates)
+
+		# Print the date counts
+		print("Date Counts:")
+		for date, count in date_counts.items():
+			print(f"{date}: {count}")
+
+		return date_counts  
+
+
 
 	def on_submit(self):
 		if self.status in ["Open", "Cancelled"]:
 			frappe.throw(
 				_("Only Leave Applications with status 'Approved' and 'Rejected' can be submitted")
 			)
-
+		self.validate_threshold_for_leave_application_per_day()
 		self.validate_back_dated_application()
 		self.update_attendance()
 

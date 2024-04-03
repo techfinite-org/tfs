@@ -3,10 +3,6 @@
 
 # import frappe
 
-
-
-
-
 import re
 from frappe.exceptions import DoesNotExistError, ValidationError
 import frappe
@@ -21,7 +17,6 @@ status_map = {
 	"Weekly Off": "WO",
 	"Weekly Off Present":"WOP",
 	"Holiday Present" : "HOP"
-	
 }
 def get_message() -> str:
 	message = ""
@@ -38,6 +33,7 @@ def get_message() -> str:
 
 	return message
 day_abbr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
 def generate_date_range(from_date_str, to_date_str):
     # Convert string dates to datetime objects
     from_date = datetime.strptime(from_date_str, "%Y-%m-%d")
@@ -89,7 +85,7 @@ def execute(filters=None):
         {"label": "A", "fieldtype": "Data", "fieldname": "sum_absent", "width": 50},
         {"label": "HD", "fieldtype": "Data", "fieldname": "sum_half_day", "width": 50},
         {"label": "L", "fieldtype": "Data", "fieldname": "sum_leave", "width": 50},
-        {"label": "WFM", "fieldtype": "Data", "fieldname": "sum_work_from_home", "width": 80},
+        {"label": "WFH", "fieldtype": "Data", "fieldname": "sum_work_from_home", "width": 80},
         {"label": "WO", "fieldtype": "Data", "fieldname": "sum_weekly_off", "width": 80},
         {"label": "H", "fieldtype": "Data", "fieldname": "sum_holiday", "width": 50},
         {"label": "WOP", "fieldtype": "Data", "fieldname": "sum_weekly_off_present", "width": 80},
@@ -98,6 +94,19 @@ def execute(filters=None):
         {"label": "Late Entry", "fieldtype": "Data", "fieldname": "late_entry", "width": 90},  
     ]
     columns.extend(status_columns)	
+    # Adding columns for leave types
+# Fetching leave types
+    leave_types = frappe.get_all("Leave Type", filters={}, fields=["name"])
+
+# Iterating over leave types and adding columns
+    for lt in leave_types:
+       leave_type_col = {
+			"label": lt["name"],
+			"fieldtype": "Data",
+			"fieldname": lt["name"].replace(" ", "_").lower(),
+			"width": 50
+		}
+       columns.append(leave_type_col)
 
     # Getting a list of employees dynamically
     employees = frappe.get_all("Employee", filters={"status": "Active"}, fields=["name"])
@@ -130,12 +139,17 @@ def execute(filters=None):
         attendance_records = frappe.get_all(
             "Attendance",
             filters={"employee": employee_id, "docstatus":1,"attendance_date": ["between", (from_date, to_date)]},
-            fields=["attendance_date", "status"]
+            fields=["attendance_date", "status","leave_type"]
         )
-
+        leave_type_map = get_leave_type(attendance_records,date_column)
+        leave_type_counts = get_leave_type_count(attendance_records, leave_types)
         # Create a map of attendance dates to statuses
         attendance_status_map = {record["attendance_date"].strftime("%Y-%m-%d"): record["status"] for record in attendance_records}
+        
+        print("---------------------leave_type_map-----------------",leave_type_map)
         holiday_status_map = get_holiday_status(employee_doc, date_column)
+        unmarked_attendance_map = get_unmarked_attendance(attendance_status_map, date_column, holiday_status_map)
+        print("------------------print(unmarked)--------------------",unmarked_attendance_map)
         holiday_present_map = get_holiday_present(employee_doc, date_column, attendance_status_map)
         late_entry_map = get_late_entry_sum(employee_doc, date_column)
         late_entry_value = late_entry_map
@@ -143,12 +157,14 @@ def execute(filters=None):
         
         status_counts = {
             "P": 0, "A": 0, "HD": 0, "L": 0,
-            "WFM": 0, "WO": 0, "H": 0, "WOP": 0, "HOP": 0
+            "WFH": 0, "WO": 0, "H": 0, "WOP": 0, "HOP": 0
         }
         for date in date_column:
             status = attendance_status_map.get(date, '')
+            leave_type_status = leave_type_map.get(date, '')
             holiday_status = holiday_status_map.get(date, '')
             holiday_present = holiday_present_map.get(date, '') 
+            unmarked_attendance = unmarked_attendance_map.get(date, '')
             # print("------------------status---------------",status)
             # print("-----------------holiday_present-----------------",holiday_present)
             if status == 'Present':
@@ -165,14 +181,27 @@ def execute(filters=None):
                 status_abbreviation = 'A'
                 status_counts["A"] += 1
             elif status == 'Half Day':
-                status_abbreviation = 'HD'
-                status_counts["HD"] += 1
+                if holiday_present == 'Weekly Off Half Day': 
+                    status_abbreviation = 'WOP\u00BD'
+                    status_counts["WOP"] += 0.5	
+                elif holiday_present == 'Holiday Half Day': 
+                    status_abbreviation = 'HOP\u00BD'
+                    status_counts["HOP"] += 0.5	
+                elif leave_type_status:  	
+                    status_abbreviation = f'L({leave_type_status})\u00BD'
+                    status_counts["L"] += 0.5    
+                else:    
+                    status_abbreviation = 'HD'
+                    status_counts["HD"] += 1
             elif status == 'On Leave':
-                status_abbreviation = 'L'
+                if leave_type_status:
+                    status_abbreviation = f'L({leave_type_status})'
+                else:
+                    status_abbreviation = 'L'
                 status_counts["L"] += 1
             elif status == 'Work From Home':
-                status_abbreviation = 'WFM'
-                status_counts["WFM"] += 1
+                status_abbreviation = 'WFH'
+                status_counts["WFH"] += 1
             elif holiday_status == 'Weekly Off':
                 status_abbreviation = 'WO'
                 status_counts["WO"] += 1
@@ -185,11 +214,15 @@ def execute(filters=None):
             elif holiday_present == 'Holiday Present':  
                 status_abbreviation = 'HOP'    
                 status_counts["HOP"] += 1
+            elif unmarked_attendance == 'Unmarked':  
+                status_abbreviation = 'A'    
+                status_counts["A"] += 1    
             else:
                 # You can handle other statuses or leave them empty as needed
                 status_abbreviation = ''
 
             row_data.append(status_abbreviation)
+
 
         # Append status sums to the row_data
         for key in status_counts:
@@ -198,8 +231,11 @@ def execute(filters=None):
         # print("-------------------------------sum_p_wop_hop-----------------------------",sum_p_wop_hop)
         row_data.append(sum_p_wop_hop)  # Add the sum to the row_data
         row_data.append(late_entry_value)
+        row_data.extend(leave_type_counts)
+     
         # Append the row_data to the data list
         data.append(row_data)
+        
 
     # Prepare the HTML message
     html_message = f"""
@@ -265,30 +301,30 @@ def get_holiday_present(employee_doc, date_column, attendance_status_map):
             'parent': holiday_list.name,
             'holiday_date': holiday_date_str,
         }, ['weekly_off'])
-        # print("---------------------------employee_doc.name-------------------------------------",employee_doc.name)
-        # print("*----------------------------holiday_date_str------------------------",holiday_date_str)
-        # print("----------------------------attendance_status_map123------------------------------------",attendance_status_map.get(date))
-        # print("----------------------------attendance_status_map123------------------------------------",holiday)
+
         if holiday is not None:
             # Check if it's a weekly off
             if holiday == 1:
-                # Check if attendance is marked as present
+                # Check if attendance is marked as present or half-day
                 if attendance_status_map.get(date) == 'Present':
                     holiday_present_map[date] = 'Weekly Off Present'
-                    # print("---------------holiday_present_map[date]------------------",holiday_present_map[date])
+                elif attendance_status_map.get(date) == 'Half Day':
+                    holiday_present_map[date] = 'Weekly Off Half Day'
                 else:
                     holiday_present_map[date] = 'Weekly Off'
-                    # print("---------------holiday_present_map[date]Weekly Off------------------",holiday_present_map[date])
             else:
-                # Check if attendance is marked as present
+                # Check if attendance is marked as present or half-day
                 if attendance_status_map.get(date) == 'Present':
                     holiday_present_map[date] = 'Holiday Present'
+                elif attendance_status_map.get(date) == 'Half Day':
+                    holiday_present_map[date] = 'Holiday Half Day'
                 else:
                     holiday_present_map[date] = 'Holiday'
         else:
             holiday_present_map[date] = None
 
     return holiday_present_map
+
 
 
 
@@ -314,9 +350,66 @@ def get_late_entry_sum(employee_doc, date_column):
                 if match:
                     hours, minutes = map(int, match.groups())
                     late_entry_sum += hours * 60 + minutes
-                    print(f"------------------------------late_entry for {date}------------------------", late_entry_value)
+                    # print(f"------------------------------late_entry for {date}------------------------", late_entry_value)
                 elif "Min" in late_entry_value:
                     minutes = int(late_entry_value.split(" ")[0])
                     late_entry_sum += minutes
 
     return late_entry_sum
+
+def get_unmarked_attendance(attendance_status_map, date_column, holiday_status_map):
+    unmarked_dates = {}
+    for day in date_column:
+        if day not in attendance_status_map:
+            status = holiday_status_map.get(day, None)  # Get the status from holiday_status_map for the current day
+            if status is None:
+                unmarked_dates[day] = "Unmarked"
+            # elif status != 'Holiday':
+            #     unmarked_dates[day] = "Not a holiday"
+    return unmarked_dates
+
+def get_leave_type(attendance_records, date_column):
+    leave_type = {}
+    
+    # Assuming attendance_records is a list of dictionaries with keys 'attendance_date', 'status', and 'leave_type'
+    attendance_leave_type_map = {
+        record["attendance_date"].strftime("%Y-%m-%d"): record["leave_type"]
+        for record in attendance_records
+        if record["status"] in ["On Leave", "Half Day"]
+    }
+    
+    if attendance_leave_type_map:
+        for day in date_column:
+            leave_status = attendance_leave_type_map.get(day, None)
+            if leave_status is not None:
+                leave_type[day] = leave_status
+    
+    return leave_type
+
+
+def get_leave_type_count(attendance_records, leave_types):
+    leave_type_count = {lt["name"]: 0 for lt in leave_types}
+    
+    for record in attendance_records:
+        if record.leave_type in leave_type_count:
+            if record.status == "Half Day":
+                leave_type_count[record.leave_type] += 0.5
+            else:
+                leave_type_count[record.leave_type] += 1
+    
+    return [leave_type_count.get(lt["name"], 0) for lt in leave_types]
+
+
+
+    
+    
+    
+    
+
+
+    
+    
+    
+			
+    
+    
