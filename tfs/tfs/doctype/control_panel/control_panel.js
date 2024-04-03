@@ -154,6 +154,16 @@ frappe.ui.form.on('Control Panel', {
 			method:"agarwals.utils.journal_entry_process.run"
 		})
 	},
+	mapping_payer: function (frm) {
+		frappe.call({
+			method:"agarwals.utils.payer_match.run_mapper"
+		})
+	},
+	bill_adjustments: function (frm) {
+		frappe.call({
+			method:"agarwals.utils.bill_adjustments.run_bill_adjust"
+		})
+	},
 	process_bill_adjustment: function (frm) {
 		frappe.call({
 			method: "agarwals.utils.run_transform.run_transform_process",
@@ -170,5 +180,4 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
-
 });

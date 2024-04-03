@@ -26,7 +26,9 @@
   "section_break_cgwd2",
   "create_sales_invoice",
   "other_utility_section",
+  "bill_adjustments",
   "mapping_insurance",
+  "mapping_payer",
   "process_bank_transaction",
   "payment_utilities_section",
   "generate_claim_key",
@@ -222,6 +224,14 @@
    "label": "End Date"
   },
   {
+   "fieldname": "mapping_payer",
+   "fieldtype": "Button",
+   "label": "Mapping Payer"
+  },
+  {
+   "fieldname": "bill_adjustments",
+   "fieldtype": "Button",
+   "label": "Bill Adjustments"
    "fieldname": "bill_adjustment_section",
    "fieldtype": "Column Break"
   },
