@@ -24,7 +24,9 @@
   "section_break_cgwd2",
   "create_sales_invoice",
   "other_utility_section",
+  "bill_adjustments",
   "mapping_insurance",
+  "mapping_payer",
   "process_bank_transaction",
   "payment_utilities_section",
   "generate_claim_key",
@@ -218,13 +220,23 @@
    "fieldname": "end_date",
    "fieldtype": "Date",
    "label": "End Date"
+  },
+  {
+   "fieldname": "mapping_payer",
+   "fieldtype": "Button",
+   "label": "Mapping Payer"
+  },
+  {
+   "fieldname": "bill_adjustments",
+   "fieldtype": "Button",
+   "label": "Bill Adjustments"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-08 10:17:11.059671",
+ "modified": "2024-04-03 01:54:11.673541",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
