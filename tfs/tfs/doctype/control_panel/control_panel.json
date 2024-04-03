@@ -229,11 +229,9 @@
    "label": "Mapping Payer"
   },
   {
-   "fieldname": "bill_adjustments",
+   "fieldname": "bill_adjustment",
    "fieldtype": "Button",
-   "label": "Bill Adjustments"
-   "fieldname": "bill_adjustment_section",
-   "fieldtype": "Column Break"
+   "label": "Bill Adjustment"
   },
   {
    "fieldname": "process_bill_adjustment",
