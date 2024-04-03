@@ -94,6 +94,19 @@ def execute(filters=None):
         {"label": "Late Entry", "fieldtype": "Data", "fieldname": "late_entry", "width": 90},  
     ]
     columns.extend(status_columns)	
+    # Adding columns for leave types
+# Fetching leave types
+    leave_types = frappe.get_all("Leave Type", filters={}, fields=["name"])
+
+# Iterating over leave types and adding columns
+    for lt in leave_types:
+       leave_type_col = {
+			"label": lt["name"],
+			"fieldtype": "Data",
+			"fieldname": lt["name"].replace(" ", "_").lower(),
+			"width": 50
+		}
+       columns.append(leave_type_col)
 
     # Getting a list of employees dynamically
     employees = frappe.get_all("Employee", filters={"status": "Active"}, fields=["name"])
@@ -129,6 +142,7 @@ def execute(filters=None):
             fields=["attendance_date", "status","leave_type"]
         )
         leave_type_map = get_leave_type(attendance_records,date_column)
+        leave_type_counts = get_leave_type_count(attendance_records, leave_types)
         # Create a map of attendance dates to statuses
         attendance_status_map = {record["attendance_date"].strftime("%Y-%m-%d"): record["status"] for record in attendance_records}
         
@@ -168,14 +182,14 @@ def execute(filters=None):
                 status_counts["A"] += 1
             elif status == 'Half Day':
                 if holiday_present == 'Weekly Off Half Day': 
-                    status_abbreviation = 'WOP'
+                    status_abbreviation = 'WOP\u00BD'
                     status_counts["WOP"] += 0.5	
                 elif holiday_present == 'Holiday Half Day': 
-                    status_abbreviation = 'HOP'
+                    status_abbreviation = 'HOP\u00BD'
                     status_counts["HOP"] += 0.5	
                 elif leave_type_status:  	
-                    status_abbreviation = f'L({leave_type_status})1/2'
-                    status_counts["L"] += 1    
+                    status_abbreviation = f'L({leave_type_status})\u00BD'
+                    status_counts["L"] += 0.5    
                 else:    
                     status_abbreviation = 'HD'
                     status_counts["HD"] += 1
@@ -209,6 +223,7 @@ def execute(filters=None):
 
             row_data.append(status_abbreviation)
 
+
         # Append status sums to the row_data
         for key in status_counts:
             row_data.append(status_counts[key])
@@ -216,8 +231,11 @@ def execute(filters=None):
         # print("-------------------------------sum_p_wop_hop-----------------------------",sum_p_wop_hop)
         row_data.append(sum_p_wop_hop)  # Add the sum to the row_data
         row_data.append(late_entry_value)
+        row_data.extend(leave_type_counts)
+     
         # Append the row_data to the data list
         data.append(row_data)
+        
 
     # Prepare the HTML message
     html_message = f"""
@@ -367,6 +385,26 @@ def get_leave_type(attendance_records, date_column):
                 leave_type[day] = leave_status
     
     return leave_type
+
+
+def get_leave_type_count(attendance_records, leave_types):
+    leave_type_count = {lt["name"]: 0 for lt in leave_types}
+    
+    for record in attendance_records:
+        if record.leave_type in leave_type_count:
+            if record.status == "Half Day":
+                leave_type_count[record.leave_type] += 0.5
+            else:
+                leave_type_count[record.leave_type] += 1
+    
+    return [leave_type_count.get(lt["name"], 0) for lt in leave_types]
+
+
+
+    
+    
+    
+    
 
 
     
