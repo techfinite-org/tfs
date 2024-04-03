@@ -96,7 +96,7 @@ def execute(filters=None):
     columns.extend(status_columns)	
     # Adding columns for leave types
 # Fetching leave types
-    leave_types = frappe.get_all("Leave Type", filters={}, fields=["name"])
+    leave_types = frappe.get_all("Leave Type", filters={"custom_hourly":0}, fields=["name"])
 
 # Iterating over leave types and adding columns
     for lt in leave_types:
@@ -146,14 +146,14 @@ def execute(filters=None):
         # Create a map of attendance dates to statuses
         attendance_status_map = {record["attendance_date"].strftime("%Y-%m-%d"): record["status"] for record in attendance_records}
         
-        print("---------------------leave_type_map-----------------",leave_type_map)
+        # print("---------------------leave_type_map-----------------",leave_type_map)
         holiday_status_map = get_holiday_status(employee_doc, date_column)
         unmarked_attendance_map = get_unmarked_attendance(attendance_status_map, date_column, holiday_status_map)
-        print("------------------print(unmarked)--------------------",unmarked_attendance_map)
+        # print("------------------print(unmarked)--------------------",unmarked_attendance_map)
         holiday_present_map = get_holiday_present(employee_doc, date_column, attendance_status_map)
         late_entry_map = get_late_entry_sum(employee_doc, date_column)
         late_entry_value = late_entry_map
-        print("-------------------------------late_entry_map-----------------------",late_entry_map)
+        # print("-------------------------------late_entry_map-----------------------",late_entry_map)
         
         status_counts = {
             "P": 0, "A": 0, "HD": 0, "L": 0,
@@ -331,7 +331,7 @@ def get_holiday_present(employee_doc, date_column, attendance_status_map):
 
 def get_late_entry_sum(employee_doc, date_column):
     late_entry_sum = 0
-    print("--------------------employee_doc.name-------------------",employee_doc.name)
+    # print("--------------------employee_doc.name-------------------",employee_doc.name)
     for date in date_column:
         late_entry_records = frappe.get_all(
             "Employee Checkin",
