@@ -88,7 +88,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.utils.bank_transaction_process.process",
 			args: {
-				tag: "Insurance",
+				tag: "Credit Payment",
 			},
 			callback: function (r) {
 				if (r.message == "Success") {
