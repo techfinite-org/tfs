@@ -1,5 +1,6 @@
 import frappe
 from datetime import datetime, timedelta
+import time
 
 
 def get_checkin_shifts(self, method, now):
@@ -24,6 +25,8 @@ def get_checkin_shifts(self, method, now):
     
     
 def assign_shift(self, method):
+    shift_end = None
+    ealry_exit(self, method)
     if not self.shift:
         now = frappe.utils.get_datetime(self.time)
         now_date = now.date()
@@ -51,7 +54,10 @@ def assign_shift(self, method):
             # print("---------self_time_str----------",self_time_str)    
             self_time_datetime = datetime.strptime(self_time_str, time_format)
             shift_start_and_grace = shift_start + timedelta(minutes=shift.late_entry_grace_period)
+            print("---------------------shift_start_and_grace----------------------", shift_start_and_grace)
             late_entry = self_time_datetime - shift_start_and_grace
+            print("---------------------late_entry----------------------", late_entry.total_seconds() // 60)
+            late_entry_minutes = late_entry.total_seconds() // 60
             # Check if the late entry is negative, and adjust accordingly
             if late_entry.total_seconds() < 0:
             # Handle negative late entry, set custom_late_entry to a default value or handle it as needed
@@ -59,12 +65,12 @@ def assign_shift(self, method):
             else:
                 hours, remainder_minutes = divmod(late_entry.seconds, 3600)
                 minutes = remainder_minutes // 60
-
+                create_leave_application(self.employee,now_date,self.time,shift_start_and_grace)
                 if hours > 0:
                    self.custom_late_entry = f"{hours}:{minutes} Hr"
                 else:
                      self.custom_late_entry = f"{minutes} Min"
-
+            
            
             # print("late_entry",late_entry)
             self.shift_start = shift_start
@@ -73,6 +79,7 @@ def assign_shift(self, method):
             self.shift_actual_end = actual_end
             self.custom_entry_number = 1
             create_shift_assignment(self.employee, shift.name, now)
+    return shift_end         
 			
 def create_shift_assignment(employee, shift_type, now):
     shift_assignment = frappe.new_doc("Shift Assignment")
@@ -83,3 +90,47 @@ def create_shift_assignment(employee, shift_type, now):
     shift_assignment.save()
     shift_assignment.submit()
     return shift_assignment
+
+def create_leave_application(employee, now_date, time, shift_start_and_grace):
+    leave_application = frappe.new_doc("Leave Application")
+    leave_application.leave_type = "Permission Hours - Personal"
+    leave_application.employee = employee
+    leave_application.from_date = now_date
+    leave_application.to_date = now_date
+    leave_application.custom_from_date_time = shift_start_and_grace
+    leave_application.custom_to_date_time = time
+    leave_application.description = "Late Entry"
+    leave_application.status = "Approved"
+    leave_application.save()
+    leave_application.submit()
+    return leave_application
+
+def ealry_exit(self, method):
+    
+    print("Hi")
+    
+def get_employee_checkins(self) -> list[dict]:
+	return frappe.get_all(
+			"Employee Checkin",
+			fields=[
+				"name",
+				"employee",
+				"log_type",
+				"time",
+				"shift",
+				"shift_start",
+				"shift_end",
+				"shift_actual_start",
+				"shift_actual_end",
+				"device_id",
+
+			],
+			filters={
+				"skip_auto_attendance": 0,
+				"attendance": ("is", "not set"),
+				"time": (">=", self.process_attendance_after),
+				"shift_actual_end": ("<", self.last_sync_of_checkin),
+				"shift": self.name,
+			},
+			order_by="employee,time",
+		)    
