@@ -181,14 +181,19 @@ def execute(filters=None):
                 status_abbreviation = 'A'
                 status_counts["A"] += 1
             elif status == 'Half Day':
+                leave_type_lwp = frappe.get_value('Leave Type', {'name': leave_type_status,}, ['is_lwp'])
                 if holiday_present == 'Weekly Off Half Day': 
                     status_abbreviation = 'WOP\u00BD'
                     status_counts["WOP"] += 0.5	
                 elif holiday_present == 'Holiday Half Day': 
                     status_abbreviation = 'HOP\u00BD'
                     status_counts["HOP"] += 0.5	
-                elif leave_type_status:  	
-                    status_abbreviation = f'L({leave_type_status})\u00BD'
+                elif leave_type_status: 
+                    if leave_type_lwp == 1: 	
+                       status_abbreviation = f'L({leave_type_status})\u00BD'
+                    else:
+                       status_abbreviation = f'L({leave_type_status})\u00BDHD'     
+                       status_counts["HD"] += 1
                     status_counts["L"] += 0.5    
                 else:    
                     status_abbreviation = 'HD'
