@@ -161,7 +161,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	bill_adjustment: function (frm) {
 		frappe.call({
-			method:"agarwals.utils.bill_adjustments.run_bill_adjust"
+			method:"agarwals.utils.adjust_bill.run_bill_adjust"
 		})
 	},
 	process_bill_adjustment: function (frm) {
