@@ -16,7 +16,7 @@
   "process_settlement_staging",
   "bank_statement_section",
   "process_transaction_staging",
-  "bill_adjustment_section",
+  "section_break_c0oby",
   "process_bill_adjustment",
   "configurations_section",
   "start_date",
@@ -25,18 +25,18 @@
   "allowed_file_extensions",
   "section_break_cgwd2",
   "create_sales_invoice",
+  "advice_utilities_section",
+  "process_settlement_advice",
   "other_utility_section",
-  "bill_adjustments",
   "mapping_insurance",
   "mapping_payer",
   "process_bank_transaction",
   "payment_utilities_section",
   "generate_claim_key",
   "process_matcher",
-  "process_payment_using_journal_entry",
   "process_payment_using_payment_entry",
-  "advice_utilities_section",
-  "process_settlement_advice",
+  "process_rounding_off",
+  "process_adjustment",
   "aws_section",
   "aws_access_key",
   "aws_secret_key",
@@ -138,11 +138,6 @@
    "label": "Process Matcher"
   },
   {
-   "fieldname": "process_payment_using_journal_entry",
-   "fieldtype": "Button",
-   "label": "Process Payment Using Journal Entry ( Bulk )"
-  },
-  {
    "fieldname": "process_payment_using_payment_entry",
    "fieldtype": "Button",
    "label": "Process Payment Using Payment Entry"
@@ -229,21 +224,30 @@
    "label": "Mapping Payer"
   },
   {
-   "fieldname": "bill_adjustment",
-   "fieldtype": "Button",
-   "label": "Bill Adjustment"
-  },
-  {
    "fieldname": "process_bill_adjustment",
    "fieldtype": "Button",
    "label": "Process Bill Adjustment"
+  },
+  {
+   "fieldname": "section_break_c0oby",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "process_rounding_off",
+   "fieldtype": "Button",
+   "label": "Process Rounding Off"
+  },
+  {
+   "fieldname": "process_adjustment",
+   "fieldtype": "Button",
+   "label": "Process Adjustment"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-29 12:19:59.256944",
+ "modified": "2024-04-09 17:31:36.728267",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

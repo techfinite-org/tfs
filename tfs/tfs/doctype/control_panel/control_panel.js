@@ -111,9 +111,12 @@ frappe.ui.form.on('Control Panel', {
 			method: "agarwals.utils.payment_entry_creator.run_payment_entry",
 		});
 	},
-	process_payment_using_journal_entry: function (frm) {
+	process_rounding_off: function (frm) {
 		frappe.call({
-			method: "",
+			method: "agarwals.utils.rounding_off_process.run",
+			args: {
+				"_chunk_size": 100,
+			}
 		})
 	},
 	process_settlement_advice: function (frm) {
@@ -149,17 +152,12 @@ frappe.ui.form.on('Control Panel', {
 		   method:"agarwals.utils.dso_calculator.initiator",
 		})
 	},
-	process_payment_using_journal_entry: function(frm) {
-		frappe.call({
-			method:"agarwals.utils.journal_entry_process.run"
-		})
-	},
 	mapping_payer: function (frm) {
 		frappe.call({
 			method:"agarwals.utils.payer_match.run_mapper"
 		})
 	},
-	bill_adjustment: function (frm) {
+	process_adjustment: function (frm) {
 		frappe.call({
 			method:"agarwals.utils.adjust_bill.run_bill_adjust"
 		})
