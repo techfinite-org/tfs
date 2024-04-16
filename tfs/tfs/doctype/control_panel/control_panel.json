@@ -46,7 +46,8 @@
   "chunk_configuration_section",
   "payment_matching_chunk_size",
   "match_logic",
-  "calculate_dso"
+  "calculate_dso",
+  "log"
  ],
  "fields": [
   {
@@ -241,13 +242,18 @@
    "fieldname": "process_adjustment",
    "fieldtype": "Button",
    "label": "Process Adjustment"
+  },
+  {
+   "fieldname": "log",
+   "fieldtype": "Data",
+   "label": "Log"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-04-09 17:31:36.728267",
+ "modified": "2024-04-16 11:51:19.016619",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
