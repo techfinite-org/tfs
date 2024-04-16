@@ -106,6 +106,11 @@ frappe.ui.form.on('Control Panel', {
 			method: "agarwals.utils.claim_key_mapper.map_claim_key"
 		})
 	},
+	process_matcher: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.matcher.update_matcher"
+		})
+	},
 	process_payment_using_payment_entry: function (frm) {
 		frappe.call({
 			method: "agarwals.utils.payment_entry_creator.run_payment_entry",
