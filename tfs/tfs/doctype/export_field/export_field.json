@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:export_doctype",
+ "creation": "2024-04-16 12:09:52.493065",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "export_doctype",
+  "export_html"
+ ],
+ "fields": [
+  {
+   "fieldname": "export_doctype",
+   "fieldtype": "Link",
+   "label": "Export Doctype",
+   "options": "DocType",
+   "unique": 1
+  },
+  {
+   "fieldname": "export_html",
+   "fieldtype": "HTML",
+   "label": "Export HTML"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-16 18:30:57.689556",
+ "modified_by": "Administrator",
+ "module": "Tfs",
+ "name": "Export Field",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

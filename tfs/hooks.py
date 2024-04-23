@@ -10,6 +10,7 @@ app_license = "mit"
 # ------------------
 app_include_css = [ "/assets/tfs/css/tfs.css" ]
 # include js, css files in header of desk.html
+# app_include_js: {"data_exporter.js":"public/js/custom_data_exporter"} # type: ignore
 # app_include_css = "/assets/tfs/css/tfs.css"
 # app_include_js = "/assets/tfs/js/tfs.js"
 
@@ -33,7 +34,7 @@ doctype_js = {
     "Leave Application": "public/js/leave_application_override.js",
     "Compensatory Leave Request": "public/js/compensatory_leave_request_override.js",
     "Employee Checkin": "public/js/employee_checkin-override.js",
-    
+    # "Data Import":"public/js/custom_data_import.js"
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
