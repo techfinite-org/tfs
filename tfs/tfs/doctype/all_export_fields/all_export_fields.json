@@ -1,0 +1,45 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-16 19:30:29.002336",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "exported_fields",
+  "check",
+  "exported_doctype"
+ ],
+ "fields": [
+  {
+   "allow_on_submit": 1,
+   "fieldname": "exported_fields",
+   "fieldtype": "Data",
+   "label": "Exported Fields"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "check",
+   "fieldtype": "Check",
+   "label": "Check"
+  },
+  {
+   "fieldname": "exported_doctype",
+   "fieldtype": "Data",
+   "label": "Exported Doctype"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-04-18 14:45:48.151493",
+ "modified_by": "Administrator",
+ "module": "Tfs",
+ "name": "All Export Fields",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
