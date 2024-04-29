@@ -5,7 +5,7 @@ def before_install():
     pass
 
 def after_install():
-    add_custom_fields()
+    # add_custom_fields()
     overwite_twofactor()
 
 def add_custom_fields():
