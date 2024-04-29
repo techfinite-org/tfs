@@ -6,6 +6,7 @@ def before_install():
 
 def after_install():
     add_custom_fields()
+    overwite_twofactor()
 
 def add_custom_fields():
     add_custom_field_to_employee()
@@ -34,3 +35,6 @@ def add_custom_field_to_shift_type():
             'insert_after': 'Enable Auto Attendance',
             'reqd': 0  # Set to 1 if the field is required
         }).insert()
+
+def overwite_twofactor():
+    print("-----------------OVERWITTING DONE -------------------------")
