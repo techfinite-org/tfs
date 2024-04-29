@@ -13,6 +13,7 @@ def add_custom_fields():
     add_custom_field_to_shift_type()
 
 def add_custom_field_to_employee():
+    ("************************ITS  WORKING *************************")
     if not frappe.db.exists('Custom Field', 'Employee-custom_shift_group'):
         frappe.get_doc({
             'doctype': 'Custom Field',
