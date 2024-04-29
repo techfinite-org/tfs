@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 import frappe
-from __future__ import unicode_literals
-import frappe
 import os
 import shutil
 
