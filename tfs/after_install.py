@@ -1,5 +1,10 @@
 from __future__ import unicode_literals
 import frappe
+from __future__ import unicode_literals
+import frappe
+import os
+import shutil
+
 
 def before_install():
     pass
@@ -13,7 +18,6 @@ def add_custom_fields():
     add_custom_field_to_shift_type()
 
 def add_custom_field_to_employee():
-    ("************************ITS  WORKING *************************")
     if not frappe.db.exists('Custom Field', 'Employee-custom_shift_group'):
         frappe.get_doc({
             'doctype': 'Custom Field',
@@ -38,4 +42,15 @@ def add_custom_field_to_shift_type():
         }).insert()
 
 def overwite_twofactor():
-    print("-----------------OVERWITTING DONE -------------------------")
+    original_transformer_path = frappe.get_app_path('frappe','twofactor.py')
+    custom_transformer_path = frappe.get_app_path('tfs', 'override_twofactor.py')
+    shutil.copyfile(custom_transformer_path, original_transformer_path)
+    print("------------------------------------- TwoFactor Override Completed -------------------------------------")
+
+def revert_twofactor():
+    original_transformer_path = frappe.get_app_path('frappe','twofactor.py')
+    custom_transformer_path = frappe.get_app_path('tfs', 'original_twofactor.py')
+    shutil.copyfile(custom_transformer_path, original_transformer_path)
+    print("------------------------------------- TwoFactor Revert Completed -------------------------------------")
+
+
