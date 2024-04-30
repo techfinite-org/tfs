@@ -74,7 +74,7 @@ doctype_js = {
 # Installation
 # ------------
 
-# after_install = "tfs.before_install.after_install"
+after_install = "tfs.after_install.after_install"
 # after_install = "tfs.install.after_install"
 
 # Uninstallation
