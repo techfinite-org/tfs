@@ -8,9 +8,8 @@ def before_install():
     pass
 
 def after_install():
-    # add_custom_fields()
-    # overwrite_file(frappe.get_app_path('tfs','override_twofactor.py'),frappe.get_app_path('frappe','twofactor.py'))
     replace_content(frappe.get_app_path('tfs','override_twofactor.py'),frappe.get_app_path('frappe','twofactor.py'),r'^def send_token_via_sms',r'^def send_token_via_email',1,36)
+    overwrite_file(frappe.get_app_path("tfs","data_exporter_override.js"),os.path.join(os.getcwd(),"assets",frappe.get_app_path('assets'),"frappe","js","frappe","data_import","data_exporter.js" ))
 
 def add_custom_fields():
     add_custom_field_to_employee()
