@@ -67,8 +67,9 @@ frappe.ui.form.on('Control Panel', {
 
 	process_settlement_staging: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.settlement_advice.advice_transform",
+			method: "agarwals.reconciliation.step.transform.process",
 			args: {
+				args: {"type":"Settlement","step_id":undefined}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
