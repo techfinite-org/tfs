@@ -139,12 +139,15 @@ def execute(filters=None):
         attendance_records = frappe.get_all(
             "Attendance",
             filters={"employee": employee_id, "docstatus":1,"attendance_date": ["between", (from_date, to_date)]},
-            fields=["attendance_date", "status","leave_type"]
+            fields=["attendance_date", "status","leave_type","attendance_request"]
         )
         leave_type_map = get_leave_type(attendance_records,date_column)
         leave_type_counts = get_leave_type_count(attendance_records, leave_types)
+        attendance_request_map = get_attendance_request(attendance_records,date_column)
+        # print("--------------------------attendance_request_map-----------------------",attendance_request_map)
         # Create a map of attendance dates to statuses
         attendance_status_map = {record["attendance_date"].strftime("%Y-%m-%d"): record["status"] for record in attendance_records}
+        # print("-------------------attendance_status_map---------------",attendance_status_map)
         
         # print("---------------------leave_type_map-----------------",leave_type_map)
         holiday_status_map = get_holiday_status(employee_doc, date_column)
@@ -161,10 +164,14 @@ def execute(filters=None):
         }
         for date in date_column:
             status = attendance_status_map.get(date, '')
+            print("status:",status)
             leave_type_status = leave_type_map.get(date, '')
             holiday_status = holiday_status_map.get(date, '')
             holiday_present = holiday_present_map.get(date, '') 
             unmarked_attendance = unmarked_attendance_map.get(date, '')
+            
+            attendance_request_reason = attendance_request_map.get(date, '')
+            # print("------------------attendance_request_reason--------------",attendance_request_reason)
             # print("------------------status---------------",status)
             # print("-----------------holiday_present-----------------",holiday_present)
             if status == 'Present':
@@ -174,6 +181,12 @@ def execute(filters=None):
                 elif holiday_present == 'Holiday Present':
                     status_abbreviation = 'HOP'
                     status_counts["HOP"] += 1
+                elif attendance_request_reason == 'Work From Home':    
+                    status_abbreviation = 'P(WFH)'
+                    status_counts["P"] += 1
+                elif attendance_request_reason == 'On Duty' :
+                    status_abbreviation = 'P(OD)'  
+                    status_counts["P"] += 1
                 else:
                     status_abbreviation = 'P'
                     status_counts["P"] += 1
@@ -195,6 +208,12 @@ def execute(filters=None):
                        status_abbreviation = f'L({leave_type_status})\u00BDHD'     
                        status_counts["HD"] += 1
                     status_counts["L"] += 0.5    
+                elif attendance_request_reason == 'Work From Home':  
+                    status_abbreviation = 'HD(WFH\u00BD)'   
+                    status_counts["HD"] += 1
+                elif attendance_request_reason == 'On Duty':     
+                    status_abbreviation = 'HD(OD\u00BD)'
+                    status_counts["HD"] += 1   
                 else:    
                     status_abbreviation = 'HD'
                     status_counts["HD"] += 1
@@ -405,16 +424,15 @@ def get_leave_type_count(attendance_records, leave_types):
     return [leave_type_count.get(lt["name"], 0) for lt in leave_types]
 
 
-
-    
-    
-    
-    
-
-
-    
-    
-    
-			
-    
-    
+def get_attendance_request(attendance_records, date_column):
+    attendance_request_status = {}
+    for record in attendance_records:
+        attendance_records_name = record.get("attendance_request")
+        attendance_date = record.get("attendance_date")
+        attendance_date_str = attendance_date.strftime("%Y-%m-%d")
+        ar_status = None
+        for date in date_column:
+            if date == attendance_date_str:
+                ar_status = frappe.get_value("Attendance Request", {"name": attendance_records_name}, "reason")
+                attendance_request_status[date] = ar_status
+    return attendance_request_status    
