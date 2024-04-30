@@ -59,16 +59,14 @@ def overwrite_file(file1_path, file2_path):
 
 def replace_content(file1_path, file2_path, start_pattern, end_pattern, insert_start, insert_end):
     try:
-
+        start_index = None
+        end_index = None
         with open(file1_path, 'r') as file1:
             insert_content = file1.readlines()[insert_start-1:insert_end] 
 
-        
         with open(file2_path, 'r') as file2:
             content = file2.readlines()
-
-        start_index = None
-        end_index = None
+            
         for index, line in enumerate(content):
             if re.match(start_pattern, line):
                 start_index = index
@@ -76,7 +74,6 @@ def replace_content(file1_path, file2_path, start_pattern, end_pattern, insert_s
                 end_index = index
                 break
 
-        
         if start_index is not None and end_index is not None:
             content[start_index:end_index] = insert_content
         
