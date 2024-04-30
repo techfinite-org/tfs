@@ -16,7 +16,6 @@
   "process_settlement_staging",
   "bank_statement_section",
   "process_transaction_staging",
-  "section_break_c0oby",
   "process_bill_adjustment",
   "configurations_section",
   "start_date",
@@ -25,8 +24,6 @@
   "allowed_file_extensions",
   "section_break_cgwd2",
   "create_sales_invoice",
-  "advice_utilities_section",
-  "process_settlement_advice",
   "other_utility_section",
   "mapping_insurance",
   "mapping_payer",
@@ -34,9 +31,10 @@
   "payment_utilities_section",
   "generate_claim_key",
   "process_matcher",
+  "process_payment_using_journal_entry",
   "process_payment_using_payment_entry",
-  "process_rounding_off",
-  "process_adjustment",
+  "advice_utilities_section",
+  "process_settlement_advice",
   "aws_section",
   "aws_access_key",
   "aws_secret_key",
@@ -47,7 +45,7 @@
   "payment_matching_chunk_size",
   "match_logic",
   "calculate_dso",
-  "log"
+  "bill_adjustment"
  ],
  "fields": [
   {
@@ -192,7 +190,7 @@
   {
    "fieldname": "payment_matching_chunk_size",
    "fieldtype": "Data",
-   "label": "Payment Matching Chunk Size"
+   "label": "Chunk Size"
   },
   {
    "fieldname": "match_logic",
@@ -230,30 +228,21 @@
    "label": "Process Bill Adjustment"
   },
   {
-   "fieldname": "section_break_c0oby",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "process_rounding_off",
+   "fieldname": "process_payment_using_journal_entry",
    "fieldtype": "Button",
-   "label": "Process Rounding Off"
+   "label": "Process Payment Using Journal Entry ( Bulk )"
   },
   {
-   "fieldname": "process_adjustment",
+   "fieldname": "bill_adjustment",
    "fieldtype": "Button",
-   "label": "Process Adjustment"
-  },
-  {
-   "fieldname": "log",
-   "fieldtype": "Data",
-   "label": "Log"
+   "label": "Bill Adjustment"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-04-16 11:51:19.016619",
+ "modified": "2024-04-30 20:44:31.319721",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
