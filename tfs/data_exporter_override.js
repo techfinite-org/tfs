@@ -169,7 +169,7 @@ frappe.data_import.DataExporter  = class DataExporter {
 	}
 
 	select_mandatory() {
-		console.log("------------------------doctype--------------",this.doctype)
+		
 		frappe.call({
 			method: 'tfs.tfs.doctype.export_fields.export_fields.get_exported_checked_fields',
 			args: {
@@ -193,11 +193,7 @@ frappe.data_import.DataExporter  = class DataExporter {
 					let checkboxes = [].concat(
 						...multicheck_fields.map((fieldname) => {
 							let field = this.dialog.get_field(fieldname);
-		
-							console.log("--------------------result------------------------", result);
-							console.log("----------------------0000000---------------------", field.options.map(option => option.label));
-		
-							// Map the labels from field.options
+						// Map the labels from field.options
 							const sortedResult = field.options.map(option => option.label);
 		
 							// Initialize an array to store common labels and checkboxes
@@ -218,14 +214,7 @@ frappe.data_import.DataExporter  = class DataExporter {
 								});
 							}
 		
-							// Print the result
-							if (commonLabelsAndCheckboxes.length > 0) {
-								console.log("Common Labels and Checkboxes:", commonLabelsAndCheckboxes);
-								console.log("There are common elements between result and sortedResult.");
-							} else {
-								console.log("There are no common elements between result and sortedResult.");
-							}
-		
+
 							return commonLabelsAndCheckboxes;
 						})
 					);
