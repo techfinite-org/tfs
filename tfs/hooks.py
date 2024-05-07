@@ -248,7 +248,11 @@ scheduler_events = {
 		],
   	    "*/2 * * * *": [
 			"tfs.tfs.email_queue.schedule_email_sender"
+		],
+        "0 0 1 * *": [
+			"tfs.tfs.email_queue.schedule_permission_hours"
 		]
+
 	}
 }
 
