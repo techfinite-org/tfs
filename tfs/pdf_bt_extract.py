@@ -109,7 +109,7 @@ def pdf_bt_extract():
                             "sno" : sno,
                             "date" : pattern_matching[0][0],
                             "transaction_details" : pattern_matching[0][1],
-                            "deposit_amount" : pattern_matching[0][2],
+                            "withdrawl_amount" : pattern_matching[0][2],
                             "balance" : pattern_matching[0][3]
                             }
                             sno += 1
