@@ -449,4 +449,7 @@ def get_total_working_hours(attendance_records):
         attendance_working_hours = record.get("working_hours")
         total_hours_sum += attendance_working_hours
     return round(total_hours_sum)   
+
+
+
             
