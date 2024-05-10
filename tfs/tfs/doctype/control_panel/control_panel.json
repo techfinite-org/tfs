@@ -10,14 +10,10 @@
  "field_order": [
   "utility_functions_section",
   "process_debtors",
-  "claimbook_section",
   "process_claimbook",
-  "settlement_advice_section",
-  "process_settlement_staging",
-  "bank_statement_section",
-  "process_transaction_staging",
-  "section_break_c0oby",
   "process_bill_adjustment",
+  "process_settlement_staging",
+  "process_transaction_staging",
   "configurations_section",
   "start_date",
   "end_date",
@@ -25,33 +21,31 @@
   "allowed_file_extensions",
   "section_break_cgwd2",
   "create_sales_invoice",
-  "advice_utilities_section",
+  "settlement_advice_utilities_section",
   "process_settlement_advice",
   "other_utility_section",
   "mapping_insurance",
   "mapping_payer",
   "process_bank_transaction",
-  "payment_utilities_section",
+  "section_break_c0oby",
   "generate_claim_key",
   "process_matcher",
   "process_payment_using_payment_entry",
   "process_rounding_off",
   "process_adjustment",
-  "aws_section",
-  "aws_access_key",
-  "aws_secret_key",
-  "region",
-  "bucket",
-  "last_time_stamp",
   "chunk_configuration_section",
   "payment_matching_chunk_size",
+  "calculate_dso",
+  "column_break_6y3d7",
   "match_logic",
-  "calculate_dso"
+  "column_break_tkz5y"
  ],
  "fields": [
   {
+   "collapsible": 1,
    "fieldname": "utility_functions_section",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "General File Upload Process"
   },
   {
    "fieldname": "process_debtors",
@@ -59,21 +53,9 @@
    "label": "Process Debtors"
   },
   {
-   "fieldname": "claimbook_section",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "process_claimbook",
    "fieldtype": "Button",
    "label": "Process ClaimBook"
-  },
-  {
-   "fieldname": "settlement_advice_section",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "bank_statement_section",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "process_transaction_staging",
@@ -84,7 +66,7 @@
    "collapsible": 1,
    "fieldname": "configurations_section",
    "fieldtype": "Section Break",
-   "label": "Configurations"
+   "label": "File Configurations"
   },
   {
    "fieldname": "site_path",
@@ -98,6 +80,7 @@
    "label": "Allowed File Extensions"
   },
   {
+   "collapsible": 1,
    "fieldname": "section_break_cgwd2",
    "fieldtype": "Section Break",
    "label": "Bill Utilities"
@@ -108,6 +91,7 @@
    "label": "Create Sales Invoice"
   },
   {
+   "collapsible": 1,
    "fieldname": "other_utility_section",
    "fieldtype": "Section Break",
    "label": "Bank Utilities"
@@ -121,11 +105,6 @@
    "fieldname": "process_bank_transaction",
    "fieldtype": "Button",
    "label": "Process Bank Transaction"
-  },
-  {
-   "fieldname": "payment_utilities_section",
-   "fieldtype": "Section Break",
-   "label": "Payment Utilities"
   },
   {
    "fieldname": "generate_claim_key",
@@ -143,47 +122,12 @@
    "label": "Process Payment Using Payment Entry"
   },
   {
-   "collapsible": 1,
-   "fieldname": "aws_section",
-   "fieldtype": "Section Break",
-   "label": "AWS"
-  },
-  {
-   "fieldname": "aws_access_key",
-   "fieldtype": "Data",
-   "label": "AWS Access Key"
-  },
-  {
-   "fieldname": "aws_secret_key",
-   "fieldtype": "Data",
-   "label": "AWS Secret Key"
-  },
-  {
-   "fieldname": "region",
-   "fieldtype": "Data",
-   "label": "Region"
-  },
-  {
-   "fieldname": "bucket",
-   "fieldtype": "Data",
-   "label": "Bucket"
-  },
-  {
-   "fieldname": "last_time_stamp",
-   "fieldtype": "Datetime",
-   "label": "Last time stamp"
-  },
-  {
-   "fieldname": "advice_utilities_section",
-   "fieldtype": "Section Break",
-   "label": "Advice Utilities"
-  },
-  {
    "fieldname": "process_settlement_advice",
    "fieldtype": "Button",
    "label": "Process Settlement Advice"
   },
   {
+   "collapsible": 1,
    "fieldname": "chunk_configuration_section",
    "fieldtype": "Section Break",
    "label": "Chunk Configuration"
@@ -229,8 +173,10 @@
    "label": "Process Bill Adjustment"
   },
   {
+   "collapsible": 1,
    "fieldname": "section_break_c0oby",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Payment Utilities"
   },
   {
    "fieldname": "process_rounding_off",
@@ -241,13 +187,27 @@
    "fieldname": "process_adjustment",
    "fieldtype": "Button",
    "label": "Process Adjustment"
+  },
+  {
+   "fieldname": "column_break_6y3d7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_tkz5y",
+   "fieldtype": "Column Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "settlement_advice_utilities_section",
+   "fieldtype": "Section Break",
+   "label": "Settlement Advice Utilities"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-04-09 17:31:36.728267",
+ "modified": "2024-05-10 19:27:39.534078",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
