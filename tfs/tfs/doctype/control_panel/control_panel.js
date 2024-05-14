@@ -31,6 +31,22 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+	process_writeback: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.run_transform.run_transform_process",
+			args: {
+				type: "writeback"
+			},
+			callback: function (r) {
+				if (r.message != "Success") {
+					frappe.throw(r.message)
+				}
+				else {
+					frappe.msgprint("writeback are loaded")
+				}
+			}
+		})
+	},
 	process_settlement_staging: function (frm) {
 		frappe.call({
 			method: "agarwals.utils.settlement_advice.advice_transform",
@@ -42,6 +58,21 @@ frappe.ui.form.on('Control Panel', {
 				}
 				else {
 					frappe.msgprint("Settlement Advice are loaded")
+				}
+			}
+		})
+	},
+		process_writeback_jv: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.writeback_writeoff.journal_entry_creation",
+			args: {
+			},
+			callback: function (r) {
+				if (r.message != "Success") {
+					frappe.throw(r.message)
+				}
+				else {
+					frappe.msgprint("journal entry has been created")
 				}
 			}
 		})
