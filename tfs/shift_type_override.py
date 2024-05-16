@@ -26,7 +26,7 @@ EMPLOYEE_CHUNK_SIZE = 50
 
 
 class OverrideShiftType(Document):
-	print("\n\n\n\n\n\n\n ********************** From Override class OverrideShiftType***********************\n\n\n\n\n\n\n\n")
+	# print("\n\n\n\n\n\n\n ********************** From Override class OverrideShiftType***********************\n\n\n\n\n\n\n\n")
 	@frappe.whitelist()
 	def process_auto_attendance(self):
 		
@@ -314,9 +314,6 @@ class OverrideShiftType(Document):
 @frappe.whitelist()
 def enqueue_job(shift_list):
     frappe.enqueue(process_auto_attendance_for_all_shifts, queue='long', timeout=600, job_name = "Auto Mark Attendance",shift_list=shift_list)
-     
-    
-
 
 def process_auto_attendance_for_all_shifts(shift_list):
     response = {}
