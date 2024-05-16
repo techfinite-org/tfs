@@ -64,7 +64,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 		process_writeback_jv: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.writeback_writeoff.journal_entry_creation",
+			method: "agarwals.utils.writeback_writeoff.create_writeback_jv",
 			args: {
 			},
 			callback: function (r) {
