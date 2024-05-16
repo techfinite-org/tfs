@@ -312,6 +312,12 @@ class OverrideShiftType(Document):
 
 
 @frappe.whitelist()
+def enqueue_job(shift_list):
+    frappe.enqueue(process_auto_attendance_for_all_shifts, queue='long', timeout=600, job_name = "Auto Mark Attendance",shift_list=shift_list)
+     
+    
+
+
 def process_auto_attendance_for_all_shifts(shift_list):
     response = {}
     cleaned_string = shift_list[1:-1].replace('"', '')
