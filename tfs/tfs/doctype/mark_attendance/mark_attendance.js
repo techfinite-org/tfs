@@ -85,7 +85,7 @@ function markAttendanceSelectedShifts(frm) {
     const marked_shifts = frm.employees_multicheck.get_checked_options();
     console.log("marked_shifts",marked_shifts)
     frappe.call({
-        method: 'tfs.shift_type_override.process_auto_attendance_for_all_shifts',
+        method: 'tfs.shift_type_override.enqueue_job',
         args: {
             shift_list: marked_shifts,
         },
