@@ -17,6 +17,8 @@
   "column_break_zx987",
   "process_writeback",
   "bank_statement_section",
+  "process_writeoff",
+  "column_break_fkeig",
   "process_transaction_staging",
   "section_break_c0oby",
   "process_bill_adjustment",
@@ -41,6 +43,9 @@
   "process_adjustment",
   "writebackwriteoff_section",
   "process_writeback_jv",
+
+  "process_writeoff_jv",
+
   "aws_section",
   "aws_access_key",
   "aws_secret_key",
@@ -260,6 +265,7 @@
    "fieldname": "log",
    "fieldtype": "Data",
    "label": "Log"
+
   },
   {
    "fieldname": "writebackwriteoff_section",
@@ -270,13 +276,28 @@
    "fieldname": "process_writeback_jv",
    "fieldtype": "Button",
    "label": "Process Writeback JV"
+  },
+  {
+   "fieldname": "process_writeoff",
+   "fieldtype": "Button",
+   "label": "Process Write Off"
+  },
+  {
+   "fieldname": "column_break_fkeig",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "process_writeoff_jv",
+   "fieldtype": "Button",
+   "label": "Process Writeoff JV"
+
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-15 00:13:44.199137",
+ "modified": "2024-05-16 12:03:27.382940",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
