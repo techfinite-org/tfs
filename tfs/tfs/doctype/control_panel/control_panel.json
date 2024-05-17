@@ -2,7 +2,7 @@
  "actions": [],
  "allow_copy": 1,
  "allow_rename": 1,
- "creation": "2024-03-07 12:36:24.373846",
+ "creation": "2024-05-14 20:00:13.612440",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -14,6 +14,8 @@
   "process_claimbook",
   "settlement_advice_section",
   "process_settlement_staging",
+  "column_break_zx987",
+  "process_writeback",
   "bank_statement_section",
   "process_transaction_staging",
   "section_break_c0oby",
@@ -37,6 +39,8 @@
   "process_payment_using_payment_entry",
   "process_rounding_off",
   "process_adjustment",
+  "writebackwriteoff_section",
+  "process_writeback_jv",
   "aws_section",
   "aws_access_key",
   "aws_secret_key",
@@ -73,6 +77,20 @@
    "fieldtype": "Column Break"
   },
   {
+   "fieldname": "process_settlement_staging",
+   "fieldtype": "Button",
+   "label": "Process Settlement Advice Staging"
+  },
+  {
+   "fieldname": "column_break_zx987",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "process_writeback",
+   "fieldtype": "Button",
+   "label": "Process Write Back"
+  },
+  {
    "fieldname": "bank_statement_section",
    "fieldtype": "Column Break"
   },
@@ -82,10 +100,29 @@
    "label": "Process Bank Transaction Staging"
   },
   {
+   "fieldname": "section_break_c0oby",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "process_bill_adjustment",
+   "fieldtype": "Button",
+   "label": "Process Bill Adjustment"
+  },
+  {
    "collapsible": 1,
    "fieldname": "configurations_section",
    "fieldtype": "Section Break",
    "label": "Configurations"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
   },
   {
    "fieldname": "site_path",
@@ -109,6 +146,16 @@
    "label": "Create Sales Invoice"
   },
   {
+   "fieldname": "advice_utilities_section",
+   "fieldtype": "Section Break",
+   "label": "Advice Utilities"
+  },
+  {
+   "fieldname": "process_settlement_advice",
+   "fieldtype": "Button",
+   "label": "Process Settlement Advice"
+  },
+  {
    "fieldname": "other_utility_section",
    "fieldtype": "Section Break",
    "label": "Bank Utilities"
@@ -117,6 +164,11 @@
    "fieldname": "mapping_insurance",
    "fieldtype": "Button",
    "label": "Mapping Insurance"
+  },
+  {
+   "fieldname": "mapping_payer",
+   "fieldtype": "Button",
+   "label": "Mapping Payer"
   },
   {
    "fieldname": "process_bank_transaction",
@@ -142,6 +194,16 @@
    "fieldname": "process_payment_using_payment_entry",
    "fieldtype": "Button",
    "label": "Process Payment Using Payment Entry"
+  },
+  {
+   "fieldname": "process_rounding_off",
+   "fieldtype": "Button",
+   "label": "Process Rounding Off"
+  },
+  {
+   "fieldname": "process_adjustment",
+   "fieldtype": "Button",
+   "label": "Process Adjustment"
   },
   {
    "collapsible": 1,
@@ -175,16 +237,6 @@
    "label": "Last time stamp"
   },
   {
-   "fieldname": "advice_utilities_section",
-   "fieldtype": "Section Break",
-   "label": "Advice Utilities"
-  },
-  {
-   "fieldname": "process_settlement_advice",
-   "fieldtype": "Button",
-   "label": "Process Settlement Advice"
-  },
-  {
    "fieldname": "chunk_configuration_section",
    "fieldtype": "Section Break",
    "label": "Chunk Configuration"
@@ -200,60 +252,31 @@
    "label": "Match Logic"
   },
   {
-   "fieldname": "process_settlement_staging",
-   "fieldtype": "Button",
-   "label": "Process Settlement Advice Staging"
-  },
-  {
    "fieldname": "calculate_dso",
    "fieldtype": "Button",
    "label": "Calculate DSO"
   },
   {
-   "fieldname": "start_date",
-   "fieldtype": "Date",
-   "label": "Start Date"
-  },
-  {
-   "fieldname": "end_date",
-   "fieldtype": "Date",
-   "label": "End Date"
-  },
-  {
-   "fieldname": "mapping_payer",
-   "fieldtype": "Button",
-   "label": "Mapping Payer"
-  },
-  {
-   "fieldname": "process_bill_adjustment",
-   "fieldtype": "Button",
-   "label": "Process Bill Adjustment"
-  },
-  {
-   "fieldname": "section_break_c0oby",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "process_rounding_off",
-   "fieldtype": "Button",
-   "label": "Process Rounding Off"
-  },
-  {
-   "fieldname": "process_adjustment",
-   "fieldtype": "Button",
-   "label": "Process Adjustment"
-  },
-  {
    "fieldname": "log",
    "fieldtype": "Data",
    "label": "Log"
+  },
+  {
+   "fieldname": "writebackwriteoff_section",
+   "fieldtype": "Section Break",
+   "label": "Writeback/Writeoff"
+  },
+  {
+   "fieldname": "process_writeback_jv",
+   "fieldtype": "Button",
+   "label": "Process Writeback JV"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-04-16 11:51:19.016619",
+ "modified": "2024-05-15 00:13:44.199137",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
