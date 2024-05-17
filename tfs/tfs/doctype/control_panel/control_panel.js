@@ -33,9 +33,9 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_writeback: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.run_transform.run_transform_process",
+			method: "agarwals.reconciliation.step.transform.process",
 			args: {
-				type: "writeback"
+				args: {"type":"writeback","step_id":""}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
@@ -48,11 +48,11 @@ frappe.ui.form.on('Control Panel', {
 		})
 	},
 
-		process_writeoff: function (frm) {
+	process_writeoff: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.run_transform.run_transform_process",
+			method: "agarwals.reconciliation.step.transform.process",
 			args: {
-				type: "writeoff"
+				args: {"type":"writeoff","step_id":""}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
@@ -81,7 +81,7 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
-		process_writeback_jv: function (frm) {
+	process_writeback_jv: function (frm) {
 		frappe.call({
 
 			method: "agarwals.utils.writeback_writeoff.create_writeback_jv",
@@ -99,7 +99,7 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
-			process_writeoff_jv: function (frm) {
+	process_writeoff_jv: function (frm) {
 		frappe.call({
 			method: "agarwals.utils.writeback_writeoff.create_writeoff_jv",
 			args: {
