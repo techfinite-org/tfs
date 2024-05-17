@@ -47,6 +47,7 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+
 		process_writeoff: function (frm) {
 		frappe.call({
 			method: "agarwals.utils.run_transform.run_transform_process",
@@ -63,6 +64,7 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+
 	process_settlement_staging: function (frm) {
 		frappe.call({
 			method: "agarwals.utils.settlement_advice.advice_transform",
@@ -80,7 +82,9 @@ frappe.ui.form.on('Control Panel', {
 	},
 		process_writeback_jv: function (frm) {
 		frappe.call({
+
 			method: "agarwals.utils.writeback_writeoff.create_writeback_jv",
+
 			args: {
 			},
 			callback: function (r) {
@@ -88,6 +92,7 @@ frappe.ui.form.on('Control Panel', {
 					frappe.throw(r.message)
 				}
 				else {
+
 					frappe.msgprint("writeback process completed successfully")
 				}
 			}
@@ -104,6 +109,7 @@ frappe.ui.form.on('Control Panel', {
 				}
 				else {
 					frappe.msgprint("writeoff process completed successfully")
+
 				}
 			}
 		})
