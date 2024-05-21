@@ -1,9 +1,9 @@
 frappe.ui.form.on('Control Panel', {
 	process_debtors: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.run_transform.run_transform_process",
+			method: "agarwals.reconciliation.step.transform.process",
 			args: {
-				type: "debtors"
+				args: {"type":"debtors","step_id":""}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
@@ -17,9 +17,9 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_claimbook: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.run_transform.run_transform_process",
+			method: "agarwals.reconciliation.step.transform.process",
 			args: {
-				type: "claimbook"
+				args: {"type":"claimbook","step_id":""}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
@@ -33,9 +33,9 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_writeback: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.run_transform.run_transform_process",
+			method: "agarwals.reconciliation.step.transform.process",
 			args: {
-				type: "writeback"
+				args: {"type":"writeback","step_id":""}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
@@ -48,11 +48,11 @@ frappe.ui.form.on('Control Panel', {
 		})
 	},
 
-		process_writeoff: function (frm) {
+	process_writeoff: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.run_transform.run_transform_process",
+			method: "agarwals.reconciliation.step.transform.process",
 			args: {
-				type: "writeoff"
+				args: {"type":"writeoff","step_id":""}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
@@ -67,8 +67,9 @@ frappe.ui.form.on('Control Panel', {
 
 	process_settlement_staging: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.settlement_advice.advice_transform",
+			method: "agarwals.reconciliation.step.transform.process",
 			args: {
+				args: {"type":"Settlement","step_id":""}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
@@ -80,7 +81,7 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
-		process_writeback_jv: function (frm) {
+	process_writeback_jv: function (frm) {
 		frappe.call({
 
 			method: "agarwals.utils.writeback_writeoff.create_writeback_jv",
@@ -98,7 +99,7 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
-			process_writeoff_jv: function (frm) {
+	process_writeoff_jv: function (frm) {
 		frappe.call({
 			method: "agarwals.utils.writeback_writeoff.create_writeoff_jv",
 			args: {
@@ -116,9 +117,9 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_transaction_staging: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.run_transform.run_transform_process",
+			method: "agarwals.reconciliation.step.transform.process",
 			args: {
-				type: "transaction"
+				args: {"type":"transaction","step_id":""}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
@@ -132,14 +133,17 @@ frappe.ui.form.on('Control Panel', {
 	},
 	create_sales_invoice: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.sales_invoice_creator.create_sales_invoice",
-		});
+			method: "agarwals.reconciliation.step.create_sales_invoice.process",
+			args: {
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+			},
+		})
 	},
 	mapping_insurance: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.insurance_mapping.tag_insurance_pattern",
+			method: "agarwals.reconciliation.step.tag_insurance.process",
 			args: {
-				doctype: "Bank Transaction Staging",
+				args: {"doctype":"Bank Transaction Staging","step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
 			},
 			callback: function (r) {
 				if (r.message == "Done") {
@@ -154,9 +158,9 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_bank_transaction: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.bank_transaction_process.process",
+			method: "agarwals.reconciliation.step.create_bank_transcation_from_staging.process",
 			args: {
-				tag: "Credit Payment",
+				args: {"tag": "Credit Payment","step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
 			},
 			callback: function (r) {
 				if (r.message == "Success") {
@@ -171,18 +175,27 @@ frappe.ui.form.on('Control Panel', {
 	},
 	generate_claim_key: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.claim_key_mapper.map_claim_key"
+			method: "agarwals.reconciliation.step.map_claim_key.process",
+			args: {
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+			},
 		})
 	},
 	process_matcher: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.matcher.update_matcher"
+			method: "agarwals.reconciliation.step.matcher.process",
+			args: {
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+			},
 		})
 	},
 	process_payment_using_payment_entry: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.payment_entry_creator.run_payment_entry",
-		});
+			method: "agarwals.reconciliation.step.create_payment_entry.process",
+			args: {
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+			},
+		})
 	},
 	process_rounding_off: function (frm) {
 		frappe.call({
@@ -194,8 +207,9 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_settlement_advice: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.settlement_advice_staging_process.process",
+			method: "agarwals.reconciliation.step.create_settlement_advice_from_staging.process",
 			args: {
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
 			},
 			callback: function (r) {
 				if (r.message == "Success") {
@@ -227,19 +241,25 @@ frappe.ui.form.on('Control Panel', {
 	},
 	mapping_payer: function (frm) {
 		frappe.call({
-			method:"agarwals.utils.payer_match.run_mapper"
+			method: "agarwals.reconciliation.step.match_payer.process",
+			args: {
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+			},
 		})
 	},
 	process_adjustment: function (frm) {
 		frappe.call({
-			method:"agarwals.utils.adjust_bill.run_bill_adjust"
+			method: "agarwals.reconciliation.step.adjust_bill.process",
+			args: {
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+			},
 		})
 	},
 	process_bill_adjustment: function (frm) {
 		frappe.call({
-			method: "agarwals.utils.run_transform.run_transform_process",
+			method: "agarwals.reconciliation.step.transform.process",
 			args: {
-				type: "adjustment"
+				args: {"type":"adjustment","step_id":""}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
