@@ -141,7 +141,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	mapping_insurance: function (frm) {
 		frappe.call({
-			method: "agarwals.reconciliation.step.tag_insurance.process",
+			method: "agarwals.reconciliation.step.insurance_tagger.process",
 			args: {
 				args: {"doctype":"Bank Transaction Staging","step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
 			},
@@ -158,7 +158,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_bank_transaction: function (frm) {
 		frappe.call({
-			method: "agarwals.reconciliation.step.create_bank_transcation_from_staging.process",
+			method: "agarwals.reconciliation.step.transcation_creator.process",
 			args: {
 				args: {"tag": "Credit Payment","step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
 			},
@@ -175,7 +175,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	generate_claim_key: function (frm) {
 		frappe.call({
-			method: "agarwals.reconciliation.step.map_claim_key.process",
+			method: "agarwals.reconciliation.step.claim_key_mapper.process",
 			args: {
 				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
 			},
@@ -191,7 +191,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_payment_using_payment_entry: function (frm) {
 		frappe.call({
-			method: "agarwals.reconciliation.step.create_payment_entry.process",
+			method: "agarwals.reconciliation.step.payment_entry_creator.process",
 			args: {
 				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
 			},
@@ -207,7 +207,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_settlement_advice: function (frm) {
 		frappe.call({
-			method: "agarwals.reconciliation.step.create_settlement_advice_from_staging.process",
+			method: "agarwals.reconciliation.step.advice_downloader.process",
 			args: {
 				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
 			},
@@ -241,7 +241,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	mapping_payer: function (frm) {
 		frappe.call({
-			method: "agarwals.reconciliation.step.match_payer.process",
+			method: "agarwals.reconciliation.step.payer_match.process",
 			args: {
 				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
 			},
