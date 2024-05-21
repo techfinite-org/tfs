@@ -133,7 +133,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	create_sales_invoice: function (frm) {
 		frappe.call({
-			method: "agarwals.reconciliation.step.create_sales_invoice.process",
+			method: "agarwals.reconciliation.step.sales_invoice_creator.process",
 			args: {
 				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
 			},
