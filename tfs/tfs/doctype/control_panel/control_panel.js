@@ -69,7 +69,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.reconciliation.step.transform.process",
 			args: {
-				args: {"type":"Settlement","step_id":""}
+				args: {"type":"Settlement","step_id":"","queue":"long"}
 			},
 			callback: function (r) {
 				if (r.message != "Success") {
@@ -83,9 +83,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_writeback_jv: function (frm) {
 		frappe.call({
-
 			method: "agarwals.utils.writeback_writeoff.create_writeback_jv",
-
 			args: {
 			},
 			callback: function (r) {
@@ -135,7 +133,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.reconciliation.step.sales_invoice_creator.process",
 			args: {
-				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size,"queue":"long"}
 			},
 		})
 	},
@@ -143,7 +141,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.reconciliation.step.insurance_tagger.process",
 			args: {
-				args: {"doctype":"Bank Transaction Staging","step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+				args: {"doctype":"Bank Transaction Staging", "step_id":"", "chunk_size":frm.doc.payment_matching_chunk_size, "queue":"long"}
 			},
 			callback: function (r) {
 				if (r.message == "Done") {
@@ -160,7 +158,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.reconciliation.step.transcation_creator.process",
 			args: {
-				args: {"tag": "Credit Payment","step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+				args: {"tag": "Credit Payment","step_id":"","chunk_size":frm.doc.payment_matching_chunk_size,"queue":"long"}
 			},
 			callback: function (r) {
 				if (r.message == "Success") {
@@ -177,7 +175,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.reconciliation.step.claim_key_mapper.process",
 			args: {
-				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size, "queue":"long"}
 			},
 		})
 	},
@@ -185,7 +183,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.reconciliation.step.matcher.process",
 			args: {
-				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size, "queue":"long"}
 			},
 		})
 	},
@@ -193,7 +191,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.reconciliation.step.payment_entry_creator.process",
 			args: {
-				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size, "queue":"long"}
 			},
 		})
 	},
@@ -209,7 +207,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.reconciliation.step.advice_downloader.process",
 			args: {
-				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size, "queue":"long"}
 			},
 			callback: function (r) {
 				if (r.message == "Success") {
@@ -243,7 +241,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.reconciliation.step.payer_match.process",
 			args: {
-				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size, "queue":"long"}
 			},
 		})
 	},
@@ -251,7 +249,7 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.reconciliation.step.adjust_bill.process",
 			args: {
-				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size}
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size, "queue":"long"}
 			},
 		})
 	},
