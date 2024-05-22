@@ -1,6 +1,6 @@
 frappe.provide("frappe.data_import");
 
-tfs.custom_data_import.DataExporter = class DataExporter {
+frappe.data_import.DataExporter  = class DataExporter {
 	constructor(doctype, exporting_for) {
 		this.doctype = doctype;
 		this.exporting_for = exporting_for;
@@ -169,7 +169,7 @@ tfs.custom_data_import.DataExporter = class DataExporter {
 	}
 
 	select_mandatory() {
-		console.log("------------------------doctype--------------",this.doctype)
+		console.log("------------------------doctype--------------", this.doctype);
 		frappe.call({
 			method: 'tfs.tfs.doctype.export_custom_fields.export_custom_fields.get_exported_checked_fields',
 			args: {
@@ -178,31 +178,28 @@ tfs.custom_data_import.DataExporter = class DataExporter {
 			callback: (response) => {
 				if (response.message) {
 					let result = response.message;
-		
+
 					let mandatory_table_fields = frappe.meta
 						.get_table_fields(this.doctype)
-						.filter((df) => df.reqd)
 						.map((df) => df.fieldname);
 					mandatory_table_fields.push(this.doctype);
-		
+
 					let multicheck_fields = this.dialog.fields
 						.filter((df) => df.fieldtype === "MultiCheck")
 						.map((df) => df.fieldname)
 						.filter((doctype) => mandatory_table_fields.includes(doctype));
-		
+
 					let checkboxes = [].concat(
 						...multicheck_fields.map((fieldname) => {
 							let field = this.dialog.get_field(fieldname);
-		
-							console.log("--------------------result------------------------", result);
-							console.log("----------------------0000000---------------------", field.options.map(option => option.label));
-		
+
+
 							// Map the labels from field.options
 							const sortedResult = field.options.map(option => option.label);
-		
+
 							// Initialize an array to store common labels and checkboxes
 							let commonLabelsAndCheckboxes = [];
-		
+
 							// Check for common elements and valid field options
 							if (field && field.options) {
 								result.forEach(label => {
@@ -216,8 +213,22 @@ tfs.custom_data_import.DataExporter = class DataExporter {
 										}
 									}
 								});
+
+								// Check child table fields
+								frappe.meta.get_table_fields(this.doctype).forEach(df => {
+									let cdt = df.options;
+									let child_fieldname = df.fieldname;
+									let child_multicheck = this.dialog.get_field(child_fieldname);
+									if (child_multicheck) {
+										child_multicheck.options.forEach(option => {
+											if (result.includes(option.label)) {
+												option.$checkbox.find("input").prop("checked", true).trigger("change");
+											}
+										});
+									}
+								});
 							}
-		
+
 							// Print the result
 							if (commonLabelsAndCheckboxes.length > 0) {
 								console.log("Common Labels and Checkboxes:", commonLabelsAndCheckboxes);
@@ -225,21 +236,18 @@ tfs.custom_data_import.DataExporter = class DataExporter {
 							} else {
 								console.log("There are no common elements between result and sortedResult.");
 							}
-		
+
 							return commonLabelsAndCheckboxes;
 						})
 					);
-		
+
 					this.unselect_all();
 					$(checkboxes.flat().map(entry => entry.checkbox)).prop("checked", true).trigger("change");
 				}
 			}
 		});
-		
-		
-			
 	}
-	
+
 
 	unselect_all() {
 		let update_existing_records =

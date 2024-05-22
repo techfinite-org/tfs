@@ -1,15 +1,15 @@
 frappe.provide("frappe.data_import");
 
-frappe.data_import.DataExporter  = class DataExporter {
-	constructor(doctype, exporting_for) {
+frappe.data_import.DataExporter = class DataExporter {
+	constructor(doctype, exporting_for, filetype = "CSV") {
 		this.doctype = doctype;
 		this.exporting_for = exporting_for;
 		frappe.model.with_doctype(doctype, () => {
-			this.make_dialog();
+			this.make_dialog(filetype);
 		});
 	}
 
-	make_dialog() {
+	make_dialog(filetype = "CSV") {
 		this.dialog = new frappe.ui.Dialog({
 			title: __("Export Data"),
 			fields: [
@@ -18,7 +18,7 @@ frappe.data_import.DataExporter  = class DataExporter {
 					fieldname: "file_type",
 					label: __("File Type"),
 					options: ["Excel", "CSV"],
-					default: "CSV",
+					default: filetype,
 				},
 				{
 					fieldtype: "Select",
@@ -73,8 +73,11 @@ frappe.data_import.DataExporter  = class DataExporter {
 					let child_fieldname = df.fieldname;
 					let label = df.reqd
 						? // prettier-ignore
-						  __('{0} ({1}) (1 row mandatory)', [__(df.label || df.fieldname), __(doctype)])
-						: __("{0} ({1})", [__(df.label || df.fieldname), __(doctype)]);
+						  __('{0} ({1}) (1 row mandatory)', [__(df.label || df.fieldname, null, df.parent), __(doctype)])
+						: __("{0} ({1})", [
+								__(df.label || df.fieldname, null, df.parent),
+								__(doctype),
+						  ]);
 					return {
 						label,
 						fieldname: child_fieldname,
@@ -169,74 +172,30 @@ frappe.data_import.DataExporter  = class DataExporter {
 	}
 
 	select_mandatory() {
-		console.log("------------------------doctype--------------",this.doctype)
-		frappe.call({
-			method: 'tfs.tfs.doctype.export_custom_fields.export_custom_fields.get_exported_checked_fields',
-			args: {
-				doctype: this.doctype,
-			},
-			callback: (response) => {
-				if (response.message) {
-					let result = response.message;
-		
-					let mandatory_table_fields = frappe.meta
-						.get_table_fields(this.doctype)
-						.filter((df) => df.reqd)
-						.map((df) => df.fieldname);
-					mandatory_table_fields.push(this.doctype);
-		
-					let multicheck_fields = this.dialog.fields
-						.filter((df) => df.fieldtype === "MultiCheck")
-						.map((df) => df.fieldname)
-						.filter((doctype) => mandatory_table_fields.includes(doctype));
-		
-					let checkboxes = [].concat(
-						...multicheck_fields.map((fieldname) => {
-							let field = this.dialog.get_field(fieldname);
-		
-							console.log("--------------------result------------------------", result);
-							console.log("----------------------0000000---------------------", field.options.map(option => option.label));
-		
-							// Map the labels from field.options
-							const sortedResult = field.options.map(option => option.label);
-		
-							// Initialize an array to store common labels and checkboxes
-							let commonLabelsAndCheckboxes = [];
-		
-							// Check for common elements and valid field options
-							if (field && field.options) {
-								result.forEach(label => {
-									if (sortedResult.includes(label)) {
-										let checkbox = field.options.find(option => option.label === label);
-										if (checkbox && checkbox.$checkbox) {
-											commonLabelsAndCheckboxes.push({
-												label: label,
-												checkbox: checkbox.$checkbox.find("input").get(0)
-											});
-										}
-									}
-								});
-							}
-		
-							// Print the result
-							if (commonLabelsAndCheckboxes.length > 0) {
-								console.log("Common Labels and Checkboxes:", commonLabelsAndCheckboxes);
-								console.log("There are common elements between result and sortedResult.");
-							} else {
-								console.log("There are no common elements between result and sortedResult.");
-							}
-		
-							return commonLabelsAndCheckboxes;
-						})
-					);
-		
-					this.unselect_all();
-					$(checkboxes.flat().map(entry => entry.checkbox)).prop("checked", true).trigger("change");
-				}
-			}
-		});
+		let mandatory_table_fields = frappe.meta
+			.get_table_fields(this.doctype)
+			.filter((df) => df.reqd)
+			.map((df) => df.fieldname);
+		mandatory_table_fields.push(this.doctype);
+
+		let multicheck_fields = this.dialog.fields
+			.filter((df) => df.fieldtype === "MultiCheck")
+			.map((df) => df.fieldname)
+			.filter((doctype) => mandatory_table_fields.includes(doctype));
+
+		let checkboxes = [].concat(
+			...multicheck_fields.map((fieldname) => {
+				let field = this.dialog.get_field(fieldname);
+				return field.options
+					.filter((option) => option.danger)
+					.map((option) => option.$checkbox.find("input").get(0));
+			})
+		);
+
+		this.unselect_all();
+		$(checkboxes).prop("checked", true).trigger("change");
 	}
-	
+
 	unselect_all() {
 		let update_existing_records =
 			this.dialog.get_value("exporting_for") == "Update Existing Records";
@@ -335,7 +294,7 @@ frappe.data_import.DataExporter  = class DataExporter {
 			})
 			.map((df) => {
 				return {
-					label: __(df.label),
+					label: __(df.label, null, df.parent),
 					value: df.fieldname,
 					danger: is_field_mandatory(df),
 					checked: false,
