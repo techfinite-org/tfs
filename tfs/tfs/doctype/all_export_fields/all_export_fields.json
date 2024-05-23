@@ -8,7 +8,8 @@
  "field_order": [
   "exported_fields",
   "check",
-  "exported_doctype"
+  "exported_doctype",
+  "index"
  ],
  "fields": [
   {
@@ -28,12 +29,18 @@
    "fieldname": "exported_doctype",
    "fieldtype": "Data",
    "label": "Exported Doctype"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "index",
+   "fieldtype": "Int",
+   "label": "Index"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-18 14:45:48.151493",
+ "modified": "2024-05-23 13:20:19.549396",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "All Export Fields",

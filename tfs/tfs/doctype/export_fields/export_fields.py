@@ -35,10 +35,25 @@ def get_fields_of_doctype(parent):
                 export_fields.append(field_dict)
     return export_fields
 
+# @frappe.whitelist()
+# def get_exported_checked_fields(doctype):
+#     exported_fields = frappe.get_all('All Export Fields', filters={"exported_doctype": doctype, "check": 1}, fields=['exported_fields','custom_index'])
+#     return [field.get('exported_fields') for field in exported_fields]
+
 @frappe.whitelist()
 def get_exported_checked_fields(doctype):
-    exported_fields = frappe.get_all('All Export Fields', filters={"exported_doctype": doctype, "check": 1}, fields='exported_fields')
-    return [field.get('exported_fields') for field in exported_fields]
+    # Fetch all records matching the filters
+    exported_fields = frappe.get_all('All Export Fields', 
+                                     filters={"exported_doctype": doctype, "check": 1}, 
+                                     fields=['exported_fields', 'index'])
+
+    # Sort the records by custom_index, prioritizing custom_index == 1
+    sorted_fields = sorted(exported_fields, key=lambda x: (x['index'] != 0, x['index']))
+
+    # Extract the 'exported_fields' from the sorted records
+    result = [field['exported_fields'] for field in sorted_fields]
+    
+    return result
 
 @frappe.whitelist()
 def get_main_doctype_fields(parent):
