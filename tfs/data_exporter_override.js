@@ -201,17 +201,31 @@ frappe.data_import.DataExporter  = class DataExporter {
 		
 							// Check for common elements and valid field options
 							if (field && field.options) {
-								result.forEach(label => {
-									if (sortedResult.includes(label)) {
-										let checkbox = field.options.find(option => option.label === label);
-										if (checkbox && checkbox.$checkbox) {
-											commonLabelsAndCheckboxes.push({
-												label: label,
-												checkbox: checkbox.$checkbox.find("input").get(0)
-											});
-										}
-									}
-								});
+							    result.forEach(label => {
+							       if (sortedResult.includes(label)) {
+							          let checkbox = field.options.find(option => option.label === label);
+							          if (checkbox && checkbox.$checkbox) {
+							             commonLabelsAndCheckboxes.push({
+							                label: label,
+							                checkbox: checkbox.$checkbox.find("input").get(0)
+							             });
+							          }
+							       }
+							    });
+							
+							    // Check child table fields
+							    frappe.meta.get_table_fields(this.doctype).forEach(df => {
+							       let cdt = df.options;
+							       let child_fieldname = df.fieldname;
+							       let child_multicheck = this.dialog.get_field(child_fieldname);
+							       if (child_multicheck) {
+							          child_multicheck.options.forEach(option => {
+							             if (result.includes(option.label)) {
+							                option.$checkbox.find("input").prop("checked", true).trigger("change");
+							             }
+							          });
+							       }
+							    });
 							}
 		
 
