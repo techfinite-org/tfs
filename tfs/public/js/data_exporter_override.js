@@ -178,6 +178,7 @@ frappe.data_import.DataExporter  = class DataExporter {
 			callback: (response) => {
 				if (response.message) {
 					let result = response.message;
+					// console.log("Its working dude")
 
 					let mandatory_table_fields = frappe.meta
 						.get_table_fields(this.doctype)
