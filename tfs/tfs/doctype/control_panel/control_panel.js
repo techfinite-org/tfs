@@ -129,6 +129,11 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+	update_index: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.index_update.update_index",
+		})
+	},
 	create_sales_invoice: function (frm) {
 		frappe.call({
 			method: "agarwals.reconciliation.step.sales_invoice_creator.process",

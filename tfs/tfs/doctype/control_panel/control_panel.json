@@ -27,6 +27,7 @@
   "end_date",
   "site_path",
   "allowed_file_extensions",
+  "update_index",
   "section_break_cgwd2",
   "create_sales_invoice",
   "advice_utilities_section",
@@ -43,9 +44,7 @@
   "process_adjustment",
   "writebackwriteoff_section",
   "process_writeback_jv",
-
   "process_writeoff_jv",
-
   "aws_section",
   "aws_access_key",
   "aws_secret_key",
@@ -265,7 +264,6 @@
    "fieldname": "log",
    "fieldtype": "Data",
    "label": "Log"
-
   },
   {
    "fieldname": "writebackwriteoff_section",
@@ -290,14 +288,18 @@
    "fieldname": "process_writeoff_jv",
    "fieldtype": "Button",
    "label": "Process Writeoff JV"
-
+  },
+  {
+   "fieldname": "update_index",
+   "fieldtype": "Button",
+   "label": "Update Index"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-16 12:03:27.382940",
+ "modified": "2024-05-25 11:36:28.622138",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
