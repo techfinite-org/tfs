@@ -11,7 +11,7 @@ def get_fields_of_doctype(parent):
     
     export_fields = frappe.get_all('All Export Fields', 
                                      filters={'parent': parent}, 
-                                     fields=['exported_fields','exported_doctype','check'],
+                                     fields=['exported_fields','exported_doctype','check','index'],
                                      order_by="idx")
     if not export_fields:
         total_fields = get_main_doctype_fields(parent)
@@ -49,6 +49,7 @@ def get_exported_checked_fields(doctype):
 
     # Sort the records by custom_index, prioritizing custom_index == 1
     sorted_fields = sorted(exported_fields, key=lambda x: (x['index'] != 0, x['index']))
+    print("sorted_fields :",sorted_fields)
 
     # Extract the 'exported_fields' from the sorted records
     result = [field['exported_fields'] for field in sorted_fields]
