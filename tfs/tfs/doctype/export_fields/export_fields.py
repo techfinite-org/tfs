@@ -25,7 +25,6 @@ def get_fields_of_doctype(parent):
                     found = True
                     break
             if not found:
-                print("Field not in export_fields:", field['exported_fields']) 
                 field_dict = {
                     "exported_fields": field['exported_fields'],
                     "exported_label": field['exported_label'],
@@ -49,8 +48,6 @@ def get_exported_checked_fields(doctype):
 
     # Sort the records by custom_index, prioritizing custom_index == 1
     sorted_fields = sorted(exported_fields, key=lambda x: (x['index'] != 0, x['index']))
-    print("sorted_fields :",sorted_fields)
-
     # Extract the 'exported_fields' from the sorted records
     result = [field['exported_fields'] for field in sorted_fields]
     
