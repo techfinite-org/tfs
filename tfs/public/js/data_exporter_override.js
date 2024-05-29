@@ -169,7 +169,7 @@ frappe.data_import.DataExporter  = class DataExporter {
     }
 
     select_mandatory() {
-        console.log("------------------------doctype--------------", this.doctype);
+
         frappe.call({
             method: 'tfs.tfs.doctype.export_custom_fields.export_custom_fields.get_exported_checked_fields',
             args: {
