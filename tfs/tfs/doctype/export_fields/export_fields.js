@@ -15,8 +15,7 @@ function frappe_call(frm) {
             if (response.message) {
 				// window.location.reload()
                 var result = response.message;
-                console.log("--------------------result------------------------", result);
-                
+
                 // // Clear existing rows in the child table
                 frm.clear_table("all_export_fields");
 
@@ -28,6 +27,7 @@ function frappe_call(frm) {
                     row.check = field.check;
                     row.exported_fields = field.exported_fields;
                     row.exported_doctype = frm.doc.export_doctype;
+                    row.index = field.index;
                 });
 
                 // Refresh the child table
