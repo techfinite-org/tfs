@@ -20,6 +20,7 @@
   "process_writeoff",
   "column_break_fkeig",
   "process_transaction_staging",
+  "process_bulk_bank_transaction",
   "section_break_c0oby",
   "process_bill_adjustment",
   "configurations_section",
@@ -293,13 +294,18 @@
    "fieldname": "update_index",
    "fieldtype": "Button",
    "label": "Update Index"
+  },
+  {
+   "fieldname": "process_bulk_bank_transaction",
+   "fieldtype": "Button",
+   "label": "Process Bulk Bank Transaction"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-25 11:36:28.622138",
+ "modified": "2024-05-29 11:52:32.716108",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
