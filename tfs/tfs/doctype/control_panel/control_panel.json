@@ -20,7 +20,6 @@
   "process_writeoff",
   "column_break_fkeig",
   "process_transaction_staging",
-  "process_bulk_bank_transaction",
   "section_break_c0oby",
   "process_bill_adjustment",
   "configurations_section",
@@ -56,7 +55,12 @@
   "payment_matching_chunk_size",
   "match_logic",
   "calculate_dso",
-  "log"
+  "log",
+  "yearly_due_updation_section",
+  "closing_fiscal_year",
+  "opening_fiscal_year",
+  "entity",
+  "update_yearly_due"
  ],
  "fields": [
   {
@@ -296,16 +300,40 @@
    "label": "Update Index"
   },
   {
-   "fieldname": "process_bulk_bank_transaction",
+   "collapsible": 1,
+   "fieldname": "yearly_due_updation_section",
+   "fieldtype": "Section Break",
+   "label": "Yearly Due Updation"
+  },
+  {
+   "fieldname": "closing_fiscal_year",
+   "fieldtype": "Link",
+   "label": "Closing Fiscal Year",
+   "options": "Fiscal Year"
+  },
+  {
+   "fieldname": "opening_fiscal_year",
+   "fieldtype": "Link",
+   "label": "Opening Fiscal Year",
+   "options": "Fiscal Year"
+  },
+  {
+   "fieldname": "update_yearly_due",
    "fieldtype": "Button",
-   "label": "Process Bulk Bank Transaction"
+   "label": "Update Yearly Due"
+  },
+  {
+   "fieldname": "entity",
+   "fieldtype": "Link",
+   "label": "Entity",
+   "options": "Entity"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-29 11:52:32.716108",
+ "modified": "2024-05-31 14:05:44.868092",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

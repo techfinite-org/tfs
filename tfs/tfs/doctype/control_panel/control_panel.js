@@ -290,4 +290,9 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+		update_yearly_due: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.yearly_due_updater.execute"
+		})
+	}
 });
