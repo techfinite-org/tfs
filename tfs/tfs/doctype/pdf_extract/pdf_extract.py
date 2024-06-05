@@ -8,24 +8,23 @@ import json
 import pandas as pd
 from datetime import datetime
 import re
+from agarwals.utils.error_handler import log_error
 from frappe.model.document import Document
 
 # class PdfExtract(Document):
 @frappe.whitelist()
-def pdfwithtext():
-    transaction_number = 0
+def pdfwithtext(parent_name = None):
     customer_name = []
-    folder = frappe.get_all("File", filters={"folder":"Home/Attachments"},fields=["file_url", "file_name" , "file_type"])
+    folder = file_list(parent_name)
     customer_list  = frappe.get_all("Pdf Parser",{},["tpa_name","customer","mapping"])
     for every_customer in customer_list:
         customer_name.append(every_customer.tpa_name)
     for every_file in folder:
-        if every_file.file_type ==None or every_file.file_type.lower() != "pdf":
+        if every_file.file_type == None or every_file.file_type.lower() != "pdf":
             continue
-        
         text = None
         base_path = os.getcwd()
-        site_path =frappe.get_site_path()[1:]
+        site_path = frappe.get_site_path()[1:]
         full_path = base_path+site_path
         pdf_file = full_path+str(every_file.file_url)
         pdffileobj = open(pdf_file, 'rb')
@@ -38,20 +37,80 @@ def pdfwithtext():
             else:
                 text = page_obj.extract_text()
         cleaned_words = new_line(text)
-        if "Denial"  in cleaned_words:
+        if "Denial" in cleaned_words:
             continue
+
         print(cleaned_words)
+        customer = get_tpa_name(customer_name, cleaned_words)
+        json_data = get_sa_values(customer, cleaned_words)
+        settled_amount = json_data["settled_amount"][0]
+        data_frame = pd.DataFrame(json_data)
+        today = datetime.now()
+        formatted_date = today
+        data_frame.to_csv(f"{full_path}/public/files/pp-{customer}-{settled_amount}-{formatted_date}.csv", index=False)
+        
+
+def file_list(parent_name):
+    if parent_name:
+        print(parent_name)
+        folder = frappe.get_all("File", {"attached_to_name": parent_name}, ["file_url", "file_name", "file_type"])
+    else:
+        folder = frappe.get_all("File", filters={"folder": "Home/Attachments"}, fields=["file_url", "file_name", "file_type"])
+    return folder
+        
+        
+def pattern(word):
+    pattern = r'\b' + re.escape(word) + r'\s+(\w+)'
+    return pattern
+
+def match(word, position, cleaned_words):
+    match = re.search(word,cleaned_words)
+    if match:
+        result = match.group(position)
+        if result:
+            return result
+        else:
+            print("there are no result for this match")
+    else:
+        print("There are no match for this pattern",word)
+    
+
+@frappe.whitelist()
+def new_line(text):
+    new_line = None
+    for char in text:
+        if char == ("\n" or "\r"):
+            if new_line == None:
+                new_line = " "
+            else:
+                new_line += " "
+        else:
+            if new_line == None:
+                new_line = "".join(char)
+            else:
+                new_line += "".join(char)
+
+    return new_line
+
+
+def get_tpa_name(customer_name, text):
+    try:
         for every_customer_name in customer_name:
             if every_customer_name in text:
                 tpa_name = every_customer_name
-                if "TPA" in tpa_name:
-                    customer = tpa_name
-                else:
-                    customer = tpa_name
+                customer = tpa_name
+                return customer
+    except Exception as e:
+        log_error(e,"get_tpa_name",customer_name)
 
-        tpa_doc = frappe.get_doc("Pdf Parser",{"tpa_name":customer},["mapping"])
+
+
+def get_sa_values(customer, cleaned_words):
+    try:
+        tpa_doc = frappe.get_doc("Pdf Parser", {"tpa_name": customer}, ["mapping"])
         tpa_json = tpa_doc.mapping
         data = json.loads(tpa_json)
+        print(type(data))
         json_data = {}
         for key, values in data.items():
             if key == "name":
@@ -71,49 +130,11 @@ def pdfwithtext():
             elif key == "deductions":
                 deductions = match(values["search"], values["index"], cleaned_words)
                 json_data["deduction"] = [deductions]
-        
-        print(claim_number, settled_amount, transaction_number, tds, deductions)
-        data_frame = pd.DataFrame(json_data)
-        today = datetime.now()
-        formatted_date = today.strftime("%d-%m-%Y")
-        data_frame.to_csv(f"{full_path}/public/files/{customer}-{settled_amount}-{formatted_date}.csv", index=False)
-        
-        
-        
-        
-        
-def pattern(word):
-    pattern = r'\b' + re.escape(word) + r'\s+(\w+)'
-    return pattern
+                print(json_data)
+        return json_data
+    except Exception as e:
+        log_error(e,"get_sa_values",customer)
 
-def match(word , position , cleaned_words):
-    to_search = pattern(word)
-    match = re.search (to_search,cleaned_words)
-    if match:
-        result = match.group(position)
-        if result:
-            print(word ,":" ,result)
-            return result
-        else:
-            print("there are no result for this match")
-    else:
-        print("There are no match for this pattern",to_search)
-    
 
-@frappe.whitelist()
-def new_line(text):
-    new_line = None
-    for char in text:
-        if char == ("\n" or "\r"):
-            if new_line == None:
-                new_line = " "
-            else:
-                new_line += " "
-            continue
-        else:
-            if new_line == None:
-                new_line = "".join(char)
-            else:
-                new_line += "".join(char)
 
-    return new_line
+
