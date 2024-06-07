@@ -55,7 +55,12 @@
   "payment_matching_chunk_size",
   "match_logic",
   "calculate_dso",
-  "log"
+  "log",
+  "yearly_due_updation_section",
+  "closing_fiscal_year",
+  "opening_fiscal_year",
+  "entity",
+  "update_yearly_due"
  ],
  "fields": [
   {
@@ -293,13 +298,42 @@
    "fieldname": "update_index",
    "fieldtype": "Button",
    "label": "Update Index"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "yearly_due_updation_section",
+   "fieldtype": "Section Break",
+   "label": "Yearly Due Updation"
+  },
+  {
+   "fieldname": "closing_fiscal_year",
+   "fieldtype": "Link",
+   "label": "Closing Fiscal Year",
+   "options": "Fiscal Year"
+  },
+  {
+   "fieldname": "opening_fiscal_year",
+   "fieldtype": "Link",
+   "label": "Opening Fiscal Year",
+   "options": "Fiscal Year"
+  },
+  {
+   "fieldname": "update_yearly_due",
+   "fieldtype": "Button",
+   "label": "Update Yearly Due"
+  },
+  {
+   "fieldname": "entity",
+   "fieldtype": "Link",
+   "label": "Entity",
+   "options": "Entity"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-25 11:36:28.622138",
+ "modified": "2024-05-31 14:05:44.868092",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

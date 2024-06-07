@@ -129,6 +129,22 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+	process_bulk_bank_transaction: function (frm) {
+		frappe.call({
+			method: "agarwals.reconciliation.step.transform.process",
+			args: {
+				args: {"type":"bank_transaction","step_id":""}
+			},
+			callback: function (r) {
+				if (r.message != "Success") {
+					frappe.throw(r.message)
+				}
+				else {
+					frappe.msgprint("Bank transaction are loaded")
+				}
+			}
+		})
+	},
 	update_index: function (frm) {
 		frappe.call({
 			method: "agarwals.utils.index_update.update_index",
@@ -274,4 +290,9 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+		update_yearly_due: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.yearly_due_updater.execute"
+		})
+	}
 });
