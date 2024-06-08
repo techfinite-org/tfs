@@ -294,5 +294,24 @@ frappe.ui.form.on('Control Panel', {
 		frappe.call({
 			method: "agarwals.utils.yearly_due_updater.execute"
 		})
+	},
+	create_folders:function (frm){
+		frappe.call({
+			method:"agarwals.utils.create_folders.create_sa_folders",
+			callback:function (r){
+				if(r.message == "folder created"){
+					frappe.msgprint("Folder Created Successfully")
+				}
+				else if (r.message == "folder already exists"){
+					frappe.msgprint("Folder already exists Please Check Error log")
+				}
+				else if (r.message == "path not found"){
+					frappe.throw("Path Not Found to create folders ")
+				}
+				else if (r.message == "unexpected error occurs"){
+					frappe.throw("unexpected error occurs Check Error log")
+				}
+			}
+		})
 	}
 });

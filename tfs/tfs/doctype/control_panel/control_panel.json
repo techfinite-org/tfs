@@ -56,11 +56,19 @@
   "match_logic",
   "calculate_dso",
   "log",
-  "yearly_due_updation_section",
-  "closing_fiscal_year",
-  "opening_fiscal_year",
-  "entity",
-  "update_yearly_due"
+  "sa_downloader_configuration_section",
+  "production_environment",
+  "local_environment",
+  "tab_break_uzxhh",
+  "user_id",
+  "column_break_xnfyg",
+  "password",
+  "column_break_hiay6",
+  "url",
+  "tab_break_iebo5",
+  "create_folders",
+  "column_break_qaoe2",
+  "upload_files"
  ],
  "fields": [
   {
@@ -301,39 +309,75 @@
   },
   {
    "collapsible": 1,
-   "fieldname": "yearly_due_updation_section",
+   "fieldname": "sa_downloader_configuration_section",
    "fieldtype": "Section Break",
-   "label": "Yearly Due Updation"
+   "label": "SA Downloader Configuration"
   },
   {
-   "fieldname": "closing_fiscal_year",
-   "fieldtype": "Link",
-   "label": "Closing Fiscal Year",
-   "options": "Fiscal Year"
+   "default": "0",
+   "fieldname": "production_environment",
+   "fieldtype": "Check",
+   "label": "Production Environment"
   },
   {
-   "fieldname": "opening_fiscal_year",
-   "fieldtype": "Link",
-   "label": "Opening Fiscal Year",
-   "options": "Fiscal Year"
+   "default": "0",
+   "fieldname": "local_environment",
+   "fieldtype": "Check",
+   "label": "Local Environment"
   },
   {
-   "fieldname": "update_yearly_due",
+   "fieldname": "user_id",
+   "fieldtype": "Data",
+   "label": "User ID"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password"
+  },
+  {
+   "fieldname": "url",
+   "fieldtype": "Data",
+   "label": "Url "
+  },
+  {
+   "fieldname": "create_folders",
    "fieldtype": "Button",
-   "label": "Update Yearly Due"
+   "label": "Create Folders"
   },
   {
-   "fieldname": "entity",
-   "fieldtype": "Link",
-   "label": "Entity",
-   "options": "Entity"
+   "fieldname": "upload_files",
+   "fieldtype": "Button",
+   "label": "Upload Files"
+  },
+  {
+   "depends_on": "eval:doc.local_environment == 1",
+   "fieldname": "tab_break_iebo5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_hiay6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qaoe2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_xnfyg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.local_environment == 1",
+   "fieldname": "tab_break_uzxhh",
+   "fieldtype": "Section Break"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-31 14:05:44.868092",
+ "modified": "2024-06-08 16:37:51.382234",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
