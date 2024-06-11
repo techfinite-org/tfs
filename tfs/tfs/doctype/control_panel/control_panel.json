@@ -300,6 +300,7 @@
    "fieldtype": "Button",
    "label": "Process Writeback JV"
   },
+  {
    "fieldname": "yearly_due_updation_section",
    "fieldtype": "Section Break",
    "label": "Yearly Due Updation"
