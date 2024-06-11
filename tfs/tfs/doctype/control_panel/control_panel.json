@@ -300,6 +300,22 @@
    "fieldtype": "Button",
    "label": "Process Writeback JV"
   },
+   "fieldname": "yearly_due_updation_section",
+   "fieldtype": "Section Break",
+   "label": "Yearly Due Updation"
+  },
+  {
+   "fieldname": "closing_fiscal_year",
+   "fieldtype": "Link",
+   "label": "Closing Fiscal Year",
+   "options": "Fiscal Year"
+  },
+  {
+   "fieldname": "opening_fiscal_year",
+   "fieldtype": "Link",
+   "label": "Opening Fiscal Year",
+   "options": "Fiscal Year"
+  },
   {
    "fieldname": "process_writeoff",
    "fieldtype": "Button",
