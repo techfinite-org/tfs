@@ -65,10 +65,17 @@
   "password",
   "column_break_hiay6",
   "url",
+  "column_break_y0ron",
+  "sa_downloader_path",
   "tab_break_iebo5",
   "create_folders",
   "column_break_qaoe2",
-  "upload_files"
+  "upload_files",
+  "column_break_p2wec",
+  "email_group",
+  "column_break_tjdxv",
+  "delete_zip",
+  "send_mail"
  ],
  "fields": [
   {
@@ -332,7 +339,7 @@
   },
   {
    "fieldname": "password",
-   "fieldtype": "Password",
+   "fieldtype": "Data",
    "label": "Password"
   },
   {
@@ -371,13 +378,49 @@
    "depends_on": "eval:doc.local_environment == 1",
    "fieldname": "tab_break_uzxhh",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_p2wec",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "delete_zip",
+   "fieldtype": "Check",
+   "label": "Delete Zip"
+  },
+  {
+   "fieldname": "column_break_y0ron",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sa_downloader_path",
+   "fieldtype": "Data",
+   "label": "SA downloader path"
+  },
+  {
+   "default": "0",
+   "fieldname": "send_mail",
+   "fieldtype": "Check",
+   "label": "Send Mail"
+  },
+  {
+   "depends_on": "eval:doc.send_mail ==1",
+   "fieldname": "email_group",
+   "fieldtype": "Link",
+   "label": "Email Group",
+   "options": "Email Group"
+  },
+  {
+   "fieldname": "column_break_tjdxv",
+   "fieldtype": "Column Break"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-08 16:37:51.382234",
+ "modified": "2024-06-11 09:45:10.881407",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

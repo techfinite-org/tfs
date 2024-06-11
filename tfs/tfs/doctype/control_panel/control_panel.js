@@ -313,5 +313,14 @@ frappe.ui.form.on('Control Panel', {
 				}
 			}
 		})
+	},
+	upload_files:function (frm){
+		frm.toggle_display("upload_files",0)
+		frappe.call({
+			method:'agarwals.reconciliation.step.advice_downloader.upload_sa_files',
+			callback:function (r){
+				frm.toggle_display("upload_files",1)
+			}
+		})
 	}
 });
