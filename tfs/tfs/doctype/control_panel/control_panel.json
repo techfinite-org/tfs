@@ -75,6 +75,11 @@
   "email_group",
   "column_break_tjdxv",
   "delete_zip",
+  "yearly_due_updation_section",
+  "closing_fiscal_year",
+  "opening_fiscal_year",
+  "entity",
+  "update_yearly_due"
   "send_mail"
  ],
  "fields": [
