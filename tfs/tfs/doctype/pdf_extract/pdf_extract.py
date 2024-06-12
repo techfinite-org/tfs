@@ -68,14 +68,16 @@ def pattern(word):
 
 def match(word, position, cleaned_words):
     match = re.search(word,cleaned_words)
-    if match:
-        result = match.group(position)
-        if result:
-            return result
+    split_pos = str(position).split(",")
+    for pos in split_pos:
+        if match:
+            result = match.group(int(pos))
+            if result:
+                return result
+            else:
+                log_error("there are no result for this match")
         else:
-            log_error("there are no result for this match")
-    else:
-        log_error("There are no match for this pattern")
+            log_error("There are no match for this pattern")
 
 
 @frappe.whitelist()
@@ -114,28 +116,37 @@ def get_sa_values(customer, cleaned_words,doctype):
         tpa_json = tpa_doc.mapping
         data = json.loads(tpa_json)
         json_data = {}
+        json_data["name"] = [customer]
         for key, values in data.items():
-            if key == "name":
-                json_data["name"] = [customer]
-            elif key == "claim_number":
+            if key == "claim_number":
                 claim_number = match(values["search"], values["index"], cleaned_words)
                 json_data["claim_number"] = [claim_number]
             elif key == "settled_amount":
                 settled_amount = match(values["search"], values["index"], cleaned_words)
-                json_data["settled_amount"] = [settled_amount]
+                settled_amount = remove_comma(settled_amount)
+                json_data["settled_amount"] = [int(settled_amount)]
             elif key == "utr":
                 transaction_number = match(values["search"], values["index"], cleaned_words)
                 json_data["utr_number"] = [transaction_number]
             elif key == "tds":
                 tds = match(values["search"], values["index"], cleaned_words)
-                json_data["tds_amount"] = [tds]
+                tds = remove_comma(tds)
+                json_data["tds_amount"] = [int(tds)]
             elif key == "deductions":
                 deductions = match(values["search"], values["index"], cleaned_words)
-                json_data["deduction"] = [deductions]
+                deductions = remove_comma(deductions)
+                json_data["deduction"] = [int(deductions)]
         return json_data
     except Exception as e:
+
         log_error(e)
 
 
 
 
+def remove_comma(value):
+    if "," in value:
+        output_value = value.replace(",", "")
+    else:
+        output_value = value
+    return output_value
