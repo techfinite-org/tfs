@@ -127,6 +127,7 @@ override_doctype_class = {
     "Shift Type": "tfs.shift_type_override.OverrideShiftType",
     "Leave Application":"tfs.leave_application_override.LeaveApplicationOverride",
     "Attendance":"tfs.attendance_override.AttendanceOverride",
+	"Leave Allocation": "tfs.leave_allocation_override.LeaveAllocationOverride",
     # "Employee Checkin" : "tfs.employee_checkin_overrides.OverrideEmployeeCheckin"
     # "ToDo": "custom_app.overrides.CustomToDo"
 }
