@@ -39,12 +39,7 @@ def get_month_date_range():
 @frappe.whitelist()
 def permission_hours():
     from_date, to_date = get_month_date_range()
-    print("From date (start of month):", from_date)
-    print("To date (end of month):", to_date)
-    print("---------------------------------Its working-------------------------")
-
     employees = frappe.get_all("Employee", fields=['name'])
-
     try:
         for emp in employees:
             leave_allocation = frappe.new_doc("Leave Allocation")
