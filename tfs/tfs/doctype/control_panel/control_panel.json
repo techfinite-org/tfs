@@ -38,6 +38,7 @@
   "process_bank_transaction",
   "payment_utilities_section",
   "generate_claim_key",
+  "generate_utr_key",
   "process_matcher",
   "process_payment_using_payment_entry",
   "process_rounding_off",
@@ -453,13 +454,18 @@
    "fieldname": "send_mail",
    "fieldtype": "Check",
    "label": "Send Mail"
+  },
+  {
+   "fieldname": "generate_utr_key",
+   "fieldtype": "Button",
+   "label": "Generate UTR Key"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-11 19:56:14.204647",
+ "modified": "2024-06-20 18:52:54.388430",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

@@ -274,6 +274,11 @@ frappe.ui.form.on('Control Panel', {
 			},
 		})
 	},
+	generate_utr_key: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.utr_key_mapper.process"
+	 })
+	},
 	process_bill_adjustment: function (frm) {
 		frappe.call({
 			method: "agarwals.reconciliation.step.transform.process",
