@@ -38,6 +38,7 @@
   "process_bank_transaction",
   "payment_utilities_section",
   "generate_claim_key",
+  "generate_utr_key",
   "process_matcher",
   "process_payment_using_payment_entry",
   "process_rounding_off",
@@ -293,13 +294,18 @@
    "fieldname": "update_index",
    "fieldtype": "Button",
    "label": "Update Index"
+  },
+  {
+   "fieldname": "generate_utr_key",
+   "fieldtype": "Data",
+   "label": "Generate UTR Key"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-25 11:36:28.622138",
+ "modified": "2024-06-20 17:37:23.366857",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

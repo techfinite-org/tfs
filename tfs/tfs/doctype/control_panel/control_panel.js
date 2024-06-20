@@ -142,6 +142,14 @@ frappe.ui.form.on('Control Panel', {
 			},
 		})
 	},
+	create_sales_invoice: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.utr_key_mapper.process",
+			args: {
+				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size,"queue":"long"}
+			},
+		})
+	},
 	mapping_insurance: function (frm) {
 		frappe.call({
 			method: "agarwals.reconciliation.step.insurance_tagger.process",
@@ -274,4 +282,10 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+	generate_utr_key: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.utr_key_mapper.process",
+			})
+	},
 });
+  
