@@ -7,3 +7,14 @@
     font-size: var(--text-md);
     /* background-color: rgb(9, 201, 147); */
 }
+
+
+.like-disabled-input {
+    min-height: var(--input-height);
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    padding: 6px 12px;
+    cursor: default;
+    color: var(--disabled-text-color);
+    background-color: var(--disabled-control-bg);
+}
