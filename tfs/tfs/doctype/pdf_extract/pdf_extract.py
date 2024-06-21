@@ -74,7 +74,7 @@ def pdf_parsing(folder, doc):
             
             data_frame.to_csv(full_file_path, index=False)
             file_url = create_file_doc(full_file_path, file_path)
-            create_fileupload(file_url,doc,customer_name, today)
+            create_fileupload(file_url,doc,customer_name, today) 
     except Exception as e:
         log_error(e)
         

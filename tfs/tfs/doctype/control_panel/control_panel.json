@@ -15,13 +15,16 @@
   "settlement_advice_section",
   "process_settlement_staging",
   "column_break_zx987",
-  "process_writeback",
-  "bank_statement_section",
-  "process_writeoff",
-  "column_break_fkeig",
   "process_transaction_staging",
+  "bank_statement_section",
+  "process_writeback",
+  "column_break_fkeig",
+  "process_writeoff",
+  "column_break_jjiav",
+  "process_pdf",
   "section_break_c0oby",
   "process_bill_adjustment",
+  "process_bulk_bank_transaction",
   "configurations_section",
   "start_date",
   "end_date",
@@ -60,28 +63,7 @@
   "closing_fiscal_year",
   "opening_fiscal_year",
   "entity",
-  "update_yearly_due",
-  "sa_downloader_configuration_section",
-  "production_environment",
-  "column_break_qzdj7",
-  "local_environment",
-  "section_break_wzfr5",
-  "user_id",
-  "column_break_yzb2w",
-  "password",
-  "column_break_gfdz2",
-  "url",
-  "column_break_onwl5",
-  "sa_downloader_path",
-  "section_break_qcia7",
-  "create_folders",
-  "column_break_gq8dn",
-  "upload_files",
-  "column_break_i9iat",
-  "email_group",
-  "column_break_h7qxw",
-  "delete_zip",
-  "send_mail"
+  "update_yearly_due"
  ],
  "fields": [
   {
@@ -122,7 +104,7 @@
   },
   {
    "fieldname": "bank_statement_section",
-   "fieldtype": "Column Break"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "process_transaction_staging",
@@ -350,116 +332,25 @@
    "options": "Entity"
   },
   {
-   "collapsible": 1,
-   "fieldname": "sa_downloader_configuration_section",
-   "fieldtype": "Section Break",
-   "label": "SA Downloader Configuration"
-  },
-  {
-   "default": "0",
-   "fieldname": "production_environment",
-   "fieldtype": "Check",
-   "label": "Production Environment"
-  },
-  {
-   "fieldname": "column_break_qzdj7",
+   "fieldname": "column_break_jjiav",
    "fieldtype": "Column Break"
   },
   {
-   "default": "0",
-   "fieldname": "local_environment",
-   "fieldtype": "Check",
-   "label": " Local Environment"
-  },
-  {
-   "depends_on": "eval:doc.local_environment ==1",
-   "fieldname": "section_break_wzfr5",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "user_id",
-   "fieldtype": "Data",
-   "label": "User ID"
-  },
-  {
-   "fieldname": "column_break_yzb2w",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "password",
-   "fieldtype": "Data",
-   "label": "Password"
-  },
-  {
-   "fieldname": "column_break_gfdz2",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "url",
-   "fieldtype": "Data",
-   "label": "Url"
-  },
-  {
-   "fieldname": "column_break_onwl5",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "sa_downloader_path",
-   "fieldtype": "Data",
-   "label": "SA downloader path"
-  },
-  {
-   "depends_on": "eval:doc.local_environment ==1",
-   "fieldname": "section_break_qcia7",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "create_folders",
+   "fieldname": "process_bulk_bank_transaction",
    "fieldtype": "Button",
-   "label": "Create Folders"
+   "label": "Process Bulk Bank Transaction"
   },
   {
-   "fieldname": "column_break_gq8dn",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "upload_files",
+   "fieldname": "process_pdf",
    "fieldtype": "Button",
-   "label": "Upload Files"
-  },
-  {
-   "fieldname": "column_break_i9iat",
-   "fieldtype": "Column Break"
-  },
-  {
-   "depends_on": "eval:doc.send_mail ==1 ",
-   "fieldname": "email_group",
-   "fieldtype": "Link",
-   "label": "Email Group",
-   "options": "Email Group"
-  },
-  {
-   "fieldname": "column_break_h7qxw",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "0",
-   "fieldname": "delete_zip",
-   "fieldtype": "Check",
-   "label": "Delete Zip"
-  },
-  {
-   "default": "0",
-   "fieldname": "send_mail",
-   "fieldtype": "Check",
-   "label": "Send Mail"
+   "label": "Process Pdf "
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-11 19:56:14.204647",
+ "modified": "2024-06-21 13:39:06.172878",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
