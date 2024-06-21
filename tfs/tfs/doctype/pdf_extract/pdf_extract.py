@@ -30,48 +30,53 @@ def pdfwithtext(parent_name = None):
 
 
 def pdf_parsing(folder, doc):
-    customer_list = []
-    if folder:
-        customers = frappe.get_all("Pdf Parser",{},["tpa_name","customer","mapping"])
-        data_frame = pd.DataFrame()
-        today = datetime.now().strftime("%Y-%m-%d")
-        for every_customer in customers:
-            customer_list.append(every_customer.tpa_name)
-        for every_file in folder:
-            if every_file.file_type == None or every_file.file_type.lower() not in ["pdf","zip"]:
-                log_error(f"{every_file.file_type} is not supported")
-                continue
-            
-            
-            #set path
-            base_path = os.getcwd()
-            site_path = frappe.get_site_path()[1:]
-            full_path = base_path+site_path
-            file_name = every_file.file_url.split("/")[-1]
-            pdf_file = full_path+str(every_file.file_url)
-            
-            #open file
-            if every_file.file_type.lower() == "zip":
-                extract_folder = f"{full_path}/private/files/DrAgarwals/Extract"
-                is_folder_exist(extract_folder)
-                pdf_list = unzip_files(pdf_file, extract_folder)
-                for pdf in pdf_list:
-                    pdffileobj = open(f"{extract_folder}/{pdf}", 'rb')
+    try: 
+        if folder:
+            data_frame = pd.DataFrame()
+            today = datetime.now().strftime("%Y-%m-%d")
+            for every_file in folder:
+                if every_file.file_type == None or every_file.file_type.lower() not in ["pdf","zip"]:
+                    log_error(f"{every_file.file_type} is not supported")
+                    continue
+                
+                
+                #set path
+                base_path = os.getcwd()
+                site_path = frappe.get_site_path()[1:]
+                full_path = base_path+site_path
+                file_name = every_file.file_url.split("/")[-1]
+                pdf_file = full_path+str(every_file.file_url)
+                
+                #open file
+                if every_file.file_type.lower() == "zip":
+                    extract_folder = f"{full_path}/private/files/DrAgarwals/Extract"
+                    is_folder_exist(extract_folder)
+                    pdf_list = unzip_files(pdf_file, extract_folder)
+                    for pdf in pdf_list:
+                        pdffileobj = open(f"{extract_folder}/{pdf}", 'rb')
+                        cleaned_words = read_pdf(pdffileobj)
+                        data_frame, customer = process_pdf( cleaned_words, data_frame)
+                else:
+                    pdffileobj = open(pdf_file, 'rb')
                     cleaned_words = read_pdf(pdffileobj)
-                    data_frame, customer = process_pdf(customer_list, cleaned_words, data_frame)
-            else:
-                pdffileobj = open(pdf_file, 'rb')
-                cleaned_words = read_pdf(pdffileobj)
-                data_frame, customer = process_pdf(customer_list, cleaned_words, data_frame)
-            
+                    data_frame, customer = process_pdf(cleaned_words, data_frame)
+                    
+                #write cleaned words in pdf text
+                pdf_text = frappe.new_doc("Pdf Text")
+                pdf_text.text = cleaned_words
+                pdf_text.save()
             customer_name = frappe.get_all("Pdf Parser",{"tpa_name":customer},pluck= "customer")[0]
+            #set Path
             is_folder_exist(f"{full_path}/private/files/DrAgarwals/Pdf Extract")
             full_file_path = f"{full_path}/private/files/DrAgarwals/Pdf Extract/pp-{customer_name}.csv"
             file_path = f"/private/files/DrAgarwals/Pdf Extract/pp-{customer_name}.csv"
             
+            
             data_frame.to_csv(full_file_path, index=False)
             file_url = create_file_doc(full_file_path, file_path)
             create_fileupload(file_url,doc,customer_name, today)
+    except Exception as e:
+        log_error(e)
         
         
         
@@ -101,7 +106,11 @@ def read_pdf(pdffileobj):
         return cleaned_words
         
         
-def process_pdf(customer_list, cleaned_words, data_frame):
+def process_pdf(cleaned_words, data_frame):
+        customer_list = []
+        customers = frappe.get_all("Pdf Parser",{},["tpa_name","customer","mapping"])
+        for every_customer in customers:
+            customer_list.append(every_customer.tpa_name)
         customer = get_tpa_name(customer_list, cleaned_words)
         json_data = get_sa_values(customer, cleaned_words,"Pdf Parser")
         data_frame = process_dataframe(json_data, data_frame)
