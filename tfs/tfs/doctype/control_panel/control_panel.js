@@ -112,6 +112,21 @@ frappe.ui.form.on('Control Panel', {
 				}
 			}
 		})
+	},	
+	process_email:function(frm){
+		frappe.call({
+			method: "tfs.tfs.doctype.email_extract.email_extract.email_parsing",
+			callback:function(r){
+				if (r.message != "Success"){
+					frappe.throw(r.message)
+				}
+				else {
+					frappe.msgprint("Pdf Extraction completed successfully")
+
+				}
+			}
+			
+		})
 	},
 	process_pdf:function(frm){
 		frappe.call({

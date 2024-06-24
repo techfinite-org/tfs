@@ -15,8 +15,9 @@ class EmailExtract(Document):
 
 @frappe.whitelist()
 def email_parsing():
-	settled_amount = 'Settled amount'
-	utr = 'NEFT transaction number'
+	settled_amount = 'Amount (INR)'
+	utr = 'UTR no.'
+	claim_no = "claim_no"
 
 	try:
 		#initialize
@@ -25,33 +26,41 @@ def email_parsing():
 		email_to_parse,last_synced_time = get_parsing_email()
 		if email_to_parse != None:
 			for email in email_to_parse:
-				email = frappe.get_doc("Communication", email.name)
 				#converting html to text
-				soup = BeautifulSoup(email.content,features="lxml")
-				for script in soup(["script", "style"]):
-					script.extract()
-				text = soup.get_text()
-				lines = (line.strip() for line in text.splitlines())
-				chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
-				text = '\n'.join(chunk for chunk in chunks if chunk)
-				text = new_line(text)
-				#check whether email contains credentials
-				if settled_amount.lower() and utr.lower() in text.lower():
-					#parsing
-					customer_list = frappe.get_all("Email Parser", {}, ["*"])
-					for every_customer in customer_list:
-						customer_name.append(every_customer.tpa_name)
-					customer = get_tpa_name(customer_name, text)
-					json_data = get_sa_values(customer, text,"Email Parser")
-					settled_amount = json_data["settled_amount"][0]
-					data_frame = pd.DataFrame(json_data)
-					formatted_date = today
-					data_frame.to_csv(f"{full_path}/public/files/'ep'-{customer}-{settled_amount}-{formatted_date}.csv", index=False)
-					last_synced_time.last_sync_datetime = today
-					last_synced_time.save()
+				control_panel = frappe.get_single('Control Panel')
+				try:
+					email_contents = email.content.split(control_panel.dlimitter)
+				except:
+					email_contents = email.content
+				for email_content in email_contents:
+					soup = BeautifulSoup(email_content,features="lxml")
+					for script in soup(["script", "style"]):
+						script.extract()
+					text = soup.get_text()
+					lines = (line.strip() for line in text.splitlines())
+					chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+					text = '\n'.join(chunk for chunk in chunks if chunk)
+					text = new_line(text)
+					if text:
+					#check whether email contains credentials
+						if settled_amount.lower() and utr.lower() and claim_no in text.lower():
+							#parsing
+							customer_list = frappe.get_all("Email Parser", {}, ["*"])
+							for every_customer in customer_list:
+								customer_name.append(every_customer.tpa_name)
+							customer = get_tpa_name(customer_name, text)
+							json_data = get_sa_values(customer, text,"Email Parser")
+							settled_amount = json_data["settled_amount"][0]
+							data_frame = pd.DataFrame(json_data)
+							formatted_date = today
+							data_frame.to_csv(f"{full_path}/public/files/'ep'-{customer}-{settled_amount}-{formatted_date}.csv", index=False)
+							last_synced_time.last_sync_datetime = today
+							last_synced_time.save()
 
-				else:
-					pdfwithtext(email.name)
+						else:
+							pdfwithtext(email.name)
+					else:
+						continue
 	except Exception as e:
 		log_error(e)
 
@@ -68,11 +77,9 @@ def _init():
 
 def get_parsing_email():
 	email_to_parse = []
-	inclusion_text = ["Cashless Claim Settlement"]
-	last_synced_time = frappe.get_all("Control Panel",{},["*"])[0]
-	# , "email_account": "TEF"
-	#email_list = frappe.get_all("Communication",{},["*"])
-	email_list = frappe.get_all("Communication", filters = {"creation": [">",last_synced_time.last_sync_datetime]},fields = ["*"])
+	inclusion_text = frappe.get_all("Inclusion Email Text",{},pluck="name")
+	control_panel = frappe.get_single('Control Panel')
+	email_list = frappe.get_all("Communication", filters = {"creation": [">",control_panel.last_sync_datetime], "email_account":control_panel.recipients},fields = ["*"])
 	if email_list:
 		#the below code can also be written like this
 		#email_to_parse = [email for email in email_list if (text in email.subject for text in inclusion_text)]
@@ -80,6 +87,7 @@ def get_parsing_email():
 			for text in inclusion_text:
 				if text in email.subject:
 					email_to_parse.append(email)
-		return email_to_parse,last_synced_time
+					continue
+		return email_to_parse,control_panel.last_sync_datetime
 	else:
 		return None

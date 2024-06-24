@@ -20,6 +20,9 @@
   "process_writeback",
   "column_break_fkeig",
   "process_writeoff",
+  "column_break_rwgnq",
+  "process_email",
+  "column_break_jxqz1",
   "process_pdf",
   "section_break_c0oby",
   "process_bill_adjustment",
@@ -85,7 +88,8 @@
   "send_mail",
   "email_section",
   "last_sync_datetime",
-  "dlimitter"
+  "dlimitter",
+  "recipients"
  ],
  "fields": [
   {
@@ -477,13 +481,31 @@
    "fieldname": "dlimitter",
    "fieldtype": "Data",
    "label": "Dlimitter"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Data",
+   "label": "Recipients"
+  },
+  {
+   "fieldname": "column_break_rwgnq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "process_email",
+   "fieldtype": "Button",
+   "label": "Process Email"
+  },
+  {
+   "fieldname": "column_break_jxqz1",
+   "fieldtype": "Column Break"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-24 19:00:22.356437",
+ "modified": "2024-06-24 20:23:24.122452",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
