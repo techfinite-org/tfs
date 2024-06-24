@@ -226,7 +226,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_settlement_advice: function (frm) {
 		frappe.call({
-			method: "agarwals.reconciliation.step.advice_downloader.process",
+			method: "agarwals.reconciliation.step.advice_creator.process",
 			args: {
 				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size, "queue":"long"}
 			},
