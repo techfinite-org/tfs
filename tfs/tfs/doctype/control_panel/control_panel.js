@@ -113,6 +113,21 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+	process_pdf:function(frm){
+		frappe.call({
+			method: "tfs.tfs.doctype.pdf_extract.pdf_extract.pdfwithtext",
+			callback:function(r){
+				if (r.message != "Success"){
+					frappe.throw(r.message)
+				}
+				else {
+					frappe.msgprint("Pdf Extraction completed successfully")
+
+				}
+			}
+			
+		})
+	},
 	process_transaction_staging: function (frm) {
 		frappe.call({
 			method: "agarwals.reconciliation.step.transform.process",
