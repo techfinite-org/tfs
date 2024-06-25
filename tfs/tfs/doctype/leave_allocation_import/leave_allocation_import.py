@@ -33,8 +33,6 @@ class LeaveAllocationImport(Document):
 					self.create_leave_allocation(names, field_name, self.from_date,self.to_date)
 
 	def create_leave_allocation(self, names, field_name,from_date,to_date):
-		# print("-------------------create_additional_salary-----------------", names, field_name)
-
 		if field_name is not None:
 			value = getattr(self, field_name, 0)
 			if value is not None:
