@@ -82,6 +82,7 @@
   "email_group",
   "column_break_h7qxw",
   "delete_zip",
+  "delete_folder",
   "send_mail",
   "email_section",
   "last_sync_datetime",
@@ -376,7 +377,6 @@
    "label": " Local Environment"
   },
   {
-   "depends_on": "eval:doc.local_environment ==1",
    "fieldname": "section_break_wzfr5",
    "fieldtype": "Section Break"
   },
@@ -413,7 +413,6 @@
    "label": "SA downloader path"
   },
   {
-   "depends_on": "eval:doc.local_environment ==1",
    "fieldname": "section_break_qcia7",
    "fieldtype": "Section Break"
   },
@@ -448,9 +447,10 @@
   },
   {
    "default": "0",
+   "depends_on": "eval:doc.delete_folder == 0",
    "fieldname": "delete_zip",
    "fieldtype": "Check",
-   "label": "Delete Zip"
+   "label": "Delete Folders Including Zip"
   },
   {
    "default": "0",
@@ -477,13 +477,20 @@
    "fieldname": "dlimitter",
    "fieldtype": "Data",
    "label": "Dlimitter"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.delete_zip == 0",
+   "fieldname": "delete_folder",
+   "fieldtype": "Check",
+   "label": "Delete Folders Exclude  Zip"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-24 19:00:22.356437",
+ "modified": "2024-06-25 12:50:08.577975",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
