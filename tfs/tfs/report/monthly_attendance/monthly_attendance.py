@@ -92,6 +92,7 @@ def execute(filters=None):
         {"label": "HOP", "fieldtype": "Data", "fieldname": "sum_holiday_present", "width": 80},
         {"label": "Total Present", "fieldtype": "Data", "fieldname": "sum_p_wop_hop", "width": 90},
         {"label": "Late Entry", "fieldtype": "Data", "fieldname": "late_entry", "width": 90},  
+        {"label": "Total Working Hours", "fieldtype": "Data", "fieldname": "working_hours_count", "width": 90}, 
     ]
     columns.extend(status_columns)	
     # Adding columns for leave types
@@ -139,11 +140,14 @@ def execute(filters=None):
         attendance_records = frappe.get_all(
             "Attendance",
             filters={"employee": employee_id, "docstatus":1,"attendance_date": ["between", (from_date, to_date)]},
-            fields=["attendance_date", "status","leave_type","attendance_request"]
+            fields=["attendance_date", "status","leave_type","attendance_request","working_hours"]
         )
+        print("--------------------------employee_id---------------------",employee_id)
         leave_type_map = get_leave_type(attendance_records,date_column)
         leave_type_counts = get_leave_type_count(attendance_records, leave_types)
         attendance_request_map = get_attendance_request(attendance_records,date_column)
+        working_hours_count = get_total_working_hours(attendance_records)
+        print("--------------------working_hours_count-----------------------",working_hours_count)
         # print("--------------------------attendance_request_map-----------------------",attendance_request_map)
         # Create a map of attendance dates to statuses
         attendance_status_map = {record["attendance_date"].strftime("%Y-%m-%d"): record["status"] for record in attendance_records}
@@ -255,7 +259,9 @@ def execute(filters=None):
         # print("-------------------------------sum_p_wop_hop-----------------------------",sum_p_wop_hop)
         row_data.append(sum_p_wop_hop)  # Add the sum to the row_data
         row_data.append(late_entry_value)
+        row_data.append(working_hours_count)
         row_data.extend(leave_type_counts)
+        
      
         # Append the row_data to the data list
         data.append(row_data)
@@ -436,3 +442,14 @@ def get_attendance_request(attendance_records, date_column):
                 ar_status = frappe.get_value("Attendance Request", {"name": attendance_records_name}, "reason")
                 attendance_request_status[date] = ar_status
     return attendance_request_status    
+
+def get_total_working_hours(attendance_records):
+    total_hours_sum = 0
+    for record in attendance_records:
+        attendance_working_hours = record.get("working_hours")
+        total_hours_sum += attendance_working_hours
+    return round(total_hours_sum)   
+
+
+
+            
