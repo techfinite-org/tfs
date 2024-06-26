@@ -51,6 +51,7 @@ def permission_hours():
             leave_allocation.submit()
             frappe.db.commit()
     except Exception as e:
+
         frappe.log_error(f"Error creating Leave Allocation for employee {emp.name}: {str(e)}", "permission_hours")
 
 @frappe.whitelist()
