@@ -87,10 +87,10 @@
   "delete_zip",
   "send_mail",
   "email_section",
-  "last_sync_datetime",
   "delimitter",
   "recipients",
   "email_path",
+  "email_indicator",
   "pdf_config_section",
   "pdf_path"
  ],
@@ -471,14 +471,10 @@
    "label": "Process Pdf "
   },
   {
+   "collapsible": 1,
    "fieldname": "email_section",
    "fieldtype": "Section Break",
    "label": "Email "
-  },
-  {
-   "fieldname": "last_sync_datetime",
-   "fieldtype": "Datetime",
-   "label": "Last Synced Datetime"
   },
   {
    "fieldname": "recipients",
@@ -517,13 +513,18 @@
    "fieldname": "pdf_config_section",
    "fieldtype": "Section Break",
    "label": "Pdf config"
+  },
+  {
+   "fieldname": "email_indicator",
+   "fieldtype": "Data",
+   "label": "Email Indicator"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-26 14:56:10.315290",
+ "modified": "2024-06-26 19:14:22.316614",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

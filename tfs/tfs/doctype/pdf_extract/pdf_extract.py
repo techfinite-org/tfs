@@ -26,7 +26,8 @@ def pdfwithtext(parent_name = None):
                 pdf_parsing(folder, pdf_extract)
     else:
         folder = file_list(parent_name)
-        pdf_parsing(folder)
+        finished = pdf_parsing(folder)
+        return finished
 
 
 def pdf_parsing(folder, doc=None):
@@ -79,7 +80,8 @@ def pdf_parsing(folder, doc=None):
                 
                 data_frame.to_csv(full_file_path, index=False)
                 file_url = create_file_doc(full_file_path, file_path)
-                create_fileupload(file_url,doc,customer_name, today) 
+                create_fileupload(file_url,doc,customer_name, today)
+                return True
     except Exception as e:
         log_error(e)
         
@@ -260,12 +262,15 @@ def create_fileupload(file_url,file_list,customer_name, today):
     file_upload_doc.document_type= "Settlement Advice"
     file_upload_doc.payer_type= customer_name
     file_upload_doc.upload= file_url
-    file_upload_doc.is_bot= 1
+    file_upload_doc.is_email= 1
     file_upload_doc.file_format= 'EXCEL'
-    file_upload_doc.save(ignore_permissions=True)
+    
     if file_list:
         update_file = frappe.get_doc("Pdf Extract", file_list)
         update_file.is_parsed = True
         update_file.parsed_date = today
         update_file.save()
+        file_upload_doc.is_bot = 1
+    
+    file_upload_doc.save(ignore_permissions=True)
     frappe.db.commit()
