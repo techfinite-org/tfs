@@ -26,10 +26,10 @@ def pdfwithtext(parent_name = None):
                 pdf_parsing(folder, pdf_extract)
     else:
         folder = file_list(parent_name)
-        pdf_parsing()
+        pdf_parsing(folder)
 
 
-def pdf_parsing(folder, doc):
+def pdf_parsing(folder, doc=None):
     try: 
         if folder:
             data_frame = pd.DataFrame()
@@ -49,7 +49,7 @@ def pdf_parsing(folder, doc):
                 
                 #open file
                 if every_file.file_type.lower() == "zip":
-                    extract_folder = f"{full_path}/private/files/DrAgarwals/Extract"
+                    extract_folder = f"{full_path}/private/files/EyeFoundation/Extract"
                     is_folder_exist(extract_folder)
                     pdf_list = unzip_files(pdf_file, extract_folder)
                     for pdf in pdf_list:
@@ -62,19 +62,23 @@ def pdf_parsing(folder, doc):
                     data_frame, customer = process_pdf(cleaned_words, data_frame)
                     
                 #write cleaned words in pdf text
-                pdf_text = frappe.new_doc("Pdf Text")
-                pdf_text.text = cleaned_words
-                pdf_text.save()
-            customer_name = frappe.get_all("Pdf Parser",{"tpa_name":customer},pluck= "customer")[0]
-            #set Path
-            is_folder_exist(f"{full_path}/private/files/DrAgarwals/Pdf Extract")
-            full_file_path = f"{full_path}/private/files/DrAgarwals/Pdf Extract/pp-{customer_name}.csv"
-            file_path = f"/private/files/DrAgarwals/Pdf Extract/pp-{customer_name}.csv"
-            
-            
-            data_frame.to_csv(full_file_path, index=False)
-            file_url = create_file_doc(full_file_path, file_path)
-            create_fileupload(file_url,doc,customer_name, today) 
+                if customer == None:
+                    pdf_text = frappe.new_doc("Parsed Text")
+                    pdf_text.pdf_text = cleaned_words
+                    pdf_text.save()
+                    break
+                
+            if customer != None:
+                customer_name = frappe.get_all("Pdf Parser",{"tpa_name":customer},pluck= "customer")[0]
+                #set Path
+                is_folder_exist(f"{full_path}/private/files/EyeFoundation/Pdf Extract")
+                full_file_path = f"{full_path}/private/files/EyeFoundation/Pdf Extract/pp-{customer_name}.csv"
+                file_path = f"/private/files/EyeFoundation/Pdf Extract/pp-{customer_name}.csv"
+                
+                
+                data_frame.to_csv(full_file_path, index=False)
+                file_url = create_file_doc(full_file_path, file_path)
+                create_fileupload(file_url,doc,customer_name, today) 
     except Exception as e:
         log_error(e)
         
@@ -141,7 +145,7 @@ def match(word, position, cleaned_words):
 def new_line(text):
     new_line = None
     for char in text:
-        if char == ("\n" or "\r"):
+        if char in ["\n","\r","\t"]:
             if new_line == None:
                 new_line = " "
             else:
@@ -258,8 +262,9 @@ def create_fileupload(file_url,file_list,customer_name, today):
     file_upload_doc.is_bot= 1
     file_upload_doc.file_format= 'EXCEL'
     file_upload_doc.save(ignore_permissions=True)
-    update_file = frappe.get_doc("Pdf Extract", file_list)
-    update_file.is_parsed = True
-    update_file.parsed_date = today
-    update_file.save()
+    if file_list:
+        update_file = frappe.get_doc("Pdf Extract", file_list)
+        update_file.is_parsed = True
+        update_file.parsed_date = today
+        update_file.save()
     frappe.db.commit()

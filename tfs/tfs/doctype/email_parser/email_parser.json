@@ -2,6 +2,7 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
+ "autoname": "field:customer",
  "creation": "2024-06-06 09:47:12.334574",
  "default_view": "List",
  "doctype": "DocType",
@@ -10,14 +11,16 @@
  "field_order": [
   "customer",
   "tpa_name",
-  "mapping"
+  "mapping",
+  "date_format"
  ],
  "fields": [
   {
    "fieldname": "customer",
    "fieldtype": "Link",
    "label": "Customer ",
-   "options": "Customer"
+   "options": "Customer",
+   "unique": 1
   },
   {
    "fieldname": "tpa_name",
@@ -28,14 +31,20 @@
    "fieldname": "mapping",
    "fieldtype": "JSON",
    "label": "Mapping"
+  },
+  {
+   "fieldname": "date_format",
+   "fieldtype": "Data",
+   "label": "Date Format"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-06 09:47:12.334574",
+ "modified": "2024-06-25 17:47:35.979754",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Email Parser",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
