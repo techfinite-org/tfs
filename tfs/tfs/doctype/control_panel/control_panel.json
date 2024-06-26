@@ -88,8 +88,11 @@
   "send_mail",
   "email_section",
   "last_sync_datetime",
-  "dlimitter",
-  "recipients"
+  "delimitter",
+  "recipients",
+  "email_path",
+  "pdf_config_section",
+  "pdf_path"
  ],
  "fields": [
   {
@@ -478,18 +481,13 @@
    "label": "Last Synced Datetime"
   },
   {
-   "fieldname": "dlimitter",
-   "fieldtype": "Data",
-   "label": "Dlimitter"
-  },
-  {
    "fieldname": "recipients",
    "fieldtype": "Data",
    "label": "Recipients"
   },
   {
    "fieldname": "column_break_rwgnq",
-   "fieldtype": "Column Break"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "process_email",
@@ -499,13 +497,33 @@
   {
    "fieldname": "column_break_jxqz1",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "email_path",
+   "fieldtype": "Data",
+   "label": "Email Path"
+  },
+  {
+   "fieldname": "pdf_path",
+   "fieldtype": "Data",
+   "label": "Pdf Path"
+  },
+  {
+   "fieldname": "delimitter",
+   "fieldtype": "Data",
+   "label": "Delimitter"
+  },
+  {
+   "fieldname": "pdf_config_section",
+   "fieldtype": "Section Break",
+   "label": "Pdf config"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-24 20:23:24.122452",
+ "modified": "2024-06-26 14:56:10.315290",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

@@ -69,11 +69,12 @@ def pdf_parsing(folder, doc=None):
                     break
                 
             if customer != None:
+                control_panel = frappe.get_single("Control Panel")
                 customer_name = frappe.get_all("Pdf Parser",{"tpa_name":customer},pluck= "customer")[0]
                 #set Path
-                is_folder_exist(f"{full_path}/private/files/EyeFoundation/Pdf Extract")
-                full_file_path = f"{full_path}/private/files/EyeFoundation/Pdf Extract/pp-{customer_name}.csv"
-                file_path = f"/private/files/EyeFoundation/Pdf Extract/pp-{customer_name}.csv"
+                is_folder_exist(f"{full_path}{control_panel.pdf_path}")
+                full_file_path = f"{full_path}{control_panel.pdf_path}/pp-{customer_name}.csv"
+                file_path = f"{control_panel.pdf_path}/pp-{customer_name}.csv"
                 
                 
                 data_frame.to_csv(full_file_path, index=False)

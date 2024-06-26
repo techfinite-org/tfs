@@ -48,7 +48,7 @@ def email_parsing():
 					type = "html"
 					content_text = None
 				try:
-					email_contents = email_contents.split(control_panel.dlimitter)
+					email_contents = email_contents.split(control_panel.delimitter)
 					with_delimitter = True
 				except:
 					email_contents = email_contents
@@ -92,9 +92,9 @@ def email_parsing():
 									continue
 					if data_frame.claim_number.size:
 						original_customer_name = frappe.get_all("Email Parser",{"tpa_name":customer},pluck= "customer")[0]
-						is_folder_exist(f"{full_path}/private/files/EyeFoundation/Email Extract")
-						full_file_path = f"{full_path}/private/files/EyeFoundation/Email Extract/ep-{original_customer_name}-{str(b)}-{str(i)}.csv"
-						file_path = f"/private/files/EyeFoundation/Email Extract/ep-{original_customer_name}-{str(b)}-{str(i)}.csv"
+						is_folder_exist(f"{full_path}{control_panel.email_path}")
+						full_file_path = f"{full_path}{control_panel.email_path}/ep-{original_customer_name}-{str(b)}-{str(i)}.csv"
+						file_path = f"{control_panel.email_path}/ep-{original_customer_name}-{str(b)}-{str(i)}.csv"
 						#file creation
 						data_frame.to_csv(full_file_path, index=False)
 						file_url = create_file_doc(full_file_path, file_path)
