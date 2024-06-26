@@ -83,6 +83,10 @@
   "column_break_h7qxw",
   "delete_zip",
   "send_mail",
+  "section_break_byuvw",
+  "enable_captcha_api",
+  "column_break_k4irw",
+  "captcha_api_key",
   "email_section",
   "last_sync_datetime",
   "dlimitter"
@@ -477,15 +481,34 @@
    "fieldname": "dlimitter",
    "fieldtype": "Data",
    "label": "Dlimitter"
+  },
+  {
+   "fieldname": "section_break_byuvw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_captcha_api",
+   "fieldtype": "Check",
+   "label": "Enable Captcha Api "
+  },
+  {
+   "fieldname": "column_break_k4irw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "captcha_api_key",
+   "fieldtype": "Data",
+   "label": "Captcha Api Key"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-24 19:00:22.356437",
+ "modified": "2024-06-25 16:35:03.804434",
  "modified_by": "Administrator",
- "module": "Tfs",
+ "module": "tfs",
  "name": "Control Panel",
  "owner": "Administrator",
  "permissions": [
