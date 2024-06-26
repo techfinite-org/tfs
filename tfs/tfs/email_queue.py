@@ -44,7 +44,7 @@ def permission_hours():
         for emp in employees:
             leave_allocation = frappe.new_doc("Leave Allocation")
             leave_allocation.employee = emp.name
-            leave_allocation.leave_type = "permission demo"
+            leave_allocation.leave_type = "Permission Hours Personal"
             leave_allocation.from_date = from_date
             leave_allocation.to_date = to_date
             leave_allocation.new_leaves_allocated = 90
