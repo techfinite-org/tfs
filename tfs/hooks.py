@@ -182,9 +182,6 @@ doc_events = {
 
 # Overriding Methods
 # ------------------------------
-override_methods = {
-	"frappe/email/doctype/email_account/email_account.pull":"tfs.email_account_override.pull"
-}
 # override_whitelisted_methods = {
 # 	# "frappe.desk.doctype.event.event.get_events": "tfs.event.get_events",
      

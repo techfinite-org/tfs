@@ -90,7 +90,6 @@
   "delimitter",
   "recipients",
   "email_path",
-  "email_indicator",
   "pdf_config_section",
   "pdf_path"
  ],
@@ -513,18 +512,13 @@
    "fieldname": "pdf_config_section",
    "fieldtype": "Section Break",
    "label": "Pdf config"
-  },
-  {
-   "fieldname": "email_indicator",
-   "fieldtype": "Data",
-   "label": "Email Indicator"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-26 19:14:22.316614",
+ "modified": "2024-06-27 11:09:59.972484",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

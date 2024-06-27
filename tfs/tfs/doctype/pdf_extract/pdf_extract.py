@@ -33,6 +33,7 @@ def pdfwithtext(parent_name = None):
 def pdf_parsing(folder, doc=None):
     try: 
         if folder:
+            control_panel = frappe.get_single("Control Panel")
             data_frame = pd.DataFrame()
             today = datetime.now().strftime("%Y-%m-%d")
             for every_file in folder:
@@ -50,7 +51,7 @@ def pdf_parsing(folder, doc=None):
                 
                 #open file
                 if every_file.file_type.lower() == "zip":
-                    extract_folder = f"{full_path}/private/files/EyeFoundation/Extract"
+                    extract_folder = f"{full_path}{control_panel.pdf_path}"
                     is_folder_exist(extract_folder)
                     pdf_list = unzip_files(pdf_file, extract_folder)
                     for pdf in pdf_list:
@@ -70,7 +71,7 @@ def pdf_parsing(folder, doc=None):
                     break
                 
             if customer != None:
-                control_panel = frappe.get_single("Control Panel")
+                
                 customer_name = frappe.get_all("Pdf Parser",{"tpa_name":customer},pluck= "customer")[0]
                 #set Path
                 is_folder_exist(f"{full_path}{control_panel.pdf_path}")
