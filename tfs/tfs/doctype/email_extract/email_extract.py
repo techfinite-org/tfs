@@ -133,23 +133,29 @@ def parsed_text_update(text, type):
     
 @frappe.whitelist()
 def segrigate_email(*args, **kwargs):
-	email_to_parse = []
-	inclusion_text = frappe.get_all("Inclusion Email Text",{"type":"subject"},pluck="name")#settlement advice email patterns
-	control_panel = frappe.get_single('Control Panel')
-	email_list = frappe.get_all("Communication", filters = {"email_account":control_panel.recipients,"status":"Open", "sent_or_received":"Received"},fields = ["*"])
-	if email_list:
-		#the below code can also be written like this
-		#email_to_parse = [email for email in email_list if (text in email.subject for text in inclusion_text)]
-		for email in email_list:
-			for text in inclusion_text:
-				if text in email.subject:
-					email_to_parse.append(email)
-					continue
- 
-	for each_mail in email_list:
-		if each_mail.name not in email_to_parse:
-			mark_as_trash(each_mail.name)
-    
+	try:
+		email_to_parse = []
+		inclusion_text = frappe.get_all("Inclusion Email Text",{"type":"subject"},pluck="name")#settlement advice email patterns
+		control_panel = frappe.get_single('Control Panel')
+		email_list = frappe.get_all("Communication", filters = {"email_account":control_panel.recipients,"status":"Open","email_status":"Open","sent_or_received":"Received"},fields = ["*"])
+		if email_list:
+			#the below code can also be written like this
+			#email_to_parse = [email for email in email_list if (text in email.subject for text in inclusion_text)]
+			for email in email_list:
+				for text in inclusion_text:
+					if text in email.subject:
+						email_to_parse.append(email.name)
+						continue
+	
+			for each_mail in email_list:
+				if each_mail.name not in email_to_parse:
+					email = frappe.get_doc("Communication",email.name)
+					email.email_status = "Trash"
+					email.save()
+					frappe.db.commit()
+	except Exception as e:
+		log_error(e)
+	
     
 def delimitter_type(email_contents, control_panel):
 	try:
