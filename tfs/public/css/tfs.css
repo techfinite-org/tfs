@@ -7,3 +7,13 @@
     font-size: var(--text-md);
     /* background-color: rgb(9, 201, 147); */
 }
+
+.announcement-banner{
+    background-color: antiquewhite;
+    background-blend-mode: lighten;
+    text-align: center;
+}
+.announcement-text{
+    font-size: larger;
+    font-weight: bold;
+}
