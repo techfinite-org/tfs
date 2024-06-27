@@ -30,20 +30,14 @@
 		<div class="main-section">
 			<header></header>
 			<div id="body">
-                {% set doc = frappe.get_all('Announcement', fields=['name'], order_by='creation desc', limit_page_length=1) %}
-                {% if doc %}
-                    {% set docname =doc[0]['name'] %}
-                    {% set text_announcement = frappe.get_all(
-                        'Announcement',{'name':docname},'text_announcement')
-                        %}
+                    {% set text_announcement = frappe.get_all('Announcement',fields=['text_announcement'],order_by='creation desc',limit_page_length=1, pluck='text_announcement')[0] %}
                     {% if text_announcement %}
                         <div class="announcement-banner p-2 ">
-                        <marquee class="announcement-text" scrollamount="5">
-                            {{ text_announcement[0].text_announcement}}
-                        </marquee>
+                            <marquee class="announcement-text" scrollamount="5">
+                                {{ text_announcement }}
+                            </marquee>
                         </div>
                     {% endif %}
-                {% endif %}
             </div>
 			<footer></footer>
 		</div>
