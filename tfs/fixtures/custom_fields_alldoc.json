@@ -216,6 +216,18 @@
         "fieldtype": "Check",
         "label": "Forenoon",
         "insert_after": "half_day"
+    },
+
+    {
+    "doctype": "Custom Field",
+    "dt": "Leave Allocation",
+    "module": "tfs",
+    "name": "Leave Allocation-custom_leave_allocation_reference_",
+    "fieldname": "custom_leave_allocation_reference_",
+    "fieldtype": "Link",
+    "label": "Leave Allocation reference",
+    "read_only":1,
+    "insert_after": "description"
     }
 
 ]

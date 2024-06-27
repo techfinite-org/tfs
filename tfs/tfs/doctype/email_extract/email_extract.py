@@ -69,7 +69,7 @@ def _init():
 def get_parsing_email():
 	email_to_parse = []
 	inclusion_text = ["Cashless Claim Settlement"]
-	last_synced_time = frappe.get_doc("Last Email Sync Date", "last_sync")
+	last_synced_time = frappe.get_all("Control Panel",{},["*"])[0]
 	# , "email_account": "TEF"
 	#email_list = frappe.get_all("Communication",{},["*"])
 	email_list = frappe.get_all("Communication", filters = {"creation": [">",last_synced_time.last_sync_datetime]},fields = ["*"])

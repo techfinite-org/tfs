@@ -15,11 +15,12 @@
   "settlement_advice_section",
   "process_settlement_staging",
   "column_break_zx987",
-  "process_writeback",
-  "bank_statement_section",
-  "process_writeoff",
-  "column_break_fkeig",
   "process_transaction_staging",
+  "bank_statement_section",
+  "process_writeback",
+  "column_break_fkeig",
+  "process_writeoff",
+  "process_pdf",
   "section_break_c0oby",
   "process_bill_adjustment",
   "configurations_section",
@@ -81,7 +82,14 @@
   "email_group",
   "column_break_h7qxw",
   "delete_zip",
-  "send_mail"
+  "send_mail",
+  "section_break_byuvw",
+  "enable_captcha_api",
+  "column_break_k4irw",
+  "captcha_api_key",
+  "email_section",
+  "last_sync_datetime",
+  "dlimitter"
  ],
  "fields": [
   {
@@ -453,15 +461,54 @@
    "fieldname": "send_mail",
    "fieldtype": "Check",
    "label": "Send Mail"
+  },
+  {
+   "fieldname": "process_pdf",
+   "fieldtype": "Button",
+   "label": "Process Pdf "
+  },
+  {
+   "fieldname": "email_section",
+   "fieldtype": "Section Break",
+   "label": "Email "
+  },
+  {
+   "fieldname": "last_sync_datetime",
+   "fieldtype": "Datetime",
+   "label": "Last Synced Datetime"
+  },
+  {
+   "fieldname": "dlimitter",
+   "fieldtype": "Data",
+   "label": "Dlimitter"
+  },
+  {
+   "fieldname": "section_break_byuvw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_captcha_api",
+   "fieldtype": "Check",
+   "label": "Enable Captcha Api "
+  },
+  {
+   "fieldname": "column_break_k4irw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "captcha_api_key",
+   "fieldtype": "Data",
+   "label": "Captcha Api Key"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-11 19:56:14.204647",
+ "modified": "2024-06-25 16:35:03.804434",
  "modified_by": "Administrator",
- "module": "Tfs",
+ "module": "tfs",
  "name": "Control Panel",
  "owner": "Administrator",
  "permissions": [

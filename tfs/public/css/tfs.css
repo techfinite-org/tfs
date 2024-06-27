@@ -8,6 +8,7 @@
     /* background-color: rgb(9, 201, 147); */
 }
 
+
 .announcement-banner{
     background-color: antiquewhite;
     background-blend-mode: lighten;
@@ -16,4 +17,15 @@
 .announcement-text{
     font-size: larger;
     font-weight: bold;
+}
+
+.like-disabled-input {
+    min-height: var(--input-height);
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    padding: 6px 12px;
+    cursor: default;
+    color: var(--disabled-text-color);
+    background-color: var(--disabled-control-bg);
+
 }
