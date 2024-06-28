@@ -137,7 +137,7 @@ def segrigate_email(*args, **kwargs):
 		email_to_parse = []
 		inclusion_text = frappe.get_all("Inclusion Email Text",{"type":"subject"},pluck="name")#settlement advice email patterns
 		control_panel = frappe.get_single('Control Panel')
-		email_list = frappe.get_all("Communication", filters = {"email_account":control_panel.recipients,"status":"Open","email_status":["in",["Open","Spam"]],"sent_or_received":"Received"},fields = ["*"])
+		email_list = frappe.get_all("Communication", filters = {"email_account":control_panel.recipients,"communication_type":"Communication","communication_medium":"Email","status":"Open","email_status":["in",["Open","Spam"]],"sent_or_received":"Received"},fields = ["*"])
 		if email_list:
 			#the below code can also be written like this
 			#email_to_parse = [email for email in email_list if (text in email.subject for text in inclusion_text)]
@@ -148,8 +148,8 @@ def segrigate_email(*args, **kwargs):
 						continue
 	
 			for each_mail in email_list:
+				email = frappe.get_doc("Communication",each_mail.name)
 				if each_mail.name not in email_to_parse:
-					email = frappe.get_doc("Communication",email.name)
 					email.email_status = "Trash"
 				else:
 					email.email_status = "Open"
