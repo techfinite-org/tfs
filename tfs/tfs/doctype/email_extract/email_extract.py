@@ -151,8 +151,11 @@ def segrigate_email(*args, **kwargs):
 				if each_mail.name not in email_to_parse:
 					email = frappe.get_doc("Communication",email.name)
 					email.email_status = "Trash"
-					email.save()
-					frappe.db.commit()
+				else:
+					email.email_status = "Open"
+				email.save()
+				frappe.db.commit()
+					
 	except Exception as e:
 		log_error(e)
 	
