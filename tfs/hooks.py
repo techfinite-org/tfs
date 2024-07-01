@@ -145,11 +145,11 @@ doc_events = {
 	"Employee Checkin": {
 		"before_save": "tfs.emploee_checkin_override.assign_shift"
 	},
-	"Communication":{
+	# "Communication":{
 
-		"after_insert": "tfs.tfs.doctype.email_extract.email_extract.segrigate_email",
+	# 	"after_insert": "tfs.tfs.doctype.email_extract.email_extract.segrigate_email",
 
-	}
+	# }
 	
 }
 
