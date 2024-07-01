@@ -7,22 +7,28 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "text"
+  "pdf_text",
+  "email_text"
  ],
  "fields": [
   {
-   "fieldname": "text",
+   "fieldname": "pdf_text",
    "fieldtype": "Long Text",
-   "label": "Text"
+   "label": "Pdf Text"
+  },
+  {
+   "fieldname": "email_text",
+   "fieldtype": "Long Text",
+   "label": "Email Text"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-21 11:53:10.941227",
+ "modified": "2024-06-25 17:02:01.267302",
  "modified_by": "Administrator",
  "module": "Tfs",
- "name": "Pdf Text",
+ "name": "Parsed Text",
  "owner": "Administrator",
  "permissions": [
   {

@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestPdfText(FrappeTestCase):
+class TestParsedText(FrappeTestCase):
 	pass
