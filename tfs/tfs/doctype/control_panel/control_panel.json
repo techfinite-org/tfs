@@ -535,6 +535,19 @@
    "fieldname": "captcha_api_key",
    "fieldtype": "Data",
    "label": "Captcha Api Key"
+  },
+  {
+    "fieldname": "column_break_hvduo",
+    "fieldtype": "Column Break"
+  },
+  {
+    "fieldname": "column_break_9wh1c",
+    "fieldtype": "Column Break"
+  },
+  {
+    "fieldname": "process_bulk_bank_transaction",
+    "fieldtype": "Button",
+    "label": "Process Bulk Bank Transaction"
   }
  ],
  "hide_toolbar": 1,
