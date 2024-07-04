@@ -303,7 +303,7 @@ frappe.ui.form.on('Control Panel', {
 				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size, "queue":"long"}
 			},
 		})
-	},
+	}, 
 	process_adjustment: function (frm) {
 		frappe.call({
 			method: "agarwals.reconciliation.step.adjust_bill.process",
