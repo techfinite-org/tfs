@@ -17,3 +17,8 @@
     font-size: larger;
     font-weight: bold;
 }
+
+.grid-heading-row{
+    background-color: #60a5fa;
+    color: #ffff;
+}
