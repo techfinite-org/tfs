@@ -26,7 +26,9 @@
 }
 .control-value.like-disabled-input, 
 .frappe-control .ql-editor:not(.read-mode),
-input#navbar-search {
+input#navbar-search ,
+input.input-with-feedback.form-control 
+{
     background-color: aliceblue;
 }
 
@@ -40,12 +42,5 @@ label.control-label {
 }
 
 .like-disabled-input {
-    min-height: var(--input-height);
-    border-radius: var(--border-radius);
     font-weight: 600;
-    padding: 6px 12px;
-    cursor: default;
-    color: var(--disabled-text-color);
-    background-color: var(--disabled-control-bg);
-
 }
