@@ -24,9 +24,19 @@
     background-color: #60a5fa;
     color: #ffff;
 }
+.control-value.like-disabled-input, 
+.frappe-control .ql-editor:not(.read-mode),
+input#navbar-search {
+    background-color: aliceblue;
+}
 
-.label .control-label {
+label.control-label {
     color: darkblue;
+}
+
+.grid-row > .row .col
+{
+    border-bottom: 1px solid #1f272e4f;
 }
 
 .like-disabled-input {
@@ -39,4 +49,3 @@
     background-color: var(--disabled-control-bg);
 
 }
-
