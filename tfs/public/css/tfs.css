@@ -19,6 +19,12 @@
     font-weight: bold;
 }
 
+
+.grid-heading-row{
+    background-color: #60a5fa;
+    color: #ffff;
+}
+
 .like-disabled-input {
     min-height: var(--input-height);
     border-radius: var(--border-radius);
@@ -29,3 +35,4 @@
     background-color: var(--disabled-control-bg);
 
 }
+
