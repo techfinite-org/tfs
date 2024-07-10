@@ -1,27 +1,48 @@
 {
  "actions": [],
- "allow_rename": 1,
- "creation": "2023-12-20 14:29:42.475037",
+ "autoname": "autoincrement",
+ "creation": "2024-06-20 10:30:55.697753",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "pdf"
+  "is_parsed",
+  "parsed_date",
+  "tpa_name",
+  "user_id"
  ],
  "fields": [
   {
-   "fieldname": "pdf",
+   "default": "0",
+   "fieldname": "is_parsed",
+   "fieldtype": "Check",
+   "label": "Is Parsed"
+  },
+  {
+   "fieldname": "parsed_date",
+   "fieldtype": "Date",
+   "label": "Parsed Date"
+  },
+  {
+   "fieldname": "tpa_name",
+   "fieldtype": "Link",
+   "label": "Tpa Name",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "user_id",
    "fieldtype": "Data",
-   "label": "PDF"
+   "label": "User Id"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-20 14:29:42.475037",
+ "modified": "2024-06-20 10:30:55.697753",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Pdf Extract",
+ "naming_rule": "Autoincrement",
  "owner": "Administrator",
  "permissions": [
   {

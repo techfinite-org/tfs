@@ -112,6 +112,36 @@ frappe.ui.form.on('Control Panel', {
 				}
 			}
 		})
+	},	
+	process_email:function(frm){
+		frappe.call({
+			method: "agarwals.utils.email_parsing.email_parsing",
+			callback:function(r){
+				if (r.message != "Success"){
+					frappe.throw(r.message)
+				}
+				else {
+					frappe.msgprint("Pdf Extraction completed successfully")
+
+				}
+			}
+			
+		})
+	},
+	process_pdf:function(frm){
+		frappe.call({
+			method: "agarwals.utils.pdf_parsing.pdfwithtext",
+			callback:function(r){
+				if (r.message != "Success"){
+					frappe.throw(r.message)
+				}
+				else {
+					frappe.msgprint("Pdf Extraction completed successfully")
+
+				}
+			}
+			
+		})
 	},
 	process_transaction_staging: function (frm) {
 		frappe.call({
@@ -226,7 +256,7 @@ frappe.ui.form.on('Control Panel', {
 	},
 	process_settlement_advice: function (frm) {
 		frappe.call({
-			method: "agarwals.reconciliation.step.advice_downloader.process",
+			method: "agarwals.reconciliation.step.advice_creator.process",
 			args: {
 				args: {"step_id":"","chunk_size":frm.doc.payment_matching_chunk_size, "queue":"long"}
 			},

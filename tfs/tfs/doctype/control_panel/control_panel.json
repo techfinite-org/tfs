@@ -15,11 +15,15 @@
   "settlement_advice_section",
   "process_settlement_staging",
   "column_break_zx987",
-  "process_writeback",
-  "bank_statement_section",
-  "process_writeoff",
-  "column_break_fkeig",
   "process_transaction_staging",
+  "bank_statement_section",
+  "process_writeback",
+  "column_break_fkeig",
+  "process_writeoff",
+  "column_break_rwgnq",
+  "process_email",
+  "column_break_jxqz1",
+  "process_pdf",
   "section_break_c0oby",
   "process_bill_adjustment",
   "configurations_section",
@@ -81,7 +85,18 @@
   "email_group",
   "column_break_h7qxw",
   "delete_zip",
-  "send_mail"
+  "delete_folder",
+  "send_mail",
+  "section_break_byuvw",
+  "enable_captcha_api",
+  "column_break_k4irw",
+  "captcha_api_key",
+  "email_section",
+  "delimitter",
+  "recipients",
+  "email_path",
+  "pdf_config_section",
+  "pdf_path"
  ],
  "fields": [
   {
@@ -372,7 +387,6 @@
    "label": " Local Environment"
   },
   {
-   "depends_on": "eval:doc.local_environment ==1",
    "fieldname": "section_break_wzfr5",
    "fieldtype": "Section Break"
   },
@@ -409,7 +423,6 @@
    "label": "SA downloader path"
   },
   {
-   "depends_on": "eval:doc.local_environment ==1",
    "fieldname": "section_break_qcia7",
    "fieldtype": "Section Break"
   },
@@ -444,24 +457,113 @@
   },
   {
    "default": "0",
+   "depends_on": "eval:doc.delete_folder == 0",
    "fieldname": "delete_zip",
    "fieldtype": "Check",
-   "label": "Delete Zip"
+   "label": "Delete Folders Including Zip"
   },
   {
    "default": "0",
    "fieldname": "send_mail",
    "fieldtype": "Check",
    "label": "Send Mail"
+  },
+  {
+   "fieldname": "process_pdf",
+   "fieldtype": "Button",
+   "label": "Process Pdf "
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "email_section",
+   "fieldtype": "Section Break",
+   "label": "Email "
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Data",
+   "label": "Recipients"
+  },
+  {
+   "fieldname": "column_break_rwgnq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "process_email",
+   "fieldtype": "Button",
+   "label": "Process Email"
+  },
+  {
+   "fieldname": "column_break_jxqz1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "email_path",
+   "fieldtype": "Data",
+   "label": "Email Path"
+  },
+  {
+   "fieldname": "pdf_path",
+   "fieldtype": "Data",
+   "label": "Pdf Path"
+  },
+  {
+   "fieldname": "delimitter",
+   "fieldtype": "Data",
+   "label": "Delimitter"
+  },
+  {
+   "fieldname": "pdf_config_section",
+   "fieldtype": "Section Break",
+   "label": "Pdf config"
+  },
+  {
+   "fieldname": "section_break_byuvw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_captcha_api",
+   "fieldtype": "Check",
+   "label": "Enable Captcha Api "
+  },
+  {
+   "fieldname": "column_break_k4irw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "captcha_api_key",
+   "fieldtype": "Data",
+   "label": "Captcha Api Key"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.delete_zip == 0",
+   "fieldname": "delete_folder",
+   "fieldtype": "Check",
+   "label": "Delete Folders Exclude  Zip"
+  },
+  {
+    "fieldname": "column_break_hvduo",
+    "fieldtype": "Column Break"
+  },
+  {
+    "fieldname": "column_break_9wh1c",
+    "fieldtype": "Column Break"
+  },
+  {
+    "fieldname": "process_bulk_bank_transaction",
+    "fieldtype": "Button",
+    "label": "Process Bulk Bank Transaction"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-11 19:56:14.204647",
+ "modified": "2024-06-27 11:09:59.972484",
  "modified_by": "Administrator",
- "module": "Tfs",
+ "module": "tfs",
  "name": "Control Panel",
  "owner": "Administrator",
  "permissions": [

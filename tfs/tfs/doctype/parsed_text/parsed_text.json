@@ -1,0 +1,48 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-21 11:53:10.941227",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "pdf_text",
+  "email_text"
+ ],
+ "fields": [
+  {
+   "fieldname": "pdf_text",
+   "fieldtype": "Long Text",
+   "label": "Pdf Text"
+  },
+  {
+   "fieldname": "email_text",
+   "fieldtype": "Long Text",
+   "label": "Email Text"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-06-25 17:02:01.267302",
+ "modified_by": "Administrator",
+ "module": "Tfs",
+ "name": "Parsed Text",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

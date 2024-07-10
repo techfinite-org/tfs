@@ -1,0 +1,163 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-06-24 19:03:53.622022",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "employee",
+  "employee_name",
+  "company",
+  "column_break_bvpuv",
+  "from_date",
+  "to_date",
+  "leave_type_section",
+  "permission_hours_personal",
+  "holiday_working",
+  "public_holiday",
+  "el",
+  "maternity_leave",
+  "column_break_xabbx",
+  "cl",
+  "compensatory_off",
+  "sl",
+  "leave_without_pay",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee",
+   "unique": 1
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Leave Allocation Import",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "permission_hours_personal",
+   "fieldtype": "Float",
+   "label": "Permission Hours Personal"
+  },
+  {
+   "fieldname": "holiday_working",
+   "fieldtype": "Float",
+   "label": "holiday working"
+  },
+  {
+   "fieldname": "public_holiday",
+   "fieldtype": "Float",
+   "label": "Public Holiday"
+  },
+  {
+   "fieldname": "el",
+   "fieldtype": "Float",
+   "label": "EL"
+  },
+  {
+   "fieldname": "maternity_leave",
+   "fieldtype": "Float",
+   "label": "Maternity Leave"
+  },
+  {
+   "fieldname": "cl",
+   "fieldtype": "Float",
+   "label": "CL"
+  },
+  {
+   "fieldname": "compensatory_off",
+   "fieldtype": "Float",
+   "label": "Compensatory Off"
+  },
+  {
+   "fieldname": "sl",
+   "fieldtype": "Float",
+   "label": "SL"
+  },
+  {
+   "fieldname": "leave_without_pay",
+   "fieldtype": "Float",
+   "label": "Leave Without Pay"
+  },
+  {
+   "fieldname": "leave_type_section",
+   "fieldtype": "Section Break",
+   "label": "Leave type"
+  },
+  {
+   "fieldname": "column_break_xabbx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_bvpuv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "LAI.-.####"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-06-25 10:23:13.606557",
+ "modified_by": "Administrator",
+ "module": "tfs",
+ "name": "Leave Allocation Import",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
