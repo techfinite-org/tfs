@@ -20,7 +20,7 @@
 }
 
 
-.grid-heading-row{
+.grid-heading-row .grid-row:nth-child(1){
     background-color: #60a5fa;
     color: #ffff;
 }
