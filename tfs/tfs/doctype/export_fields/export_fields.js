@@ -1,6 +1,18 @@
 frappe.ui.form.on('Export Fields', {
     fetch: function(frm) {
         frappe_call(frm);
+    },
+    custom_default:function(frm){
+        if(frm.doc.custom_default == 1) {
+            frappe.call({
+                method: 'tfs.tfs.doctype.export_fields.export_fields.validate_defualt',
+                args:{
+                    current_doc:frm.doc.export_doctype
+                },callback:function(r){
+                    frappe.msgprint("Defualt Checked")
+                }
+            })
+        }
     }
 });
 
