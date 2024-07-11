@@ -6,6 +6,48 @@ from frappe.model.document import Document
 import frappe
 class ExportFields(Document):
     pass
+
+
+import frappe
+
+
+import frappe
+
+@frappe.whitelist()
+def get_defualt_export_field(doctype):
+
+    is_defualt_doc = frappe.db.get_list(
+        "Export Fields",
+        filters={"custom_default": 1,"export_doctype":doctype},
+        pluck="name"
+    )
+    print("is_defualt_doc", is_defualt_doc)
+
+    if is_defualt_doc:
+        # Assuming you want to return the first document found
+        doc_name = is_defualt_doc[0]
+        doc = frappe.get_doc("Export Fields", doc_name)
+        return doc.name
+    else:
+        return "select_mandatory"
+
+
+
+@frappe.whitelist()
+def validate_defualt(current_doc):
+    is_defualt_doc = frappe.db.sql(f"SELECT name FROM `tabExport Fields` WHERE custom_default = 1 and export_doctype = '{current_doc}' ",pluck='name')
+    if is_defualt_doc:
+        for doc_name in is_defualt_doc:
+            doc = frappe.get_doc('Export Fields',doc_name)
+            doc.custom_default = 0
+            doc.save()
+            frappe.db.commit()
+
+        return 'Success'
+    else:
+        return 'Success'
+
+
 @frappe.whitelist()
 def get_fields_of_doctype(parent):
     
@@ -41,15 +83,17 @@ def get_fields_of_doctype(parent):
 
 @frappe.whitelist()
 def get_exported_checked_fields(doctype):
+    print("----------------------------doctype-------------------------",doctype)
     # Fetch all records matching the filters
     exported_fields = frappe.get_all('All Export Fields', 
-                                     filters={"exported_doctype": doctype, "check": 1}, 
+                                     filters={"parent":doctype, "check": 1},
                                      fields=['exported_fields', 'index'])
 
     # Sort the records by custom_index, prioritizing custom_index == 1
     sorted_fields = sorted(exported_fields, key=lambda x: (x['index'] != 0, x['index']))
     # Extract the 'exported_fields' from the sorted records
     result = [field['exported_fields'] for field in sorted_fields]
+    print("-------------------------------result-----------------------------",result)
     
     return result
 
@@ -69,5 +113,17 @@ def get_main_doctype_fields(parent):
     for child_table in meta.get("fields", {"fieldtype": "Table"}):
         child_meta = frappe.get_meta(frappe.get_meta(child_table.options).name)
         fields.extend(get_main_doctype_fields(child_meta.name))
-    return fields           
+    return fields
+
+
+@frappe.whitelist()
+def get_export_field_name(doctype):
+    exported_fields = frappe.get_all('Export Fields', filters={'export_doctype': doctype}, fields=['name'])
+    field_names = [field['name'] for field in exported_fields]
+    print("--------------------------------exported_fields---------------------------------", field_names)
+    return field_names
+
+
+
+
            
