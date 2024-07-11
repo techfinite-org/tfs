@@ -24,14 +24,19 @@
     background-color: #60a5fa;
     color: #ffff;
 }
+/* Color for all fields */
 .control-value.like-disabled-input, 
 .frappe-control .ql-editor:not(.read-mode),
 input#navbar-search ,
-input.input-with-feedback.form-control 
+input.input-with-feedback.form-control,
+select.input-with-feedback.frappe-control,
+textarea.input-with-feedback.frappe-control,
+.widget.number-widget-box
 {
     background-color: aliceblue;
 }
 
+/* text-color */
 label.control-label {
     color: darkblue;
 }
@@ -43,4 +48,9 @@ label.control-label {
 
 .like-disabled-input {
     font-weight: 600;
+}
+
+.widget.number-widget-box:hover{
+    transform: scale(1.05);
+    transition: 0.3s;
 }
