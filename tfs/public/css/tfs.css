@@ -29,12 +29,18 @@
 .frappe-control .ql-editor:not(.read-mode),
 input#navbar-search ,
 input.input-with-feedback.form-control,
-select.input-with-feedback.frappe-control,
-textarea.input-with-feedback.frappe-control,
-.widget.number-widget-box
+select.input-with-feedback.form-control,
+textarea.input-with-feedback.form-control,
+datalist.input-with-feedback.form-control,
+output.input-with-feedback.form-control,
+.desk-sidebar-item.standard-sidebar-item.selected,
+.desk-sidebar-item.standard-sidebar-item:hover,
+.widget.number-widget-box,
+a.dorpdown-item:hover
 {
     background-color: aliceblue;
 }
+
 
 /* text-color */
 label.control-label {
