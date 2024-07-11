@@ -69,6 +69,8 @@
   "production_environment",
   "column_break_qzdj7",
   "local_environment",
+  "column_break_z2pog",
+  "validate_logins",
   "section_break_wzfr5",
   "user_id",
   "column_break_yzb2w",
@@ -96,7 +98,10 @@
   "recipients",
   "email_path",
   "pdf_config_section",
-  "pdf_path"
+  "pdf_path",
+  "column_break_hvduo",
+  "column_break_9wh1c",
+  "process_bulk_bank_transaction"
  ],
  "fields": [
   {
@@ -544,26 +549,35 @@
    "label": "Delete Folders Exclude  Zip"
   },
   {
-    "fieldname": "column_break_hvduo",
-    "fieldtype": "Column Break"
+   "fieldname": "column_break_hvduo",
+   "fieldtype": "Column Break"
   },
   {
-    "fieldname": "column_break_9wh1c",
-    "fieldtype": "Column Break"
+   "fieldname": "column_break_9wh1c",
+   "fieldtype": "Column Break"
   },
   {
-    "fieldname": "process_bulk_bank_transaction",
-    "fieldtype": "Button",
-    "label": "Process Bulk Bank Transaction"
+   "fieldname": "process_bulk_bank_transaction",
+   "fieldtype": "Button",
+   "label": "Process Bulk Bank Transaction"
+  },
+  {
+   "fieldname": "column_break_z2pog",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "validate_logins",
+   "fieldtype": "Button",
+   "label": "Validate Logins"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-27 11:09:59.972484",
+ "modified": "2024-07-11 10:45:46.124911",
  "modified_by": "Administrator",
- "module": "tfs",
+ "module": "Tfs",
  "name": "Control Panel",
  "owner": "Administrator",
  "permissions": [
