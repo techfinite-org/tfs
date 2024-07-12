@@ -1,14 +1,17 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:export_doctype",
+ "autoname": "naming_series:",
  "creation": "2024-04-17 15:16:21.595127",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "export_doctype",
+  "custom_default",
+  "custom_field",
   "fetch",
   "all_export_fields",
   "amended_from"
@@ -19,8 +22,7 @@
    "fieldname": "export_doctype",
    "fieldtype": "Link",
    "label": "Export Doctype",
-   "options": "DocType",
-   "unique": 1
+   "options": "DocType"
   },
   {
    "allow_on_submit": 1,
@@ -44,16 +46,35 @@
    "options": "Export Custom Fields",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "custom_field",
+   "fieldtype": "Data",
+   "label": "Save as"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Naming Series",
+   "options": "{export_doctype}.-{custom_field}.####\nACC-SINV-.YYYY.-\nACC-SINV-RET-.YYYY.-"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "custom_default",
+   "fieldtype": "Check",
+   "label": "Set as Default"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-18 12:26:10.556125",
+ "modified": "2024-07-11 19:32:47.553224",
  "modified_by": "Administrator",
- "module": "Tfs",
+ "module": "tfs",
  "name": "Export Fields",
- "naming_rule": "By fieldname",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

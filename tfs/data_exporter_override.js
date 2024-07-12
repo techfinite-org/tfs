@@ -1,6 +1,6 @@
 frappe.provide("frappe.data_import");
 
-frappe.data_import.DataExporter  = class DataExporter {
+frappe.data_import.DataExporter = class DataExporter {
     constructor(doctype, exporting_for) {
         this.doctype = doctype;
         this.exporting_for = exporting_for;
@@ -42,8 +42,7 @@ frappe.data_import.DataExporter  = class DataExporter {
                             value: "blank_template",
                         },
                     ],
-                    default:
-                        this.exporting_for === "Insert New Records" ? "blank_template" : "all",
+                    default: this.exporting_for === "Insert New Records" ? "blank_template" : "all",
                     change: () => {
                         this.update_record_count_message();
                     },
@@ -68,12 +67,13 @@ frappe.data_import.DataExporter  = class DataExporter {
                     on_change: () => this.update_primary_action(),
                     options: this.get_multicheck_options(this.doctype),
                 },
+
+
                 ...frappe.meta.get_table_fields(this.doctype).map((df) => {
                     let doctype = df.options;
                     let child_fieldname = df.fieldname;
                     let label = df.reqd
-                        ? // prettier-ignore
-                          __('{0} ({1}) (1 row mandatory)', [__(df.label || df.fieldname), __(doctype)])
+                        ? __('{0} ({1}) (1 row mandatory)', [__(df.label || df.fieldname), __(doctype)])
                         : __("{0} ({1})", [__(df.label || df.fieldname), __(doctype)]);
                     return {
                         label,
@@ -87,7 +87,9 @@ frappe.data_import.DataExporter  = class DataExporter {
             ],
             primary_action_label: __("Export"),
             primary_action: (values) => this.export_records(values),
-            on_page_show: () => this.select_mandatory(),
+           on_page_show: () => {
+                this.initialize_export_field_selection();
+            }
         });
 
         this.make_filter_area();
@@ -97,14 +99,12 @@ frappe.data_import.DataExporter  = class DataExporter {
         this.dialog.show();
     }
 
-    export_records() {
+    export_records(values) {
         let method = "/api/method/frappe.core.doctype.data_import.data_import.download_template";
 
         let multicheck_fields = this.dialog.fields
             .filter((df) => df.fieldtype === "MultiCheck")
             .map((df) => df.fieldname);
-
-        let values = this.dialog.get_values();
 
         let doctype_field_map = Object.assign({}, values);
         for (let key in doctype_field_map) {
@@ -137,41 +137,48 @@ frappe.data_import.DataExporter  = class DataExporter {
         });
     }
 
-    make_select_all_buttons() {
-        let for_insert = this.exporting_for === "Insert New Records";
-        let section_title = for_insert
-            ? __("Select Fields To Insert")
-            : __("Select Fields To Update");
-        let $select_all_buttons = $(`
-            <div class="mb-3">
-                <h6 class="form-section-heading uppercase">${section_title}</h6>
-                <button class="btn btn-default btn-xs" data-action="select_all">
-                    ${__("Select All")}
-                </button>
-                ${
-                    for_insert
-                        ? `<button class="btn btn-default btn-xs" data-action="select_mandatory">
-                    ${__("Select Mandatory")}
-                </button>`
-                        : ""
-                }
-                <button class="btn btn-default btn-xs" data-action="unselect_all">
-                    ${__("Unselect All")}
-                </button>
+make_select_all_buttons() {
+    let for_insert = this.exporting_for === "Insert New Records";
+    let section_title = for_insert
+        ? __("Select Fields To Insert")
+        : __("Select Fields To Update");
+
+    let $select_all_buttons = $(`
+        <div class="mb-3">
+            <h6 class="form-section-heading uppercase">${section_title}</h6>
+            <button class="btn btn-default btn-xs" data-action="select_all">
+                ${__("Select All")}
+            </button>
+            ${
+                for_insert
+                    ? `<button class="btn btn-default btn-xs" data-action="select_mandatory">
+                ${__("Select Mandatory")}
+            </button>`
+                    : ""
+            }
+            <button class="btn btn-default btn-xs" data-action="unselect_all">
+                ${__("Unselect All")}
+            </button>
+            <!-- Link field for Export Fields -->
+            <div class="position-relative">
+                <input type="text" class="form-control dropdown-filter-input" placeholder="${__("Type to filter")}" data-fieldtype="Link" data-fieldname="export_field" data-options="Export Field">
+                <div class="dropdown-menu mt-1 position-absolute w-100" aria-labelledby="dropdownMenuButton" style="max-height: 200px; overflow-y: auto;">
+                    <!-- Dropdown items will be inserted here dynamically -->
+                </div>
             </div>
-        `);
-        frappe.utils.bind_actions_with_object($select_all_buttons, this);
-        this.dialog.get_field("select_all_buttons").$wrapper.html($select_all_buttons);
-    }
+        </div>
+    `);
 
-    select_all() {
-        this.dialog.$wrapper.find(":checkbox").prop("checked", true).trigger("change");
-    }
+    $select_all_buttons.on("click", "[data-action='select_all']", () => this.select_all());
+    $select_all_buttons.on("click", "[data-action='select_mandatory']", () => this.select_mandatory());
+    $select_all_buttons.on("click", "[data-action='unselect_all']", () => this.unselect_all());
 
-    select_mandatory() {
+    this.dialog.get_field("select_all_buttons").$wrapper.html($select_all_buttons);
 
+    // Fetch dropdown items when the input field is focused
+    $select_all_buttons.find('.dropdown-filter-input').on('focus', () => {
         frappe.call({
-            method: 'tfs.tfs.doctype.export_fields.export_fields.get_exported_checked_fields',
+            method: 'tfs.tfs.doctype.export_fields.export_fields.get_export_field_name',
             args: {
                 doctype: this.doctype,
             },
@@ -179,67 +186,443 @@ frappe.data_import.DataExporter  = class DataExporter {
                 if (response.message) {
                     let result = response.message;
 
-                    let mandatory_table_fields = frappe.meta
-                        .get_table_fields(this.doctype)
-						// .filter((df) => df.reqd)
-                        .map((df) => df.fieldname);
-                    mandatory_table_fields.push(this.doctype);
 
-                    let multicheck_fields = this.dialog.fields
-                        .filter((df) => df.fieldtype === "MultiCheck")
-                        .map((df) => df.fieldname)
-                        .filter((doctype) => mandatory_table_fields.includes(doctype));
+                    // Populate dropdown menu
+                    let $dropdownMenu = $select_all_buttons.find('.dropdown-menu');
+                    let $filterInput = $select_all_buttons.find('.dropdown-filter-input');
 
-                    let checkboxes = [].concat(
-                        ...multicheck_fields.map((fieldname) => {
-                            let field = this.dialog.get_field(fieldname);
+                    // Function to populate dropdown with filtered or full list
+                    const populateDropdown = (items) => {
+                        $dropdownMenu.empty(); // Clear existing items
 
+                        items.forEach(item => {
+                            let $dropdownItem = $(`<a class="dropdown-item" href="#" data-value="${item}">${item}</a>`);
+                            $dropdownMenu.append($dropdownItem);
 
-                            // Map the labels from field.options
-                            const sortedResult = field.options.map(option => option.label);
+                            // Handle click event on dropdown item
+                            $dropdownItem.click((event) => {
+                                event.preventDefault();
+                                $filterInput.val(item); // Place selected item in the input box
+                                $dropdownMenu.hide(); // Hide the dropdown menu
+                                this.dropdown(event); // Call the dropdown method if needed
+                            });
+                        });
 
-                            // Initialize an array to store common labels and checkboxes
-                            let commonLabelsAndCheckboxes = [];
+                        // Show the dropdown
+                        $dropdownMenu.show();
+                    };
 
-                            // Check for common elements and valid field options
-                            if (field && field.options) {
-                                result.forEach(label => {
-                                    if (sortedResult.includes(label)) {
-                                        let checkbox = field.options.find(option => option.label === label);
-                                        if (checkbox && checkbox.$checkbox) {
-                                            commonLabelsAndCheckboxes.push({
-                                                label: label,
-                                                checkbox: checkbox.$checkbox.find("input").get(0)
-                                            });
-                                        }
-                                    }
-                                });
+                    // Initial population of dropdown with all items
+                    populateDropdown(result);
 
-                                // Check child table fields
-                                frappe.meta.get_table_fields(this.doctype).forEach(df => {
-                                    let cdt = df.options;
-                                    let child_fieldname = df.fieldname;
-                                    let child_multicheck = this.dialog.get_field(child_fieldname);
-                                    if (child_multicheck) {
-                                        child_multicheck.options.forEach(option => {
-                                            if (result.includes(option.label)) {
-                                                option.$checkbox.find("input").prop("checked", true).trigger("change");
-                                            }
-                                        });
-                                    }
-                                });
-                            }
+                    // Handle typing in the filter input
+                    $filterInput.on('input', function() {
+                        let inputValue = $(this).val().toLowerCase();
 
-                            return commonLabelsAndCheckboxes;
-                        })
-                    );
+                        // Filter items based on user input
+                        let filteredItems = result.filter(item => {
+                            return item.toLowerCase().includes(inputValue);
+                        });
 
-                    this.unselect_all();
-                    $(checkboxes.flat().map(entry => entry.checkbox)).prop("checked", true).trigger("change");
+                        // Update dropdown with filtered items
+                        populateDropdown(filteredItems);
+                    });
+
+                    // Hide dropdown when input loses focus
+                    $filterInput.on('blur', function() {
+                        setTimeout(() => {
+                            $dropdownMenu.hide();
+                        }, 200); // Delay to allow click event on dropdown items to be registered
+                    });
+                } else {
+                    console.log("No items received from the server.");
                 }
+            },
+            error: (error) => {
+                console.error("Error fetching dropdown items:", error);
             }
         });
+    });
+}
+
+make_select_all_buttons() {
+    let for_insert = this.exporting_for === "Insert New Records";
+    let section_title = for_insert
+        ? __("Select Fields To Insert")
+        : __("Select Fields To Update");
+
+    let $select_all_buttons = $(`
+        <div class="mb-3">
+            <h6 class="form-section-heading uppercase">${section_title}</h6>
+            <div class="d-flex align-items-center">
+                <button class="btn btn-default btn-xs mr-2" data-action="select_all">
+                    ${__("Select All")}
+                </button>
+                ${
+                    for_insert
+                        ? `<button class="btn btn-default btn-xs mr-2" data-action="select_mandatory">
+                    ${__("Select Mandatory")}
+                </button>`
+                        : ""
+                }
+                <button class="btn btn-default btn-xs mr-2" data-action="unselect_all">
+                    ${__("Unselect All")}
+                </button>
+                <!-- Link field for Export Fields -->
+                <div class="position-relative flex-grow-1">
+                    <input type="text" class="form-control dropdown-filter-input" placeholder="${__("Export Fields")}" data-fieldtype="Link" data-fieldname="export_field" data-options="Export Field">
+                    <div class="dropdown-menu mt-1 position-absolute w-100" aria-labelledby="dropdownMenuButton" style="max-height: 200px; overflow-y: auto; overflow-x: hidden; white-space: normal; word-wrap: break-word;">
+                        <!-- Dropdown items will be inserted here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+
+    $select_all_buttons.on("click", "[data-action='select_all']", () => this.select_all());
+    $select_all_buttons.on("click", "[data-action='select_mandatory']", () => this.select_mandatory());
+    $select_all_buttons.on("click", "[data-action='unselect_all']", () => this.unselect_all());
+
+    this.dialog.get_field("select_all_buttons").$wrapper.html($select_all_buttons);
+
+    // Fetch dropdown items when the input field is focused
+    $select_all_buttons.find('.dropdown-filter-input').on('focus', () => {
+        frappe.call({
+            method: 'tfs.tfs.doctype.export_fields.export_fields.get_export_field_name',
+            args: {
+                doctype: this.doctype,
+            },
+            callback: (response) => {
+                if (response.message) {
+                    let result = response.message;
+
+
+                    // Populate dropdown menu
+                    let $dropdownMenu = $select_all_buttons.find('.dropdown-menu');
+                    let $filterInput = $select_all_buttons.find('.dropdown-filter-input');
+
+                    // Function to populate dropdown with filtered or full list
+                    const populateDropdown = (items) => {
+                        $dropdownMenu.empty(); // Clear existing items
+
+                        items.forEach(item => {
+                            let $dropdownItem = $(`<a class="dropdown-item" href="#" data-value="${item}" style="white-space: normal; word-wrap: break-word;">${item}</a>`);
+                            $dropdownMenu.append($dropdownItem);
+
+                            // Handle click event on dropdown item
+                            $dropdownItem.click((event) => {
+                                event.preventDefault();
+                                $filterInput.val(item); // Place selected item in the input box
+                                $dropdownMenu.hide(); // Hide the dropdown menu
+                                this.dropdown(event); // Call the dropdown method if needed
+                            });
+                        });
+
+                        // Show the dropdown
+                        $dropdownMenu.show();
+                    };
+
+                    // Initial population of dropdown with all items
+                    populateDropdown(result);
+
+                    // Handle typing in the filter input
+                    $filterInput.on('input', function() {
+                        let inputValue = $(this).val().toLowerCase();
+
+                        // Filter items based on user input
+                        let filteredItems = result.filter(item => {
+                            return item.toLowerCase().includes(inputValue);
+                        });
+
+                        // Update dropdown with filtered items
+                        populateDropdown(filteredItems);
+                    });
+
+                    // Hide dropdown when input loses focus
+                    $filterInput.on('blur', function() {
+                        setTimeout(() => {
+                            $dropdownMenu.hide();
+                        }, 200); // Delay to allow click event on dropdown items to be registered
+                    });
+
+                    // Handle keyboard navigation and selection
+                    $filterInput.on('keydown', function(event) {
+                        let $activeItem = $dropdownMenu.find('.dropdown-item.active');
+                        switch (event.key) {
+                            case 'ArrowDown':
+                                event.preventDefault();
+                                if ($activeItem.length === 0) {
+                                    let $firstItem = $dropdownMenu.find('.dropdown-item:first-child');
+                                    $firstItem.addClass('active');
+                                    $dropdownMenu.scrollTop(0); // Scroll to the top
+                                } else {
+                                    let $nextItem = $activeItem.removeClass('active').next();
+                                    if ($nextItem.length) {
+                                        $nextItem.addClass('active');
+                                        $dropdownMenu.scrollTop($dropdownMenu.scrollTop() + $nextItem.position().top);
+                                    } else {
+                                        $dropdownMenu.find('.dropdown-item:first-child').addClass('active');
+                                        $dropdownMenu.scrollTop(0); // Scroll to the top
+                                    }
+                                }
+                                break;
+                            case 'ArrowUp':
+                                event.preventDefault();
+                                if ($activeItem.length === 0) {
+                                    let $lastItem = $dropdownMenu.find('.dropdown-item:last-child');
+                                    $lastItem.addClass('active');
+                                    $dropdownMenu.scrollTop($dropdownMenu.prop("scrollHeight")); // Scroll to the bottom
+                                } else {
+                                    let $prevItem = $activeItem.removeClass('active').prev();
+                                    if ($prevItem.length) {
+                                        $prevItem.addClass('active');
+                                        $dropdownMenu.scrollTop($dropdownMenu.scrollTop() + $prevItem.position().top - $dropdownMenu.height() + $prevItem.outerHeight());
+                                    } else {
+                                        $dropdownMenu.find('.dropdown-item:last-child').addClass('active');
+                                        $dropdownMenu.scrollTop($dropdownMenu.prop("scrollHeight")); // Scroll to the bottom
+                                    }
+                                }
+                                break;
+                            case 'Enter':
+                                event.preventDefault();
+                                if ($activeItem.length > 0) {
+                                    $activeItem.trigger('click');
+                                }
+                                break;
+                        }
+                    });
+                } else {
+                    console.log("No items received from the server.");
+                }
+            },
+            error: (error) => {
+                console.error("Error fetching dropdown items:", error);
+            }
+        });
+    });
+}
+
+
+
+
+dropdown(event = null, selectedValue = null) {
+    if (event && event.preventDefault) {
+        event.preventDefault();
+        selectedValue = $(event.target).data('value');
+    } else if (selectedValue) {
+        // Handle case when selectedValue is passed directly
+        selectedValue = selectedValue;
+    } else {
+        console.error('No event or selected value provided');
+        return;
     }
+
+
+
+    frappe.call({
+        method: 'tfs.tfs.doctype.export_fields.export_fields.get_exported_checked_fields',
+        args: {
+            doctype: selectedValue,
+        },
+        callback: (response) => {
+            if (response.message) {
+                let result = response.message;
+
+                // Get mandatory table fields
+                let mandatory_table_fields = frappe.meta
+                    .get_table_fields(this.doctype)
+                    .map((df) => df.fieldname);
+                mandatory_table_fields.push(this.doctype);
+
+                // Get multi-check fields that are mandatory
+                let multicheck_fields = this.dialog.fields
+                    .filter((df) => df.fieldtype === "MultiCheck")
+                    .map((df) => df.fieldname)
+                    .filter((doctype) => mandatory_table_fields.includes(doctype));
+
+                // Update checkboxes based on result
+                let checkboxesToUpdate = [].concat(
+                    ...multicheck_fields.map((fieldname) => {
+                        let field = this.dialog.get_field(fieldname);
+
+                        // Map the labels from field.options
+                        const sortedResult = field.options.map(option => option.label);
+
+                        // Initialize an array to store common labels and checkboxes
+                        let commonLabelsAndCheckboxes = [];
+
+                        // Check for common elements and valid field options
+                        if (field && field.options) {
+                            result.forEach(label => {
+                                if (sortedResult.includes(label)) {
+                                    let checkbox = field.options.find(option => option.label === label);
+                                    if (checkbox && checkbox.$checkbox) {
+                                        commonLabelsAndCheckboxes.push({
+                                            label: label,
+                                            checkbox: checkbox.$checkbox.find("input").get(0)
+                                        });
+                                    }
+                                }
+                            });
+
+                            // Check child table fields
+                            frappe.meta.get_table_fields(this.doctype).forEach(df => {
+                                let cdt = df.options;
+                                let child_fieldname = df.fieldname;
+                                let child_multicheck = this.dialog.get_field(child_fieldname);
+                                if (child_multicheck) {
+                                    child_multicheck.options.forEach(option => {
+                                        if (result.includes(option.label)) {
+                                            option.$checkbox.find("input").prop("checked", true).trigger("change");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+
+                        return commonLabelsAndCheckboxes.map(entry => entry.checkbox);
+                    })
+                );
+
+                // Unselect all checkboxes before selecting new ones
+                this.unselect_all();
+
+                // Select checkboxes based on retrieved data
+                $(checkboxesToUpdate.flat()).prop("checked", true).trigger("change");
+            }
+        }
+    });
+
+    // Update the dropdown button text with the selected value
+    $('#dropdownMenuButton').text(selectedValue);
+
+    // Add any additional logic you want to execute on dropdown selection
+}
+
+    select_all() {
+        this.dialog.$wrapper.find(":checkbox").prop("checked", true).trigger("change");
+    }
+
+	select_mandatory() {
+
+		let mandatory_table_fields = frappe.meta
+			.get_table_fields(this.doctype)
+			.filter((df) => df.reqd)
+			.map((df) => df.fieldname);
+		mandatory_table_fields.push(this.doctype);
+
+		let multicheck_fields = this.dialog.fields
+			.filter((df) => df.fieldtype === "MultiCheck")
+			.map((df) => df.fieldname)
+			.filter((doctype) => mandatory_table_fields.includes(doctype));
+
+		let checkboxes = [].concat(
+			...multicheck_fields.map((fieldname) => {
+				let field = this.dialog.get_field(fieldname);
+				return field.options
+					.filter((option) => option.danger)
+					.map((option) => option.$checkbox.find("input").get(0));
+			})
+		);
+
+		this.unselect_all();
+		$(checkboxes).prop("checked", true).trigger("change");
+	}
+initialize_export_field_selection() {
+
+    frappe.call({
+        method: 'tfs.tfs.doctype.export_fields.export_fields.get_defualt_export_field',
+        args: {
+			 doctype: this.doctype,
+		},
+        callback: (response) => {
+            if (response.message) {
+                let result = response.message;
+
+                if (result === "select_mandatory") {
+                    this.select_mandatory();  // Ensure `this` is correctly bound
+                } else {
+                    this.dropdown(null, result);  // Ensure `this` is correctly bound and pass `result`
+                }
+            }
+        }
+    });
+}
+
+
+
+    // select_mandatory() {
+	//
+    //     frappe.call({
+    //         method: 'tfs.tfs.doctype.export_fields.export_fields.get_exported_checked_fields',
+    //         args: {
+    //             doctype: this.doctype,
+    //         },
+    //         callback: (response) => {
+    //             if (response.message) {
+    //                 let result = response.message;
+	//
+    //                 let mandatory_table_fields = frappe.meta
+    //                     .get_table_fields(this.doctype)
+	// 					// .filter((df) => df.reqd)
+    //                     .map((df) => df.fieldname);
+    //                 mandatory_table_fields.push(this.doctype);
+	//
+    //                 let multicheck_fields = this.dialog.fields
+    //                     .filter((df) => df.fieldtype === "MultiCheck")
+    //                     .map((df) => df.fieldname)
+    //                     .filter((doctype) => mandatory_table_fields.includes(doctype));
+	//
+    //                 let checkboxes = [].concat(
+    //                     ...multicheck_fields.map((fieldname) => {
+    //                         let field = this.dialog.get_field(fieldname);
+	//
+	//
+    //                         // Map the labels from field.options
+    //                         const sortedResult = field.options.map(option => option.label);
+	//
+    //                         // Initialize an array to store common labels and checkboxes
+    //                         let commonLabelsAndCheckboxes = [];
+	//
+    //                         // Check for common elements and valid field options
+    //                         if (field && field.options) {
+    //                             result.forEach(label => {
+    //                                 if (sortedResult.includes(label)) {
+    //                                     let checkbox = field.options.find(option => option.label === label);
+    //                                     if (checkbox && checkbox.$checkbox) {
+    //                                         commonLabelsAndCheckboxes.push({
+    //                                             label: label,
+    //                                             checkbox: checkbox.$checkbox.find("input").get(0)
+    //                                         });
+    //                                     }
+    //                                 }
+    //                             });
+	//
+    //                             // Check child table fields
+    //                             frappe.meta.get_table_fields(this.doctype).forEach(df => {
+    //                                 let cdt = df.options;
+    //                                 let child_fieldname = df.fieldname;
+    //                                 let child_multicheck = this.dialog.get_field(child_fieldname);
+    //                                 if (child_multicheck) {
+    //                                     child_multicheck.options.forEach(option => {
+    //                                         if (result.includes(option.label)) {
+    //                                             option.$checkbox.find("input").prop("checked", true).trigger("change");
+    //                                         }
+    //                                     });
+    //                                 }
+    //                             });
+    //                         }
+	//
+    //                         return commonLabelsAndCheckboxes;
+    //                     })
+    //                 );
+	//
+    //                 this.unselect_all();
+    //                 $(checkboxes.flat().map(entry => entry.checkbox)).prop("checked", true).trigger("change");
+    //             }
+    //         }
+    //     });
+    // }
 
 
     unselect_all() {
@@ -397,3 +780,6 @@ export function get_columns_for_picker(doctype) {
 
     return out;
 }
+
+
+
