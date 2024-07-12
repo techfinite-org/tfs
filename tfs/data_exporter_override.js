@@ -185,7 +185,7 @@ make_select_all_buttons() {
             callback: (response) => {
                 if (response.message) {
                     let result = response.message;
-                    console.log("Received dropdown items:", result);
+
 
                     // Populate dropdown menu
                     let $dropdownMenu = $select_all_buttons.find('.dropdown-menu');
@@ -295,7 +295,7 @@ make_select_all_buttons() {
             callback: (response) => {
                 if (response.message) {
                     let result = response.message;
-                    console.log("Received dropdown items:", result);
+
 
                     // Populate dropdown menu
                     let $dropdownMenu = $select_all_buttons.find('.dropdown-menu');
@@ -417,7 +417,7 @@ dropdown(event = null, selectedValue = null) {
         return;
     }
 
-    console.log('Selected Value:', selectedValue);
+
 
     frappe.call({
         method: 'tfs.tfs.doctype.export_fields.export_fields.get_exported_checked_fields',
@@ -504,7 +504,7 @@ dropdown(event = null, selectedValue = null) {
     }
 
 	select_mandatory() {
-		console.log("function calling")
+
 		let mandatory_table_fields = frappe.meta
 			.get_table_fields(this.doctype)
 			.filter((df) => df.reqd)
@@ -529,7 +529,7 @@ dropdown(event = null, selectedValue = null) {
 		$(checkboxes).prop("checked", true).trigger("change");
 	}
 initialize_export_field_selection() {
-    console.log("initialize_export_field_selection");
+
     frappe.call({
         method: 'tfs.tfs.doctype.export_fields.export_fields.get_defualt_export_field',
         args: {
@@ -538,7 +538,7 @@ initialize_export_field_selection() {
         callback: (response) => {
             if (response.message) {
                 let result = response.message;
-                console.log("get_defualt_export_field:", result);
+
                 if (result === "select_mandatory") {
                     this.select_mandatory();  // Ensure `this` is correctly bound
                 } else {
