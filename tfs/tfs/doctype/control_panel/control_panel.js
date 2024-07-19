@@ -31,6 +31,11 @@ frappe.ui.form.on('Control Panel', {
 			}
 		})
 	},
+	delete_payment_entry: function (frm) {
+		frappe.call({
+			method: "agarwals.utils.payment_entry_cancellator.process"
+		})
+	},
 	process_writeback: function (frm) {
 		frappe.call({
 			method: "agarwals.reconciliation.step.transform.process",

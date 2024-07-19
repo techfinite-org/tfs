@@ -8,6 +8,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "delete_payment_entry",
   "utility_functions_section",
   "process_debtors",
   "claimbook_section",
@@ -117,6 +118,11 @@
    "fieldtype": "Button",
    "label": "Process ClaimBook"
   },
+  {
+    "fieldname": "delete_payment_entry",
+    "fieldtype": "Button",
+    "label": "Delete Payment Entry"
+   },
   {
    "fieldname": "settlement_advice_section",
    "fieldtype": "Column Break"
