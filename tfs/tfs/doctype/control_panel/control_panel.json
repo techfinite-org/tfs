@@ -41,6 +41,7 @@
   "process_bank_transaction",
   "payment_utilities_section",
   "generate_claim_key",
+  "generate_utr_key",
   "process_matcher",
   "process_payment_using_payment_entry",
   "writebackwriteoff_section",
@@ -190,6 +191,11 @@
    "fieldname": "generate_claim_key",
    "fieldtype": "Button",
    "label": "Generate Claim Key"
+  },
+   {
+   "fieldname": "generate_utr_key",
+   "fieldtype": "Button",
+   "label": "Generate UTR Key"
   },
   {
    "fieldname": "process_matcher",
