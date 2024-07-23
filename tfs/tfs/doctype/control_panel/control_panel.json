@@ -10,32 +10,31 @@
  "field_order": [
   "utility_functions_section",
   "process_debtors",
-  "claimbook_section",
   "process_claimbook",
-  "settlement_advice_section",
   "process_settlement_staging",
-  "column_break_zx987",
   "process_transaction_staging",
-  "bank_statement_section",
-  "process_writeback",
-  "column_break_fkeig",
-  "process_writeoff",
-  "column_break_rwgnq",
-  "process_email",
-  "column_break_jxqz1",
-  "process_pdf",
-  "section_break_c0oby",
+  "process_bulk_bank_transaction",
   "process_bill_adjustment",
+  "claimbook_section",
+  "process_closing_balance",
+  "process_writeoff",
+  "process_writeback",
+  "process_email",
+  "process_pdf",
+  "update_index",
   "configurations_section",
-  "start_date",
-  "end_date",
   "site_path",
   "allowed_file_extensions",
-  "update_index",
   "section_break_cgwd2",
+  "bill_utilities_column",
   "create_sales_invoice",
-  "advice_utilities_section",
+  "advice_utilities_column",
   "process_settlement_advice",
+  "writeoffwriteback_column",
+  "process_writeback_jv",
+  "writeoff_column",
+  "process_writeoff_jv",
+  "utilities_section",
   "other_utility_section",
   "mapping_insurance",
   "mapping_payer",
@@ -44,22 +43,16 @@
   "generate_claim_key",
   "process_matcher",
   "process_payment_using_payment_entry",
+  "writebackwriteoff_section",
   "process_rounding_off",
   "process_adjustment",
-  "writebackwriteoff_section",
-  "process_writeback_jv",
-  "process_writeoff_jv",
-  "aws_section",
-  "aws_access_key",
-  "aws_secret_key",
-  "region",
-  "bucket",
-  "last_time_stamp",
   "chunk_configuration_section",
   "payment_matching_chunk_size",
   "match_logic",
-  "calculate_dso",
+  "payment_logic",
   "log",
+  "mail_configuration_section",
+  "mail_id",
   "yearly_due_updation_section",
   "closing_fiscal_year",
   "opening_fiscal_year",
@@ -69,15 +62,15 @@
   "production_environment",
   "column_break_qzdj7",
   "local_environment",
-  "section_break_wzfr5",
   "user_id",
+  "section_break_s6l9r",
   "column_break_yzb2w",
   "password",
   "column_break_gfdz2",
   "url",
   "column_break_onwl5",
   "sa_downloader_path",
-  "section_break_qcia7",
+  "section_break_9gssr",
   "create_folders",
   "column_break_gq8dn",
   "upload_files",
@@ -87,7 +80,7 @@
   "delete_zip",
   "delete_folder",
   "send_mail",
-  "section_break_byuvw",
+  "section_break_axjid",
   "enable_captcha_api",
   "column_break_k4irw",
   "captcha_api_key",
@@ -118,17 +111,9 @@
    "label": "Process ClaimBook"
   },
   {
-   "fieldname": "settlement_advice_section",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "process_settlement_staging",
    "fieldtype": "Button",
-   "label": "Process Settlement Advice Staging"
-  },
-  {
-   "fieldname": "column_break_zx987",
-   "fieldtype": "Column Break"
+   "label": "Process Advice Staging"
   },
   {
    "fieldname": "process_writeback",
@@ -136,17 +121,9 @@
    "label": "Process Write Back"
   },
   {
-   "fieldname": "bank_statement_section",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "process_transaction_staging",
    "fieldtype": "Button",
-   "label": "Process Bank Transaction Staging"
-  },
-  {
-   "fieldname": "section_break_c0oby",
-   "fieldtype": "Section Break"
+   "label": "Process Bank Staging"
   },
   {
    "fieldname": "process_bill_adjustment",
@@ -156,18 +133,8 @@
   {
    "collapsible": 1,
    "fieldname": "configurations_section",
-   "fieldtype": "Section Break",
+   "fieldtype": "Column Break",
    "label": "Configurations"
-  },
-  {
-   "fieldname": "start_date",
-   "fieldtype": "Date",
-   "label": "Start Date"
-  },
-  {
-   "fieldname": "end_date",
-   "fieldtype": "Date",
-   "label": "End Date"
   },
   {
    "fieldname": "site_path",
@@ -182,18 +149,12 @@
   },
   {
    "fieldname": "section_break_cgwd2",
-   "fieldtype": "Section Break",
-   "label": "Bill Utilities"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "create_sales_invoice",
    "fieldtype": "Button",
    "label": "Create Sales Invoice"
-  },
-  {
-   "fieldname": "advice_utilities_section",
-   "fieldtype": "Section Break",
-   "label": "Advice Utilities"
   },
   {
    "fieldname": "process_settlement_advice",
@@ -202,7 +163,7 @@
   },
   {
    "fieldname": "other_utility_section",
-   "fieldtype": "Section Break",
+   "fieldtype": "Column Break",
    "label": "Bank Utilities"
   },
   {
@@ -222,7 +183,7 @@
   },
   {
    "fieldname": "payment_utilities_section",
-   "fieldtype": "Section Break",
+   "fieldtype": "Column Break",
    "label": "Payment Utilities"
   },
   {
@@ -238,7 +199,7 @@
   {
    "fieldname": "process_payment_using_payment_entry",
    "fieldtype": "Button",
-   "label": "Process Payment Using Payment Entry"
+   "label": "Process Payment Entry"
   },
   {
    "fieldname": "process_rounding_off",
@@ -252,36 +213,6 @@
   },
   {
    "collapsible": 1,
-   "fieldname": "aws_section",
-   "fieldtype": "Section Break",
-   "label": "AWS"
-  },
-  {
-   "fieldname": "aws_access_key",
-   "fieldtype": "Data",
-   "label": "AWS Access Key"
-  },
-  {
-   "fieldname": "aws_secret_key",
-   "fieldtype": "Data",
-   "label": "AWS Secret Key"
-  },
-  {
-   "fieldname": "region",
-   "fieldtype": "Data",
-   "label": "Region"
-  },
-  {
-   "fieldname": "bucket",
-   "fieldtype": "Data",
-   "label": "Bucket"
-  },
-  {
-   "fieldname": "last_time_stamp",
-   "fieldtype": "Datetime",
-   "label": "Last time stamp"
-  },
-  {
    "fieldname": "chunk_configuration_section",
    "fieldtype": "Section Break",
    "label": "Chunk Configuration"
@@ -297,19 +228,14 @@
    "label": "Match Logic"
   },
   {
-   "fieldname": "calculate_dso",
-   "fieldtype": "Button",
-   "label": "Calculate DSO"
-  },
-  {
    "fieldname": "log",
    "fieldtype": "Data",
    "label": "Log"
   },
   {
    "fieldname": "writebackwriteoff_section",
-   "fieldtype": "Section Break",
-   "label": "Writeback/Writeoff"
+   "fieldtype": "Column Break",
+   "label": "Other Utilities"
   },
   {
    "fieldname": "process_writeback_jv",
@@ -320,10 +246,6 @@
    "fieldname": "process_writeoff",
    "fieldtype": "Button",
    "label": "Process Write Off"
-  },
-  {
-   "fieldname": "column_break_fkeig",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "process_writeoff_jv",
@@ -387,10 +309,6 @@
    "label": " Local Environment"
   },
   {
-   "fieldname": "section_break_wzfr5",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "user_id",
    "fieldtype": "Data",
    "label": "User ID"
@@ -421,10 +339,6 @@
    "fieldname": "sa_downloader_path",
    "fieldtype": "Data",
    "label": "SA downloader path"
-  },
-  {
-   "fieldname": "section_break_qcia7",
-   "fieldtype": "Section Break"
   },
   {
    "fieldname": "create_folders",
@@ -485,17 +399,9 @@
    "label": "Recipients"
   },
   {
-   "fieldname": "column_break_rwgnq",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "process_email",
    "fieldtype": "Button",
    "label": "Process Email"
-  },
-  {
-   "fieldname": "column_break_jxqz1",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "email_path",
@@ -513,13 +419,10 @@
    "label": "Delimitter"
   },
   {
+   "collapsible": 1,
    "fieldname": "pdf_config_section",
    "fieldtype": "Section Break",
-   "label": "Pdf config"
-  },
-  {
-   "fieldname": "section_break_byuvw",
-   "fieldtype": "Section Break"
+   "label": "Pdf Config"
   },
   {
    "default": "0",
@@ -544,26 +447,75 @@
    "label": "Delete Folders Exclude  Zip"
   },
   {
-    "fieldname": "column_break_hvduo",
-    "fieldtype": "Column Break"
+   "fieldname": "process_bulk_bank_transaction",
+   "fieldtype": "Button",
+   "label": "Process Bulk Transaction"
   },
   {
-    "fieldname": "column_break_9wh1c",
-    "fieldtype": "Column Break"
+   "fieldname": "process_closing_balance",
+   "fieldtype": "Button",
+   "label": "Process Closing Balance"
   },
   {
-    "fieldname": "process_bulk_bank_transaction",
-    "fieldtype": "Button",
-    "label": "Process Bulk Bank Transaction"
+   "fieldname": "bill_utilities_column",
+   "fieldtype": "Column Break",
+   "label": "Bill Utilities"
+  },
+  {
+   "fieldname": "utilities_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "advice_utilities_column",
+   "fieldtype": "Column Break",
+   "label": "Advice Utilities"
+  },
+  {
+   "fieldname": "writeoffwriteback_column",
+   "fieldtype": "Column Break",
+   "label": "WriteBack"
+  },
+  {
+   "fieldname": "writeoff_column",
+   "fieldtype": "Column Break",
+   "label": "WriteOff"
+  },
+  {
+   "fieldname": "payment_logic",
+   "fieldtype": "Data",
+   "label": "Payment Logic"
+  },
+  {
+   "fieldname": "section_break_s6l9r",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_axjid",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_9gssr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "mail_configuration_section",
+   "fieldtype": "Section Break",
+   "label": "Mail Configuration"
+  },
+  {
+   "fieldname": "mail_id",
+   "fieldtype": "Data",
+   "label": "Mail ID"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-27 11:09:59.972484",
+ "modified": "2024-07-23 12:39:55.582065",
  "modified_by": "Administrator",
- "module": "tfs",
+ "module": "Tfs",
  "name": "Control Panel",
  "owner": "Administrator",
  "permissions": [
