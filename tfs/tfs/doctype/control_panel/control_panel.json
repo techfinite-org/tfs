@@ -90,7 +90,12 @@
   "recipients",
   "email_path",
   "pdf_config_section",
-  "pdf_path"
+  "pdf_path",
+  "column_break_hvduo",
+  "column_break_9wh1c",
+  "process_bulk_bank_transaction",
+  "report_section_break",
+  "prepared_report_list"
  ],
  "fields": [
   {
@@ -513,13 +518,24 @@
    "fieldname": "mail_id",
    "fieldtype": "Data",
    "label": "Mail ID"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "report_section_break",
+   "fieldtype": "Section Break",
+   "label": "Report"
+  },
+  {
+   "fieldname": "prepared_report_list",
+   "fieldtype": "Text",
+   "label": "Prepared Report List"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-23 12:39:55.582065",
+ "modified": "2024-07-25 18:23:32.047941",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
