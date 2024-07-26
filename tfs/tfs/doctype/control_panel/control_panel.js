@@ -376,5 +376,24 @@ frappe.ui.form.on('Control Panel', {
 				frm.toggle_display("upload_files",1)
 			}
 		})
+	},
+	generate_checklist:function (frm){
+		frm.toggle_display("generate_checklist",0)
+		frappe.call({
+			method:'agarwals.utils.final_check_list.process',
+			callback:function (r){
+				frm.toggle_display("generate_checklist",1)
+			}
+		})
+	},
+	delete_checklist:function (frm){
+		frm.toggle_display("delete_checklist",0)
+		frappe.call({
+			method:'agarwals.utils.final_check_list.delete_checklist',
+			callback:function (r){
+				frm.toggle_display("delete_checklist",1)
+			}
+		})
 	}
+
 });
