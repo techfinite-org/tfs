@@ -90,7 +90,11 @@
   "recipients",
   "email_path",
   "pdf_config_section",
-  "pdf_path"
+  "pdf_path",
+  "check_list_configuration_section",
+  "generate_checklist",
+  "check_list_email_group",
+  "delete_checklist"
  ],
  "fields": [
   {
@@ -513,13 +517,35 @@
    "fieldname": "mail_id",
    "fieldtype": "Data",
    "label": "Mail ID"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "check_list_configuration_section",
+   "fieldtype": "Section Break",
+   "label": "Check List Configuration"
+  },
+  {
+   "fieldname": "check_list_email_group",
+   "fieldtype": "Link",
+   "label": "CheckList Email Group",
+   "options": "Email Group"
+  },
+  {
+   "fieldname": "generate_checklist",
+   "fieldtype": "Button",
+   "label": "Generate CheckList"
+  },
+  {
+   "fieldname": "delete_checklist",
+   "fieldtype": "Data",
+   "label": "Delete CheckList"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-23 12:39:55.582065",
+ "modified": "2024-07-26 18:32:17.437846",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
