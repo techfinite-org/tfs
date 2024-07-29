@@ -90,7 +90,13 @@
   "recipients",
   "email_path",
   "pdf_config_section",
-  "pdf_path"
+  "pdf_path",
+  "check_list_configuration_section",
+  "generate_checklist",
+  "check_list_email_group",
+  "delete_checklist",
+  "order",
+  "order_guide"
  ],
  "fields": [
   {
@@ -513,13 +519,47 @@
    "fieldname": "mail_id",
    "fieldtype": "Data",
    "label": "Mail ID"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "check_list_configuration_section",
+   "fieldtype": "Section Break",
+   "label": "Check List Configuration"
+  },
+  {
+   "fieldname": "check_list_email_group",
+   "fieldtype": "Link",
+   "label": "CheckList Email Group",
+   "options": "Email Group"
+  },
+  {
+   "fieldname": "generate_checklist",
+   "fieldtype": "Button",
+   "label": "Generate CheckList"
+  },
+  {
+   "fieldname": "delete_checklist",
+   "fieldtype": "Button",
+   "label": "Delete CheckList"
+  },
+  {
+   "fieldname": "order_guide",
+   "fieldtype": "HTML",
+   "label": "Order Guide",
+   "options": "<p>{\n                \"1\": \"SalesInvoiceChecker\",\n                \"2\": \"PaymentEntryChecker\",\n                \"3\": \"BankTransactionChecker\",\n                \"4\": \"SettlementAdviceChecker\",\n                \"5\": \"MatcherChecker\",\n                \"6\": \"UTRKeyChecker\"\n            }\n</p>"
+  },
+  {
+   "description": "The Default Checklist Order is 1,2,3,4,5,6",
+   "fieldname": "order",
+   "fieldtype": "Data",
+   "label": "Order"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-23 12:39:55.582065",
+ "modified": "2024-07-26 19:20:42.293680",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
