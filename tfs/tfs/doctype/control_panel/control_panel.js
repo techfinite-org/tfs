@@ -380,7 +380,7 @@ frappe.ui.form.on('Control Panel', {
 	generate_checklist:function (frm){
 		frm.toggle_display("generate_checklist",0)
 		frappe.call({
-			method:'agarwals.utils.final_check_list.process',
+			method:'agarwals.utils.checklist.process',
 			callback:function (r){
 				frm.toggle_display("generate_checklist",1)
 			}
@@ -389,7 +389,7 @@ frappe.ui.form.on('Control Panel', {
 	delete_checklist:function (frm){
 		frm.toggle_display("delete_checklist",0)
 		frappe.call({
-			method:'agarwals.utils.final_check_list.delete_checklist',
+			method:'agarwals.utils.checklist.delete_checklist',
 			callback:function (r){
 				frm.toggle_display("delete_checklist",1)
 			}
