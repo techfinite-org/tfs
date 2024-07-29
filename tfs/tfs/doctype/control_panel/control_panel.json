@@ -54,6 +54,7 @@
   "log",
   "mail_configuration_section",
   "mail_id",
+  "closing_balance_check",
   "yearly_due_updation_section",
   "closing_fiscal_year",
   "opening_fiscal_year",
@@ -513,13 +514,19 @@
    "fieldname": "mail_id",
    "fieldtype": "Data",
    "label": "Mail ID"
+  },
+  {
+   "default": "0",
+   "fieldname": "closing_balance_check",
+   "fieldtype": "Check",
+   "label": "Closing Balance"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-23 12:39:55.582065",
+ "modified": "2024-07-26 18:54:02.864144",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",

@@ -186,7 +186,7 @@ frappe.ui.form.on('Control Panel', {
 					frappe.throw(r.message)
 				}
 				else {
-					frappe.msgprint("Closing are loaded")
+					frappe.msgprint("Closing Balance are loaded")
 				}
 			}
 		})
