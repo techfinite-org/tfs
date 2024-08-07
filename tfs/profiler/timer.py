@@ -7,8 +7,8 @@ class Timer():
         self.parent = None
         self.child = []
         self.name = None
-        self.start_time = None
-        self.end_time = None
+        self.start_time = 0
+        self.end_time = 0
         self.ctx = None
 
     def add(self, child):
