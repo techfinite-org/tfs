@@ -25,6 +25,7 @@
   "configurations_section",
   "site_path",
   "allowed_file_extensions",
+  "check_closing_balance",
   "section_break_cgwd2",
   "bill_utilities_column",
   "create_sales_invoice",
@@ -52,8 +53,6 @@
   "match_logic",
   "payment_logic",
   "log",
-  "mail_configuration_section",
-  "mail_id",
   "yearly_due_updation_section",
   "closing_fiscal_year",
   "opening_fiscal_year",
@@ -511,17 +510,6 @@
   },
   {
    "collapsible": 1,
-   "fieldname": "mail_configuration_section",
-   "fieldtype": "Section Break",
-   "label": "Mail Configuration"
-  },
-  {
-   "fieldname": "mail_id",
-   "fieldtype": "Data",
-   "label": "Mail ID"
-  },
-  {
-   "collapsible": 1,
    "fieldname": "check_list_configuration_section",
    "fieldtype": "Section Break",
    "label": "Check List Configuration"
@@ -553,13 +541,19 @@
    "fieldname": "order",
    "fieldtype": "Data",
    "label": "Order"
+  },
+  {
+   "default": "0",
+   "fieldname": "check_closing_balance",
+   "fieldtype": "Check",
+   "label": "Check Closing Balance "
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-26 19:20:42.293680",
+ "modified": "2024-07-29 12:27:24.839175",
  "modified_by": "Administrator",
  "module": "Tfs",
  "name": "Control Panel",
